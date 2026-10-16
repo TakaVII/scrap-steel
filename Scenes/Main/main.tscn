@@ -1,0 +1,69 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Main/main.gd" id="1_main"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/hud.tscn" id="2_hud"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/main_menu.tscn" id="3_menu"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/morning_screen.tscn" id="4_morning"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/workshop_screen.tscn" id="5_workshop"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/night_summary.tscn" id="6_night"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/end_screen.tscn" id="7_end"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/ledger_panel.tscn" id="8_ledger"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_main")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.078, 0.067, 0.122, 1)
+
+[node name="ScreenContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainMenu" parent="ScreenContainer" instance=ExtResource("3_menu")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="MorningScreen" parent="ScreenContainer" instance=ExtResource("4_morning")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="WorkshopScreen" parent="ScreenContainer" instance=ExtResource("5_workshop")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="NightSummary" parent="ScreenContainer" instance=ExtResource("6_night")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="EndScreen" parent="ScreenContainer" instance=ExtResource("7_end")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="HUD" parent="." instance=ExtResource("2_hud")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="LedgerPanel" parent="." instance=ExtResource("8_ledger")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
