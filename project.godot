@@ -41,6 +41,10 @@ window/size/window_height_override=540
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
 
+[gui]
+
+theme/custom_font="uid://bunmgat3e3qpe"
+
 [input]
 
 ui_accept={

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://Scripts/UI/morning_screen.gd" id="1_morning"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/barter_panel.tscn" id="2_barter"]
 
 [node name="MorningScreen" type="Control"]
 layout_mode = 3
@@ -11,66 +12,83 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_morning")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
 
-[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
-custom_minimum_size = Vector2(360, 200)
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="HBoxHeader" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="MorningTitleLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="MorningTitleLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxHeader"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "MORNING BRIEFING — DAY 1"
-horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/HBoxHeader"]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="RentInfoLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="RentInfoLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxHeader"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Shop Lease Charged: 150 cr"
+text = "Shop Lease: 150 cr"
 
-[node name="InstallmentInfoLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="InstallmentInfoLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxHeader"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Syndicate Installment Due: 800 cr"
+text = "Installment: 800 cr"
 
-[node name="StrikesWarningLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="StrikesWarningLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxHeader"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "WARNING: 1 Strike Issued (3 Strikes = Seizure)"
+text = "Strikes: 0 / 3"
 
-[node name="OffersCountLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "New Client Contracts: 4 Available"
 
-[node name="Spacer" type="Control" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="OpenShopButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ContractsContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="HBoxBottom" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="InstructionLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxBottom"]
+layout_mode = 2
+text = "Inspect and accept contracts before opening the workshop."
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/HBoxBottom"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OpenShopButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxBottom"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 30)
 layout_mode = 2
 text = "MORNING_OPEN_SHOP"
 
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/OpenShopButton" to="." method="_on_open_shop_button_pressed"]
+[node name="BarterPanel" parent="." instance=ExtResource("2_barter")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxBottom/OpenShopButton" to="." method="_on_open_shop_button_pressed"]

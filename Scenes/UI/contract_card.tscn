@@ -1,0 +1,123 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/UI/contract_card.gd" id="1_card"]
+
+[node name="ContractCard" type="PanelContainer"]
+custom_minimum_size = Vector2(170, 150)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -85.0
+offset_top = -75.0
+offset_right = 85.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_card")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="HBoxHeader" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TierBadge" type="Label" parent="MarginContainer/VBoxContainer/HBoxHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "T1"
+
+[node name="TypeBadge" type="Label" parent="MarginContainer/VBoxContainer/HBoxHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "MECH"
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/HBoxHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ApLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "4 AP"
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Rogue Actuator"
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxPayout" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PayoutLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxPayout"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1,580 cr"
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/HBoxPayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CreditsPerApLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxPayout"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "395 cr/AP"
+
+[node name="BudgetCapLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Max Mat: 1,027 cr"
+
+[node name="HBoxSpecs" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxSpecs"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Est Margin: ~50%"
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/HBoxSpecs"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PowerLimitLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxSpecs"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "< 450 W"
+
+[node name="DeadlineLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Deadline: 2 Days"
+
+[node name="HBoxButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="BarterButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "BARTER"
+
+[node name="AcceptButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ACCEPT"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxButtons/BarterButton" to="." method="_on_barter_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxButtons/AcceptButton" to="." method="_on_accept_button_pressed"]

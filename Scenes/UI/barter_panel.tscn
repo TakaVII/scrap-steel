@@ -1,0 +1,136 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/UI/barter_panel.gd" id="1_barter"]
+
+[node name="BarterPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_barter")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(400, 240)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HBoxTop" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HeaderLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxTop"]
+layout_mode = 2
+text = "CONTRACT BARTER & NEGOTIATION"
+
+[node name="Spacer" type="Control" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxTop"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InspectionsLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxTop"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Negotiations Left: 3 / 3"
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxOptions" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DepositButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxOptions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Advance Deposit"
+
+[node name="ProfitShareButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxOptions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Profit Share"
+
+[node name="RushButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxOptions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Rush (1 Day)"
+
+[node name="StandardButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxOptions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Standard"
+
+[node name="PreviewCard" type="PanelContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/PreviewCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/PreviewCard/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PreviewTitleLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/PreviewCard/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Contract Term Preview"
+
+[node name="PreviewDescLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/PreviewCard/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Select or hover an option above to preview financial trade-offs."
+autowrap_mode = 2
+
+[node name="CancelButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "COMMON_CLOSE"
+
+[connection signal="mouse_entered" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxOptions/DepositButton" to="." method="_on_option_deposit_hover"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxOptions/DepositButton" to="." method="_on_deposit_button_pressed"]
+[connection signal="mouse_entered" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxOptions/ProfitShareButton" to="." method="_on_option_profit_share_hover"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxOptions/ProfitShareButton" to="." method="_on_profit_share_button_pressed"]
+[connection signal="mouse_entered" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxOptions/RushButton" to="." method="_on_option_rush_hover"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxOptions/RushButton" to="." method="_on_rush_button_pressed"]
+[connection signal="mouse_entered" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxOptions/StandardButton" to="." method="_on_option_standard_hover"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxOptions/StandardButton" to="." method="_on_standard_button_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
