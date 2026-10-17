@@ -1,7 +1,7 @@
-# purpose: High-level state machine router governing day phases, win/loss evaluation, and run transitions.
+# purpose: [v2] High-level game state router adding tutorial sequencing, Day 30 ranking, and save restoration.
 # depends on: Balance, EventBus, EconomyManager, TimeManager, CommissionManager, UpgradeManager, SaveManager
 # signals emitted: EventBus.phase_changed, run_ended, night_summary_ready
-# signals listened to: EventBus.minigame_finished
+# signals listened to: EventBus.minigame_finished, EventBus.debt_changed
 
 extends Node
 
@@ -9,18 +9,30 @@ enum Phase { MENU, TUTORIAL, MORNING, WORKSHOP, MINIGAME, EVENING, NIGHT, GAME_O
 
 var phase: Phase = Phase.MENU
 var pathway: StringName = &"mech"
+var debt_cleared_day: int = 0
 
 func _ready() -> void:
 	EventBus.minigame_finished.connect(func(_r: RefCounted) -> void:
 		if phase == Phase.MINIGAME:
 			_set_phase(Phase.WORKSHOP)
 	)
+	EventBus.debt_changed.connect(_on_debt_changed)
+
+func _on_debt_changed(new_debt: int, _delta: int) -> void:
+	if new_debt <= 0 and debt_cleared_day == 0 and TimeManager.day > 0:
+		debt_cleared_day = TimeManager.day
 
 func start_new_run() -> void:
+	debt_cleared_day = 0
 	EconomyManager.new_run(Balance.cfg)
 	TimeManager.new_run()
 	CommissionManager.new_run()
 	UpgradeManager.new_run()
+	_set_phase(Phase.TUTORIAL)
+
+func choose_pathway(p: StringName) -> void:
+	pathway = p
+	CommissionManager.set_pathway(p)
 	enter_morning()
 
 func enter_morning() -> void:
@@ -75,6 +87,17 @@ func _check_seizure() -> bool:
 func _resolve_ending() -> void:
 	var won: bool = EconomyManager.debt == 0 and CommissionManager.pathway_objective_met()
 	_end_run(won, &"victory" if won else &"timeout")
+
+func calculate_final_rank() -> String:
+	var nw: int = EconomyManager.net_worth()
+	var cleared_day: int = debt_cleared_day if debt_cleared_day > 0 else 30
+	if nw >= 15000 and cleared_day <= 18:
+		return "S"
+	elif nw >= 10000 and cleared_day <= 24:
+		return "A"
+	elif nw >= 9000 and cleared_day <= 30:
+		return "B"
+	return "C"
 
 func _end_run(victory: bool, reason: StringName) -> void:
 	_set_phase(Phase.VICTORY if victory else Phase.GAME_OVER)

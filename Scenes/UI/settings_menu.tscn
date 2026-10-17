@@ -1,0 +1,195 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6settingsmenu"]
+
+[ext_resource type="Script" path="res://Scripts/UI/settings_menu.gd" id="1_script"]
+
+[node name="SettingsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Dimmer" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.03, 0.07, 0.9)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(440, 250)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="HeaderBar" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Center/Panel/Margin/VBox/HeaderBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "SETTINGS_TITLE"
+
+[node name="BackButton" type="Button" parent="Center/Panel/Margin/VBox/HeaderBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SETTINGS_BACK"
+
+[node name="Scroll" type="ScrollContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ContentVBox" type="VBoxContainer" parent="Center/Panel/Margin/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="LocaleLabel" type="Label" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+layout_mode = 2
+text = "SETTINGS_CATEGORY_LANGUAGE"
+
+[node name="LocaleOption" type="OptionButton" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PresetLabel" type="Label" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+layout_mode = 2
+text = "SETTINGS_CATEGORY_PRESET"
+
+[node name="AssistEconomyCheck" type="CheckBox" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SETTINGS_PRESET_ASSIST"
+
+[node name="AccessLabel" type="Label" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+layout_mode = 2
+text = "SETTINGS_CATEGORY_ACCESSIBILITY"
+
+[node name="ColorblindCheck" type="CheckBox" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SETTINGS_COLORBLIND"
+
+[node name="SlowModeCheck" type="CheckBox" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SETTINGS_SLOW_MODE"
+
+[node name="SkipMinigamesCheck" type="CheckBox" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SETTINGS_SKIP_MINIGAMES"
+
+[node name="InputModeCheck" type="CheckBox" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SETTINGS_INPUT_MODE"
+
+[node name="ReducedFlashingCheck" type="CheckBox" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SETTINGS_REDUCED_FLASHING"
+
+[node name="SimpleLanguageCheck" type="CheckBox" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SETTINGS_SIMPLE_LANGUAGE"
+
+[node name="LargeTextCheck" type="CheckBox" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SETTINGS_LARGE_TEXT"
+
+[node name="AudioLabel" type="Label" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+layout_mode = 2
+text = "SETTINGS_CATEGORY_AUDIO"
+
+[node name="MasterBar" type="HBoxContainer" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox/MasterBar"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "SETTINGS_MASTER_VOL"
+
+[node name="MasterSlider" type="HSlider" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox/MasterBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="MusicBar" type="HBoxContainer" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox/MusicBar"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "SETTINGS_MUSIC_VOL"
+
+[node name="MusicSlider" type="HSlider" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox/MusicBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="SfxBar" type="HBoxContainer" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox/SfxBar"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "SETTINGS_SFX_VOL"
+
+[node name="SfxSlider" type="HSlider" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox/SfxBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="MuteFocusCheck" type="CheckBox" parent="Center/Panel/Margin/VBox/Scroll/ContentVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SETTINGS_MUTE_FOCUS"
+
+[connection signal="pressed" from="Center/Panel/Margin/VBox/HeaderBar/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="item_selected" from="Center/Panel/Margin/VBox/Scroll/ContentVBox/LocaleOption" to="." method="_on_locale_option_item_selected"]
+[connection signal="toggled" from="Center/Panel/Margin/VBox/Scroll/ContentVBox/AssistEconomyCheck" to="." method="_on_assist_economy_check_toggled"]
+[connection signal="toggled" from="Center/Panel/Margin/VBox/Scroll/ContentVBox/ColorblindCheck" to="." method="_on_colorblind_check_toggled"]
+[connection signal="toggled" from="Center/Panel/Margin/VBox/Scroll/ContentVBox/SlowModeCheck" to="." method="_on_slow_mode_check_toggled"]
+[connection signal="toggled" from="Center/Panel/Margin/VBox/Scroll/ContentVBox/SkipMinigamesCheck" to="." method="_on_skip_minigames_check_toggled"]
+[connection signal="toggled" from="Center/Panel/Margin/VBox/Scroll/ContentVBox/InputModeCheck" to="." method="_on_input_mode_check_toggled"]
+[connection signal="toggled" from="Center/Panel/Margin/VBox/Scroll/ContentVBox/ReducedFlashingCheck" to="." method="_on_reduced_flashing_check_toggled"]
+[connection signal="toggled" from="Center/Panel/Margin/VBox/Scroll/ContentVBox/SimpleLanguageCheck" to="." method="_on_simple_language_check_toggled"]
+[connection signal="toggled" from="Center/Panel/Margin/VBox/Scroll/ContentVBox/LargeTextCheck" to="." method="_on_large_text_check_toggled"]
+[connection signal="value_changed" from="Center/Panel/Margin/VBox/Scroll/ContentVBox/MasterBar/MasterSlider" to="." method="_on_master_slider_value_changed"]
+[connection signal="value_changed" from="Center/Panel/Margin/VBox/Scroll/ContentVBox/MusicBar/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="Center/Panel/Margin/VBox/Scroll/ContentVBox/SfxBar/SfxSlider" to="." method="_on_sfx_slider_value_changed"]
+[connection signal="toggled" from="Center/Panel/Margin/VBox/Scroll/ContentVBox/MuteFocusCheck" to="." method="_on_mute_focus_check_toggled"]

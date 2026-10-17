@@ -1,0 +1,135 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Minigames/forge.gd" id="1_forge"]
+
+[node name="Forge" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_forge")
+
+[node name="ColorRectBackdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0784314, 0.0666667, 0.121569, 0.95)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainPanel" type="PanelContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(420, 220)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MainPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MainPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HBoxHeader" type="HBoxContainer" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxHeader"]
+layout_mode = 2
+text = "MINIGAME_FORGE_TITLE"
+
+[node name="Spacer" type="Control" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StrikeCountLabel" type="Label" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Strike 1 / 5"
+
+[node name="InstructLabel" type="Label" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "MINIGAME_FORGE_INSTRUCT"
+horizontal_alignment = 1
+
+[node name="StrikeBarPanel" type="Control" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 48)
+layout_mode = 2
+
+[node name="BarBackground" type="ColorRect" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/StrikeBarPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12, 0.1, 0.18, 1)
+
+[node name="SweetSpotPanel" type="Panel" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/StrikeBarPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 48)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 60.0
+grow_vertical = 2
+
+[node name="CursorPanel" type="Panel" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/StrikeBarPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(8, 48)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 8.0
+grow_vertical = 2
+
+[node name="FeedbackLabel" type="Label" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+
+[node name="PipsContainer" type="HBoxContainer" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 8
+
+[node name="Pip1" type="ColorRect" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/PipsContainer"]
+custom_minimum_size = Vector2(24, 6)
+layout_mode = 2
+color = Color(0.3, 0.3, 0.35, 1)
+
+[node name="Pip2" type="ColorRect" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/PipsContainer"]
+custom_minimum_size = Vector2(24, 6)
+layout_mode = 2
+color = Color(0.3, 0.3, 0.35, 1)
+
+[node name="Pip3" type="ColorRect" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/PipsContainer"]
+custom_minimum_size = Vector2(24, 6)
+layout_mode = 2
+color = Color(0.3, 0.3, 0.35, 1)
+
+[node name="Pip4" type="ColorRect" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/PipsContainer"]
+custom_minimum_size = Vector2(24, 6)
+layout_mode = 2
+color = Color(0.3, 0.3, 0.35, 1)
+
+[node name="Pip5" type="ColorRect" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/PipsContainer"]
+custom_minimum_size = Vector2(24, 6)
+layout_mode = 2
+color = Color(0.3, 0.3, 0.35, 1)

@@ -1,5 +1,5 @@
-# purpose: Core financial logic manager handling credits, debt, rent, interest, installments, and strikes.
-# depends on: Balance (Balance.cfg), EventBus
+# purpose: [v2] Core financial logic supporting Assist economy preset (7k debt, 1% interest, 2.5k credits) and ledger entries (spec §B2, §B3, §C6).
+# depends on: Balance (Balance.cfg), SettingsManager, EventBus
 # signals emitted: EventBus.credits_changed, debt_changed, ledger_entry_added, installment_due, strike_issued, tech_points_changed
 # signals listened to: none
 
@@ -12,8 +12,14 @@ var tech_points: int = 0
 var day_totals: Dictionary = {}
 
 func new_run(config: BalanceConfig) -> void:
-	credits = config.start_credits
-	debt = config.start_debt
+	# Assist economy preset check (spec §B2)
+	if SettingsManager.assist_economy:
+		credits = 2500
+		debt = 7000
+	else:
+		credits = config.start_credits
+		debt = config.start_debt
+
 	strikes = 0
 	tech_points = 0
 	_reset_day_totals()
@@ -74,7 +80,9 @@ func charge_rent() -> void:
 func apply_interest() -> int:
 	if debt <= 0:
 		return 0
-	var interest: int = roundi(debt * Balance.cfg.daily_interest_rate)
+	# Assist economy preset applies 1% interest instead of 2% (spec §B2)
+	var interest_rate: float = 0.01 if SettingsManager.assist_economy else Balance.cfg.daily_interest_rate
+	var interest: int = roundi(debt * interest_rate)
 	day_totals["interest"] += interest
 	_add_debt(interest, tr("LEDGER_INTEREST"))
 	return interest

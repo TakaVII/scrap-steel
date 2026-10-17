@@ -1,8 +1,8 @@
-[gd_scene format=3 uid="uid://dxlv8u7u143fg"]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" uid="uid://b5vqvv8e1sdjp" path="res://Scripts/Tools/web_smoke_test.gd" id="1_smoke_test"]
+[ext_resource type="Script" path="res://Scripts/Tools/web_smoke_test.gd" id="1_smoke_test"]
 
-[node name="WebSmokeTest" type="Control" unique_id=1526346246]
+[node name="WebSmokeTest" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_smoke_test")
 
-[node name="Background" type="ColorRect" parent="." unique_id=1351060412]
+[node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,7 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0784314, 0.0666667, 0.121569, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=678336737]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,61 +32,61 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=331798862]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1059958791]
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "SCRAP & STEEL — WEB EXPORT SMOKE TEST (PHASE 0)"
 horizontal_alignment = 1
 
-[node name="HBoxInfo" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1517690300]
+[node name="HBoxInfo" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="FpsLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxInfo" unique_id=1228157265]
+[node name="FpsLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxInfo"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "FPS: 60"
 
-[node name="ResolutionLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxInfo" unique_id=803924745]
+[node name="ResolutionLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxInfo"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Viewport: 480 x 270"
 
-[node name="PixelGridPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=50542598]
+[node name="PixelGridPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="PixelTestLabel" type="Label" parent="MarginContainer/VBoxContainer/PixelGridPanel" unique_id=1780507518]
+[node name="PixelTestLabel" type="Label" parent="MarginContainer/VBoxContainer/PixelGridPanel"]
 layout_mode = 2
 text = "1PX BORDER TEST: Integer Scaling Check (480x270 -> 960x540)"
 horizontal_alignment = 1
 
-[node name="ArabicSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=351778950]
+[node name="ArabicSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="ArabicHeaderLabel" type="Label" parent="MarginContainer/VBoxContainer/ArabicSection" unique_id=385701445]
+[node name="ArabicHeaderLabel" type="Label" parent="MarginContainer/VBoxContainer/ArabicSection"]
 layout_mode = 2
 text = "Arabic Complex Text Shaping & BiDi Validation (TextServer: Advanced):"
 
-[node name="ArabicSampleLabel" type="Label" parent="MarginContainer/VBoxContainer/ArabicSection" unique_id=1813499484]
+[node name="ArabicSampleLabel" type="Label" parent="MarginContainer/VBoxContainer/ArabicSection"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "ورشة الخردة والصلب — اختبار اللغة العربية والنظام المالي"
 horizontal_alignment = 2
 
-[node name="AudioSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=812525309]
+[node name="AudioSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="StartAudioButton" type="Button" parent="MarginContainer/VBoxContainer/AudioSection" unique_id=659869794]
+[node name="StartAudioButton" type="Button" parent="MarginContainer/VBoxContainer/AudioSection"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Click to Unlock Web Audio API"
 
-[node name="AudioStatusLabel" type="Label" parent="MarginContainer/VBoxContainer/AudioSection" unique_id=83503213]
+[node name="AudioStatusLabel" type="Label" parent="MarginContainer/VBoxContainer/AudioSection"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Audio Status: Locked (Web browser requires user interaction)"

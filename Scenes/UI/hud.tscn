@@ -1,17 +1,17 @@
-[gd_scene format=3 uid="uid://cwkqioyjnregj"]
+[gd_scene load_steps=2 format=3 uid="uid://c6hudscene"]
 
-[ext_resource type="Script" uid="uid://c7k5goqoqguhx" path="res://Scripts/UI/hud.gd" id="1_hud"]
-[ext_resource type="FontFile" uid="uid://bunmgat3e3qpe" path="res://Assets/Fonts/primary_pixel.ttf" id="2_ny26j"]
+[ext_resource type="Script" path="res://Scripts/UI/hud.gd" id="1_script"]
 
-[node name="HUD" type="Control" unique_id=21015172]
+[node name="HUD" type="Control"]
+custom_minimum_size = Vector2(480, 24)
 layout_mode = 3
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 24.0
 grow_horizontal = 2
-script = ExtResource("1_hud")
+script = ExtResource("1_script")
 
-[node name="PanelContainer" type="PanelContainer" parent="." unique_id=729830896]
+[node name="Panel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,74 +19,55 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=433713640]
-layout_mode = 2
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 6
-theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 6
-theme_override_constants/margin_bottom = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer" unique_id=1168359531]
+[node name="HBox" type="HBoxContainer" parent="Panel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 
-[node name="DayLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=1520868038]
+[node name="CreditsLabel" type="Label" parent="Panel/Margin/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ny26j")
-theme_override_font_sizes/font_size = 12
-text = "Day: 1/30"
+text = "[✓] HUD_CREDITS"
 
-[node name="ApLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=1088778388]
+[node name="DebtLabel" type="Label" parent="Panel/Margin/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ny26j")
-theme_override_font_sizes/font_size = 12
-text = "AP: 6/6"
+text = "[▲] HUD_DEBT"
 
-[node name="CreditsLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=1499466344]
+[node name="InterestLabel" type="Label" parent="Panel/Margin/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ny26j")
-theme_override_font_sizes/font_size = 12
-text = "Cr: 2,000"
+text = "[✗] HUD_INTEREST"
 
-[node name="DebtLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=1144557954]
+[node name="InstallmentLabel" type="Label" parent="Panel/Margin/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ny26j")
-theme_override_font_sizes/font_size = 12
-text = "Debt: 10,000"
+text = "[▲] HUD_NEXT_INSTALLMENT"
 
-[node name="InterestLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=667747064]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ny26j")
-theme_override_font_sizes/font_size = 12
-text = "(-200 cr/day)"
-
-[node name="InstallmentLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=341647250]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ny26j")
-theme_override_font_sizes/font_size = 12
-text = "Next: Day 8 (800 cr)"
-
-[node name="TpLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=895304142]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ny26j")
-theme_override_font_sizes/font_size = 12
-text = "TP: 0"
-
-[node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=1680976125]
+[node name="Spacer" type="Control" parent="Panel/Margin/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LedgerButton" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=382945009]
+[node name="ApLabel" type="Label" parent="Panel/Margin/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_ny26j")
-text = "LEDGER"
+text = "[◆] HUD_AP"
 
-[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/LedgerButton" to="." method="_on_ledger_button_pressed"]
+[node name="TpLabel" type="Label" parent="Panel/Margin/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "[★] HUD_TP"
+
+[node name="DayLabel" type="Label" parent="Panel/Margin/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "HUD_DAY"

@@ -1,11 +1,15 @@
-# purpose: Main menu UI controller managing new game startup and continue states.
+# purpose: [v3] Main menu with functional Continue button and wired Settings menu dialog (spec §D7).
 # depends on: Control, GameManager, SaveManager
-# signals emitted: none
+# signals emitted: open_settings_requested()
 # signals listened to: none
 
 extends Control
 
+signal open_settings_requested()
+
+@onready var new_game_button: Button = %NewGameButton
 @onready var continue_button: Button = %ContinueButton
+@onready var settings_button: Button = %SettingsButton
 
 func _ready() -> void:
 	continue_button.disabled = not SaveManager.has_save()
@@ -14,5 +18,8 @@ func _on_new_game_button_pressed() -> void:
 	GameManager.start_new_run()
 
 func _on_continue_button_pressed() -> void:
-	if SaveManager.has_save():
-		SaveManager.load_save()
+	if not SaveManager.load_save():
+		continue_button.disabled = true
+
+func _on_settings_button_pressed() -> void:
+	open_settings_requested.emit()

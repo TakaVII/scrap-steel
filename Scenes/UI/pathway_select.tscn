@@ -1,0 +1,160 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/UI/pathway_select.gd" id="1_pathway"]
+
+[node name="PathwaySelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pathway")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.078, 0.067, 0.122, 0.98)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "SCRAP & STEEL — SYNDICATE RESTRUCTURING MEETING"
+
+[node name="StoryLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "Tutorial story text"
+autowrap_mode = 3
+
+[node name="HudCalloutLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.992, 0.682, 0.380, 1)
+text = "Notice top HUD: 'Next Due: Day 8, 800 cr' indicates impending installments."
+autowrap_mode = 3
+
+[node name="NextStepButton" type="Button" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 28)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "TUTORIAL_CONTINUE"
+
+[node name="PathwaysContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="CardReputation" type="PanelContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Margin" type="MarginContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardReputation"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardReputation/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardReputation/Margin/VBox"]
+layout_mode = 2
+text = "A: Cyber-Reputation"
+
+[node name="Desc" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardReputation/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "50% Cyberware jobs. Win on Day 30: 0 debt + 9,000 cr cash reserve + 5-Star shop rating (>= 80% quality)."
+autowrap_mode = 3
+
+[node name="RepButton" type="Button" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardReputation/Margin/VBox"]
+layout_mode = 2
+text = "SELECT_CYBER_PATHWAY"
+
+[node name="CardMech" type="PanelContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Margin" type="MarginContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardMech"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardMech/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardMech/Margin/VBox"]
+layout_mode = 2
+text = "B: Mech Championship"
+
+[node name="Desc" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardMech/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "50% Mech jobs. Win on Day 30: 0 debt + Steel Colosseum Champion Build (Day 15-28, quality >= 80%, 2,000 cr fee)."
+autowrap_mode = 3
+
+[node name="MechButton" type="Button" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardMech/Margin/VBox"]
+layout_mode = 2
+text = "SELECT_MECH_PATHWAY"
+
+[node name="CardDrifter" type="PanelContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Margin" type="MarginContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardDrifter"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardDrifter/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardDrifter/Margin/VBox"]
+layout_mode = 2
+text = "C: Drifter League"
+
+[node name="Desc" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardDrifter/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "50% Car jobs. Win on Day 30: 0 debt + Neon Drift Circuit Champion Build (Day 15-28, quality >= 80%, 2,000 cr fee)."
+autowrap_mode = 3
+
+[node name="DrifterButton" type="Button" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardDrifter/Margin/VBox"]
+layout_mode = 2
+text = "SELECT_DRIFTER_PATHWAY"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/NextStepButton" to="." method="_on_next_step_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/PathwaysContainer/CardReputation/Margin/VBox/RepButton" to="." method="_on_reputation_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/PathwaysContainer/CardMech/Margin/VBox/MechButton" to="." method="_on_mech_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/PathwaysContainer/CardDrifter/Margin/VBox/DrifterButton" to="." method="_on_drifter_button_pressed"]

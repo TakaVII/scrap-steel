@@ -1,5 +1,5 @@
-# purpose: Part interactive button displaying component name, AP cost, nominal material cost, and completion status.
-# depends on: Button, ItemPartData, NumberFormat
+# purpose: [v3] Part button with redundant shape status icons ([✓] DONE vs [◆] AVAILABLE) using GamePalette (spec §C10).
+# depends on: Button, ItemPartData, NumberFormat, GamePalette
 # signals emitted: part_selected(part_index: int)
 # signals listened to: none
 
@@ -18,11 +18,14 @@ func setup(idx: int, part: ItemPartData, current_score: float, tier: int) -> voi
 
 	var cost: int = part.nominal_material_cost(tier)
 	if score >= 0.0:
-		text = "%s [DONE: %d%%]" % [tr(part.display_key), int(round((0.5 + 0.5 * score) * 100.0))]
+		var quality_pct: int = int(round((0.5 + 0.5 * score) * 100.0))
+		text = "[✓] %s (%d%%)" % [tr(part.display_key), quality_pct]
 		disabled = true
+		add_theme_color_override("font_color", GamePalette.POSITIVE)
 	else:
-		text = "%s (%d AP | %s)" % [tr(part.display_key), part.ap_cost, NumberFormat.format_credits(cost)]
+		text = "[◆] %s (%d AP | %s)" % [tr(part.display_key), part.ap_cost, NumberFormat.format_credits(cost)]
 		disabled = false
+		add_theme_color_override("font_color", GamePalette.NEUTRAL_TEXT)
 
 func _on_pressed() -> void:
 	part_selected.emit(part_index)

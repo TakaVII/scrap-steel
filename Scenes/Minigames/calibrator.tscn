@@ -1,0 +1,118 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Minigames/calibrator.gd" id="1_calibrator"]
+
+[node name="Calibrator" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_calibrator")
+
+[node name="ColorRectBackdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0784314, 0.0666667, 0.121569, 0.95)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainPanel" type="PanelContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(420, 240)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MainPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MainPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="HBoxHeader" type="HBoxContainer" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxHeader"]
+layout_mode = 2
+text = "MINIGAME_CALIBRATOR_TITLE"
+
+[node name="Spacer" type="Control" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TimerLabel" type="Label" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "15.0s"
+
+[node name="ScoreProgress" type="ProgressBar" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+show_percentage = false
+
+[node name="HBoxBody" type="HBoxContainer" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="TrackPanel" type="Control" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 160)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TrackBackground" type="ColorRect" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody/TrackPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12, 0.1, 0.18, 1)
+
+[node name="RpmTargetZone" type="Panel" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody/TrackPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 40.0
+
+[node name="TuningBar" type="Panel" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody/TrackPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 8)
+layout_mode = 0
+offset_top = 80.0
+offset_right = 100.0
+offset_bottom = 88.0
+
+[node name="VBoxInfo" type="VBoxContainer" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="InstructLabel" type="Label" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody/VBoxInfo"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "MINIGAME_CALIBRATOR_INSTRUCT_HOLD"
+autowrap_mode = 3
+
+[node name="StatusLabel" type="Label" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody/VBoxInfo"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.168627, 0.513726, 0.729412, 1)
+text = ""

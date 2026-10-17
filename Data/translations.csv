@@ -1,110 +1,188 @@
+# Note: Spanish (es) and Arabic (ar) strings are machine-translated for jam accessibility. Verified short sentences without wordplay.
 keys,en,es,ar
-MENU_NEW_GAME,New Shift,,,
-MENU_CONTINUE,Continue,,,
-HUD_CREDITS,Credits,,,
-HUD_DEBT,Debt,,,
-HUD_AP,AP,,,
-HUD_DAY,Day,,,
-HUD_TP,Tech Points,,,
-HUD_NEXT_INSTALLMENT,Next Installment,,,
-MORNING_TITLE,Morning Briefing,,,
-MORNING_RENT_CHARGED,Shop Lease Charged,,,
-MORNING_INSTALLMENT_DUE,Syndicate Installment Due,,,
-MORNING_STRIKES_WARNING,WARNING: Strikes Issued,,,
-MORNING_NEW_OFFERS,New Client Contracts,,,
-MORNING_OPEN_SHOP,Open Workshop,,,
-WORKSHOP_FABRICATE_PART,Fabricate Part (-2 AP),,,
-WORKSHOP_OVERTIME,Take Overtime (+2 AP),,,
-WORKSHOP_END_DAY,End Day,,,
-NIGHT_TITLE,Night Summary,,,
-NIGHT_REVENUE,Revenue,,,
-NIGHT_MATERIALS,Materials Cost,,,
-NIGHT_RENT,Daily Lease,,,
-NIGHT_INTEREST,Syndicate Interest,,,
-NIGHT_NET_PROFIT,Net Cash Flow,,,
-NIGHT_PAY_DEBT,Pay Debt,,,
-NIGHT_FEEDBACK_INTEREST,Interest cost you %d cr today.,,,
-NIGHT_FEEDBACK_DEBT_FREE,You are debt free. All revenue is yours.,,,
-NIGHT_NEXT_DAY,Begin Next Day,,,
-LEDGER_TITLE,Workshop Financial Ledger,,,
-LEDGER_RENT,Daily shop lease,,,
-LEDGER_RENT_SHORTFALL,Unpaid rent rolled into debt,,,
-LEDGER_INTEREST,Syndicate interest,,,
-LEDGER_INSTALLMENT,Syndicate installment payment,,,
-LEDGER_STRIKE_FEE,Missed installment fee,,,
-LEDGER_OVERTIME,Overtime energy surcharge,,,
-LEDGER_COMMISSION_PAYOUT,Completed contract payment,,,
-LEDGER_MATERIALS,Component materials,,,
-LEDGER_VOLUNTARY_DEBT_PAY,Voluntary debt reduction,,,
-LEDGER_BARTER_DEPOSIT,Advance barter deposit payout,,,
-LEDGER_POWER_FINE,Power-draw excessive penalty fee,,,
-LEDGER_WARRANTY_CLAIM,Client warranty component replacement claim,,,
-COMMISSION_EXPIRED,Contract expired after exceeding deadline limit.,,,
-END_VICTORY_TITLE,DEBT ELIMINATED — GARAGE SAVED,,,
-END_VICTORY_DESC,You satisfied all syndicate obligations and secured ownership.,,,
-END_GAME_OVER_TITLE,WORKSHOP SEIZED,,,
-END_SEIZED_DESC,The Scraphound Syndicate seized the workshop due to outstanding debt.,,,
-END_TIMEOUT_DESC,Campaign ended on Day 30 without meeting financial criteria.,,,
-END_RESTART,Start New Career,,,
-COMMON_CLOSE,Close,,,
-COMMON_NONE,None,,,
-COMMON_AVAILABLE,Available,,,
-PART_MOTOR,High-Output Motor,,,
-PART_CARBURETOR,Twin Carburetor,,,
-PART_COMPUTER_CHIP,Flight Control Chip,,,
-PART_CAR_CHASSIS,Reinforced Car Chassis,,,
-PART_MECH_CHASSIS,Titan Mech Chassis,,,
-PART_ARMOR_PLATING,Ablative Armor Plating,,,
-PART_HYDRAULIC_SERVO,Hydraulic Actuator Servo,,,
-PART_SYNTH_LIMB,Prosthetic Synth Limb,,,
-PART_NEURAL_CHIP,Neural Interface Array,,,
-PART_SERVO_ACTUATOR,Micro Servo Actuator,,,
-PART_POWER_CELL,Ultracapacitor Power Cell,,,
-CONTRACT_CAR_TITLE_1,Drift King Steering Overhaul,,,
-CONTRACT_CAR_TITLE_2,Subway Underground Exhaust Tune,,,
-CONTRACT_CAR_TITLE_3,Astra Expressway Turbo Retrofit,,,
-CONTRACT_CAR_TITLE_4,Midnight Street Sprint Refit,,,
-CONTRACT_MECH_TITLE_1,Heavy Cargo Mech Joint Repair,,,
-CONTRACT_MECH_TITLE_2,Security Enforcer Armored Torso,,,
-CONTRACT_MECH_TITLE_3,Demolition Mech Hydraulic Pack,,,
-CONTRACT_MECH_TITLE_4,Colosseum Battle Frame Calibration,,,
-CONTRACT_CYBER_TITLE_1,Bionic Arm Sensor Realignment,,,
-CONTRACT_CYBER_TITLE_2,Combat Reflex Neural Boost,,,
-CONTRACT_CYBER_TITLE_3,Cybernetic Leg Shock Absorbers,,,
-CONTRACT_CYBER_TITLE_4,Subdermal Power Core Tuning,,,
-CLIENT_SPARKY_GREET,Keep it fast and keep it cool.,,,
-CLIENT_SPARKY_SATISFIED,This actuator hums like thunder!,,,
-CLIENT_SPARKY_UNHAPPY,It blew a fuse on my first run.,,,
-CLIENT_MARA_GREET,Precision work only. I check the torque.,,,
-CLIENT_MARA_SATISFIED,Tolerances within spec. You earned this.,,,
-CLIENT_MARA_UNHAPPY,Loose bolts. Do you want to kill me?,,,
-CLIENT_ZERO_GREET,Data tells no lies.,,,
-CLIENT_ZERO_SATISFIED,Clock speeds optimized. Payment transferred.,,,
-CLIENT_ZERO_UNHAPPY,Signal noise detected. Substandard work.,,,
-CLIENT_BORIS_GREET,Make it heavy. Make it strong.,,,
-CLIENT_BORIS_SATISFIED,Good steel. Good grease.,,,
-CLIENT_BORIS_UNHAPPY,Snapped like dry twigs.,,,
-CLIENT_TALIA_GREET,Need this yesterday. Speed is everything.,,,
-CLIENT_TALIA_SATISFIED,You hit the deadline. Respect.,,,
-CLIENT_TALIA_UNHAPPY,Too slow! Lost me a podium finish.,,,
-CLIENT_KANE_GREET,Handle with sterile tools.,,,
-CLIENT_KANE_SATISFIED,Neural latency is zero. Impressive.,,,
-CLIENT_KANE_UNHAPPY,Patient suffered motor jitter.,,,
-CLIENT_GIDEON_GREET,Remember who holds your ledger, kid.,,,
-CLIENT_GIDEON_SATISFIED,Syndicate approves. Keep paying on time.,,,
-CLIENT_GIDEON_UNHAPPY,This failure will cost you interest.,,,
-CLIENT_NYX_GREET,Only top shelf parts for my rig.,,,
-CLIENT_NYX_SATISFIED,Smooth throttle response. See you next race.,,,
-CLIENT_NYX_UNHAPPY,Gears are grinding. Terrible.,,,
-CLIENT_SERAPH_GREET,Efficiency metric must exceed threshold.,,,
-CLIENT_SERAPH_SATISFIED,Operational efficiency confirmed at 94%.,,,
-CLIENT_SERAPH_UNHAPPY,Error code 0x88: system unstable.,,,
-CLIENT_VAL_GREET,Looking for reliable tuning on a budget.,,,
-CLIENT_VAL_SATISFIED,Fair price, solid output.,,,
-CLIENT_VAL_UNHAPPY,You overcharged me for junk.,,,
-CLIENT_IRONHEAD_GREET,Armor needs to take a direct slug.,,,
-CLIENT_IRONHEAD_SATISFIED,Plating held up against 50 caliber.,,,
-CLIENT_IRONHEAD_UNHAPPY,Dented on impact. Disgraceful.,,,
-CLIENT_MIRA_GREET,Aesthetic elegance meets raw wattage.,,,
-CLIENT_MIRA_SATISFIED,Exquisite craftsmanship.,,,
-CLIENT_MIRA_UNHAPPY,Ugly wiring and sloppy solder.,,,
+HUD_CREDITS,Credits,Créditos,الرصيد
+HUD_DEBT,Debt,Deuda,الدين
+HUD_AP,AP,PA,نقاط العمل
+HUD_DAY,Day,Día,اليوم
+HUD_INTEREST,Interest/Day,Interés/Día,الفائدة/يوم
+HUD_NEXT_INSTALLMENT,Next Due,Próximo Pago,الاستحقاق التالي
+HUD_TECH_POINTS,Tech Pts,Pts Técnicos,نقاط التقنية
+HUD_TP,Tech Pts,Pts Técnicos,نقاط التقنية
+MENU_NEW_GAME,New Career,Nueva Carrera,مسيرة جديدة
+MENU_CONTINUE,Continue,Continuar,متابعة
+MENU_SETTINGS,Settings,Ajustes,الإعدادات
+MORNING_TITLE,Morning Briefing,Informe Matutino,التقرير الصباحي
+MORNING_OPEN_SHOP,Open Workshop,Abrir Taller,فتح الورشة
+MORNING_RENT_CHARGED,Daily Rent,Alquiler Diario,الإيجار اليومي
+MORNING_INSTALLMENT_DUE,Syndicate Installment,Cuota del Sindicato,قسط النقابة
+MORNING_STRIKES_WARNING,Syndicate Strikes,Faltas del Sindicato,إنذارات النقابة
+WORKSHOP_TITLE,Active Jobs,Trabajos Activos,المهام النشطة
+WORKSHOP_END_DAY_BTN,End Day,Finalizar Día,إنهاء اليوم
+WORKSHOP_OVERTIME_BTN,Take Overtime (+2 AP tonight),Hacer Horas Extra (+2 PA hoy),عمل إضافي (+2 نقطة الليلة)
+WORKSHOP_DEV_SIM,[Dev Sim],[Sim Des],[محاكاة]
+NIGHT_TITLE,Night Financial Summary,Resumen Financiero Nocturno,الملخص المالي الليلي
+NIGHT_REVENUE,Revenue,Ingresos,الإيرادات
+NIGHT_MATERIALS,Material Costs,Costos de Material,تكلفة المواد
+NIGHT_RENT,Shop Lease,Alquiler del Taller,إيجار الورشة
+NIGHT_INTEREST,Syndicate Interest Charged,Interés del Sindicato Cobrado,فائدة النقابة المحتسبة
+NIGHT_INTEREST_PAID,Syndicate Interest,Interés del Sindicato,فائدة النقابة
+NIGHT_PAY_DEBT,Pay Down Principal,Amortizar Capital,سداد أصل الدين
+NIGHT_FINES,Power Penalties,Multas de Energía,غرامات الطاقة
+NIGHT_REFUNDS,Warranty Refunds,Reembolsos de Garantía,تعويضات الضمان
+NIGHT_UPGRADES,R&D Upgrades,Mejoras de I+D,ترقيات التطوير
+NIGHT_DEBT_PAID,Debt Principal Paid,Capital de Deuda Pagado,المسدد من الدين
+NIGHT_NET_PROFIT,Net Daily Profit,Beneficio Neto Diario,صافي الربح اليومي
+NIGHT_NEW_BALANCE,New Cash Balance,Nuevo Saldo de Caja,الرصيد النقدي الجديد
+NIGHT_NEW_DEBT,Remaining Syndicate Debt,Deuda Restante del Sindicato,دين النقابة المتبقي
+NIGHT_FEEDBACK_INTEREST,Syndicate interest compounds every night. Keep paying down the principal.,El interés del sindicato se acumula cada noche. Sigue amortizando el capital.,تتراكم فائدة النقابة كل ليلة. استمر في سداد أصل الدين.
+NIGHT_FEEDBACK_DEBT_FREE,Zero debt! Every credit earned now builds your pathway reserves.,¡Cero deudas! Cada crédito ganado ahora acumula reservas para tu objetivo.,بدون ديون! كل رصيد تكسبه يبني احتياطيات مسارك الآن.
+NIGHT_NEXT_DAY,Next Morning,Siguiente Mañana,الصباح التالي
+LEDGER_TITLE,Financial Ledger,Libro Mayor Financiero,دفتر الحسابات المالي
+LEDGER_RENT,Daily shop lease,Alquiler diario del taller,إيجار الورشة اليومي
+LEDGER_RENT_SHORTFALL,Unpaid rent rolled into debt,Alquiler impagado sumado a deuda,إيجار غير مسدد مضاف إلى الدين
+LEDGER_INTEREST,Syndicate interest,Interés del sindicato,فائدة النقابة
+LEDGER_INSTALLMENT,Installment repayment,Pago de cuota,سداد القسط
+LEDGER_STRIKE_FEE,Missed installment fee,Comisión por cuota impagada,غرامة تفويت القسط
+LEDGER_OVERTIME,Overtime energy surcharge,Recargo de energía por horas extra,رسوم طاقة العمل الإضافي
+LEDGER_COMMISSION_PAYOUT,Contract payout delivered,Pago de contrato entregado,تسليم دفعة العقد
+LEDGER_MATERIALS,Material components purchased,Componentes de material comprados,شراء مكونات المواد
+LEDGER_VOLUNTARY_DEBT_PAY,Voluntary debt repayment,Pago voluntario de deuda,سداد دين طوعي
+LEDGER_BARTER_DEPOSIT,Advance deposit received,Depósito anticipado recibido,استلام العربون المسبق
+LEDGER_POWER_FINE,Power draw penalty assessed,Penalización por exceso de energía,غرامة تجاوز استهلاك الطاقة
+LEDGER_WARRANTY_CLAIM,Warranty claim refund debited,Reembolso por garantía deducido,خصم مطالبة الضمان
+COMMISSION_EXPIRED,Commission expired and cancelled,Encargo vencido y cancelado,انتهت صلاحية المهمة وألغيت
+END_VICTORY_TITLE,Victory: Contract Fulfilled,Victoria: Contrato Cumplido,نصر: إنجاز العقد
+END_VICTORY_DESC,The syndicate debt is settled in full and your pathway objective is accomplished.,La deuda del sindicato está saldada y tu objetivo de carrera completado.,سدد دين النقابة بالكامل وأنجز هدف مسارك بنجاح.
+END_GAME_OVER_TITLE,Career Terminated: Seized,Carrera Terminada: Embargado,انتهاء المسيرة: مصادرة الورشة
+END_TIMEOUT_TITLE,Contract Expired: Incomplete,Contrato Vencido: Incompleto,انتهاء العقد: غير مكتمل
+END_SEIZED_DESC,The Scraphound Syndicate seized the workshop due to unpaid debts or strikes.,El sindicato embargó el taller por impagos o faltas acumuladas.,صادرت نقابة الخردة الورشة بسبب تراكم الديون أو الإنذارات.
+END_TIMEOUT_DESC,Day 30 arrived before all pathway conditions and debts were resolved.,Llegó el Día 30 antes de saldar las deudas y cumplir los objetivos.,حل اليوم 30 قبل سداد الديون وتحقيق شروط المسار.
+END_RESTART,Return to Main Menu,Volver al Menú Principal,العودة للقائمة الرئيسية
+COMMON_CLOSE,Close,Cerrar,إغلاق
+COMMON_NONE,None,Ninguno,لا يوجد
+COMMON_AVAILABLE,Available,Disponible,متاح
+COMMON_DAYS,Days,Días,أيام
+COMMON_STATUS_PASS,[✓] OK,[✓] APROBADO,[✓] تم
+COMMON_STATUS_FAIL,[✗] FAILED,[✗] FALLIDO,[✗] فشل
+COMMON_STATUS_WARN,[▲] CAUTION,[▲] AVISO,[▲] تحذير
+PART_MOTOR,Drive Motor,Motor de Tracción,محرك الدفع
+PART_CARBURETOR,Fuel Carburetor,Carburador de Combustible,مكربن الوقود
+PART_COMPUTER_CHIP,ECU Computer Chip,Chip de Control ECU,شريحة حاسوب المحرك
+PART_CAR_CHASSIS,Reinforced Car Chassis,Chasis de Coche Reforzado,هيكل سيارة مقوى
+PART_MECH_CHASSIS,Titan Mech Frame,Armazón de Mech Titán,هيكل آلي تيتان
+PART_ARMOR_PLATING,Ablative Armor Plating,Blindaje Ablativo,دروع واقية مصفحة
+PART_HYDRAULIC_SERVO,Heavy Hydraulic Servo,Servo Hidráulico Pesado,مؤازر هيدروليكي ثقيل
+PART_SYNTH_LIMB,Prosthetic Synth Limb,Prótesis Sintética,طرف اصطناعي مركب
+PART_NEURAL_CHIP,Cortex Neural Chip,Chip Neural Cortex,شريحة عصبية دماغية
+PART_SERVO_ACTUATOR,Micro Servo Actuator,Micro Actuador Servo,محرك مؤازر دقيق
+PART_POWER_CELL,Solid-State Power Cell,Pila de Energía Sólida,خلية طاقة صلبة
+CONTRACT_CAR_TITLE_1,Street Sweeper Turbo Upgrade,Mejora Turbo Callejera,ترقية تيربو لسيارة شوارع
+CONTRACT_CAR_TITLE_2,Night Runner Injection System,Sistema Inyección Corredor,نظام حقن لمتسابق الليل
+CONTRACT_CAR_TITLE_3,Outlaw Drift Stabilizer,Estabilizador Drift Ilegal,مثبت درفت للسيارات المعدلة
+CONTRACT_CAR_TITLE_4,Apex Racer Powertrain Overhaul,Ajuste de Tren de Carrera,صيانة قطار القوة لمتسابق القمة
+CONTRACT_MECH_TITLE_1,Construction Mech Actuator Refit,Reajuste Actuador de Construcción,تجديد مشغل آلي البناء
+CONTRACT_MECH_TITLE_2,Security Frame Armor Reinforcement,Refuerzo de Blindaje de Seguridad,تدعيم دروع هيكل الحراسة
+CONTRACT_MECH_TITLE_3,Heavy Labor Joint Calibration,Calibración de Articulación Pesada,معايرة مفاصل آلي الأشغال
+CONTRACT_MECH_TITLE_4,Arena Brawler Structural Overhaul,Revisión Estructural de Combate,إصلاح هيكلي لآلي الحلبة
+CONTRACT_CYBER_TITLE_1,Combat Reflex Neural Implant,Implante Neural de Reflejos,زرع عصبي لردود الفعل القتالية
+CONTRACT_CYBER_TITLE_2,Industrial Bionic Arm Tuning,Ajuste de Brazo Biónico Industrial,ضبط ذراع إلكترونية صناعية
+CONTRACT_CYBER_TITLE_3,High-Drain Auxiliary Power Unit,Unidad de Energía Auxiliar,وحدة طاقة مساعدة عالية السحب
+CONTRACT_CYBER_TITLE_4,Subdermal Sensor Actuation Matrix,Matriz Sensorial Subdérmica,مصفوفة مشغلات حسية جلدية
+CLIENT_SPARKY_GREET,Got some hot machinery needing skilled hands.,Tengo maquinaria caliente que necesita manos expertas.,لدي معدات ساخنة تحتاج أيدي ماهرة.
+CLIENT_SPARKY_SATISFIED,Clean work! You run a tight bench.,¡Trabajo impecable! Tu taller es de primera.,عمل نظيف! ورشتك تتقن الصنعة.
+CLIENT_SPARKY_UNHAPPY,This part squeals under torque. Expected better.,Esta pieza chirría bajo carga. Esperaba más.,هذه القطعة تصدر صريراً. توقعت أفضل.
+CLIENT_MARA_GREET,Need high-spec components assembled on the double.,Necesito componentes de alta gama montados ya.,أحتاج تجميع مكونات عالية الدقة فوراً.
+CLIENT_MARA_SATISFIED,Precise and dependable. Pleasure doing business.,Preciso y fiable. Un placer hacer negocios.,دقيق وموثوق. سررت بالتعامل معك.
+CLIENT_MARA_UNHAPPY,Diagnostics flag micro-fractures. Disappointing.,El diagnóstico marca microfracturas. Decepcionante.,الفحوصات تظهر شقوقاً دقيقة. مخيب للآمال.
+CLIENT_ZERO_GREET,Astra City moves fast. Keep my rig running faster.,Astra City va rápido. Haz que mi máquina vaya más.,المدينة تسير بسرعة، اجعل عتادي أسرع.
+CLIENT_ZERO_SATISFIED,Pure kinetic power. Keep the change.,Pura potencia cinética. Quédate el cambio.,طاقة حركية خالصة. احتفظ بالباقي.
+CLIENT_ZERO_UNHAPPY,Sloppy calibration. Cost me a race position.,Calibración descuidada. Me costó un puesto.,معايرة رديئة. خسرتني مركزاً بالسباق.
+CLIENT_BORIS_GREET,Heavy steel, heavy work. Don't cut corners.,Acero pesado, trabajo duro. No recortes gastos.,حديد ثقيل وعمل جاد. لا تختصر.
+CLIENT_BORIS_SATISFIED,Solid weld. You earned your fee, mechanic.,Soldadura sólida. Te ganaste la paga, mecánico.,لحام متين. استحققت أجرك يا ميكانيكي.
+CLIENT_BORIS_UNHAPPY,Joint seized during testing. What garbage.,La junta se trabó en pruebas. Qué basura.,المفصل علق أثناء الاختبار. يا للردءة.
+CLIENT_TALIA_GREET,Precision circuitry only. No solder burns.,Solo circuitos de precisión. Sin quemaduras.,دوائر دقيقة فقط دون حروق لحام.
+CLIENT_TALIA_SATISFIED,Optimal telemetry readings. Impressive turnaround.,Telemetría óptima. Plazo de entrega impresionante.,قراءات القياس ممتازة، إنجاز مذهل.
+CLIENT_TALIA_UNHAPPY,Noise on the telemetry bus. Check your grounding.,Ruido en el bus de datos. Revisa la masa.,تشويش في ناقل القياس. تفقد التأريض.
+CLIENT_KANE_GREET,The syndicate demands results. Not excuses.,El sindicato exige resultados. No excusas.,النقابة تطلب نتائج وليس أعذاراً.
+CLIENT_KANE_SATISFIED,Adequate. Your installment leeway is extended.,Adecuado. Tu margen de pago se amplía.,جيد. تم تمديد مهلة القسط لك.
+CLIENT_KANE_UNHAPPY,Sub-par craftsmanship. Don't test my patience.,Mano de obra deficiente. No pruebes mi paciencia.,صنعة سيئة. لا تختبر صبري معك.
+CLIENT_GIDEON_GREET,Drift car needs an edge on the turns.,El coche necesita ventaja en las curvas.,سيارة الدرفت تحتاج ميزة في المنعطفات.
+CLIENT_GIDEON_SATISFIED,Smooth throttle curve! It grips like a dream.,¡Curva de aceleración suave! Agarra perfecto.,استجابة وقود ناعمة! ثبات رائع.
+CLIENT_GIDEON_UNHAPPY,Power lagged on entry. Nearly spun out.,Faltó potencia en la entrada. Casi trompeo.,تأخرت الطاقة عند الدخول وكدت أنحرف.
+CLIENT_NYX_GREET,Bio-mechanical gear needs surgical accuracy.,El equipo biomecánico exige precisión quirúrgica.,المعدات الحيوية تتطلب دقة جراحية.
+CLIENT_NYX_SATISFIED,Neural latency zero. Exemplary craftsmanship.,Latencia neural cero. Mano de obra ejemplar.,استجابة عصبية فورية. صنعة مثالية.
+CLIENT_NYX_UNHAPPY,Feedback twitch in the servo. Completely unacceptable.,Espasmos en el servo. Inaceptable por completo.,رعشة في المشغل المؤازر. غير مقبول بتاتاً.
+CLIENT_SERAPH_GREET,Astra Gala requires elite aesthetics and power.,La Gala de Astra exige estética de élite y poder.,حفل أسترا يتطلب أناقة وقوة من النخبة.
+CLIENT_SERAPH_SATISFIED,Exquisite refinement. The client will be thrilled.,Refinamiento exquisito. El cliente estará encantado.,إتقان فائق. سيكون العميل مبتهجاً.
+CLIENT_SERAPH_UNHAPPY,Rattles like a tin can. Embarrassing.,Traquetea como una lata. Vergonzoso.,تهتز كعلبة صفيح. أمر محرج للغاية.
+CLIENT_VAL_GREET,Got a rig that needs reinforced plating pronto.,Tengo una máquina que necesita blindaje ya.,لدي مركبة تحتاج دروعاً مقواة فوراً.
+CLIENT_VAL_SATISFIED,Took a kinetic blast and didn't dent. Good job.,Recibió un impacto y ni se abolló. Buen trabajo.,تلقت صدمة حركية ولم تنثنِ. أحسنت.
+CLIENT_VAL_UNHAPPY,Stress fracture after one test run. Amateur.,Fractura por fatiga tras una prueba. Novato.,كسر إجهاد بعد اختبار واحد. عمل هواة.
+CLIENT_IRONHEAD_GREET,Show me steel that won't buckle in the Colosseum.,Muéstrame acero que no ceda en el Coliseo.,أرني فولاذ لا ينهار في حلبة القتال.
+CLIENT_IRONHEAD_SATISFIED,Brutal endurance! Ready for tournament warfare.,¡Resistencia brutal! Listo para el torneo.,متانة شرسة! جاهز لخوض غمار البطولة.
+CLIENT_IRONHEAD_UNHAPPY,Armor warped under thermal load. Worthless scrap.,Blindaje doblado por calor. Chatarra inútil.,الدرع تشوه بفعل الحرارة. خردة بلا فائدة.
+CLIENT_MIRA_GREET,Cyberware interface tuning. Do it clean.,Ajuste de interfaz cibernética. Hazlo limpio.,ضبط واجهة السيبروير. اجعلها نظيفة.
+CLIENT_MIRA_SATISFIED,Sync rate at 99%. You know your silicon.,Tasa de sincronización al 99%. Conoces tu silicio.,تزامن بنسبة 99%. أنت خبير بالرقاقات.
+CLIENT_MIRA_UNHAPPY,Bus bandwidth bottlenecked. Recalibrate this.,Cuello de botella en el bus. Recalibra esto.,اختناق في نقل البيانات. أعد المعايرة.
+MINIGAME_CALIBRATOR_TITLE,Servo & Motor Calibrator,Calibrador de Servos y Motores,معاير المؤازرات والمحركات
+MINIGAME_CALIBRATOR_INSTRUCT_HOLD,HOLD SPACE / CLICK to throttle RPM into zone,MANTÉN ESPACIO / CLIC para subir RPM a la zona,اضغط باستمرار مسافة/نقرة لرفع السرعة إلى المنطقة
+MINIGAME_CALIBRATOR_INSTRUCT_TOGGLE,CLICK / TAP to toggle throttle direction,CLIC / TOCA para alternar dirección de aceleración,انقر لتبديل اتجاه التسارع
+MINIGAME_CALIBRATOR_STABILIZED,Zone Stabilized,Zona Estabilizada,تم تثبيت المنطقة
+MINIGAME_FORGE_TITLE,Heavy Component Forge,Forja de Componentes Pesados,مسبك المكونات الثقيلة
+MINIGAME_FORGE_INSTRUCT,Strike [SPACE / CLICK] inside the sweet spot,Golpea [ESPACIO / CLIC] dentro del punto dulce,اضرب [مسافة / نقرة] داخل النطاق الدقيق
+MINIGAME_FORGE_STRIKE_PERFECT,[★] PERFECT STRIKE,[★] GOLPE PERFECTO,[★] ضربة مثالية
+MINIGAME_FORGE_STRIKE_GOOD,[✓] GOOD STRIKE,[✓] BUEN GOLPE,[✓] ضربة جيدة
+MINIGAME_FORGE_STRIKE_MISS,[✗] STRIKE MISS,[✗] GOLPE FALLIDO,[✗] ضربة خاطئة
+MINIGAME_ASSEMBLER_TITLE,ECU Circuit Assembler,Ensamblador de Circuitos ECU,مجمع دوائر التحكم الإلكتروني
+MINIGAME_ASSEMBLER_INSTRUCT,Click adjacent cells to route power without hitting hazards,Haz clic en casillas contiguas para conectar sin tocar peligros,انقر على الخلايا المجاورة للتوصيل وتجنب المخاطر
+MINIGAME_ASSEMBLER_HAZARD_HIT,[▲] SHORT CIRCUIT HAZARD,[▲] PELIGRO DE CORTOCIRCUITO,[▲] خطر ماس كهربائي
+MINIGAME_ASSEMBLER_CIRCUIT_CLOSED,[✓] CIRCUIT COMPLETE,[✓] CIRCUITO COMPLETO,[✓] اكتملت الدائرة
+UPG_SUPPLIER_TITLE,Supplier Network,Red de Proveedores,شبكة الموردين
+UPG_SUPPLIER_DESC,-10% material cost on all parts,-10% costo de materiales en piezas,خصم 10% على تكلفة المواد لجميع القطع
+UPG_WARRANTY_TITLE,Warranty Insurance,Seguro de Garantía,تأمين الضمان
+UPG_WARRANTY_DESC,Warranty claim costs reduced by -50%,Costos de reclamos reducidos un -50%,تخفيض تكاليف مطالبات الضمان بنسبة 50%
+UPG_ROLODEX_TITLE,Client Rolodex,Contactos de Clientes,دليل العملاء
+UPG_ROLODEX_DESC,+1 daily offer; +3% payout on all offers,+1 oferta diaria; +3% pago en todas,عرض إضافي يومياً وزيادة 3% على الدفعات
+UPG_BENCH_TITLE,Second Bench,Segundo Banco de Trabajo,طاولة عمل ثانية
+UPG_BENCH_DESC,+1 Action Point (AP) available each day,+1 Punto de Acción (PA) disponible cada día,نقطة عمل إضافية متاحة كل يوم
+UPG_PRECISION_TITLE,Precision Tools,Herramientas de Precisión,أدوات دقيقة
+UPG_PRECISION_DESC,Minigame success windows widened by +8%,Ventanas de minijuegos un +8% más amplias,توسيع نافذة دقة الألعاب بنسبة 8%
+UPG_PAYBACK_PREFIX,Pays for itself in ~%s days,Se amortiza en ~%s días,تسترد قيمتها في ~%s أيام
+UPG_DEBT_INTEREST_COMPARE,Syndicate debt interest: %d cr/day,Interés de deuda del sindicato: %d cr/día,فائدة دين النقابة: %d رصيد/يوم
+UPG_PURCHASE,Acquire Upgrade,Comprar Mejora,شراء الترقية
+UPG_OWNED,[✓] ACQUIRED,[✓] ADQUIRIDO,[✓] تم الشراء
+TUTORIAL_BEAT_0_TEXT,Welcome to Scrap & Steel. Your predecessor left behind this garage and a crushing debt to the Scraphound Syndicate. Let's inspect the bench.,Te damos la bienvenida a Scrap & Steel. Tu predecesor dejó este taller y una deuda con el sindicato. Revisemos el banco.,مرحباً بك في ورشة الخردة والصلب. ترك سلفك ديناً ثقيلاً لنقابة الخردة. لنفحص طاولة العمل.
+TUTORIAL_BEAT_0_CALLOUT,Action Points (AP) represent your daily energy. Spend them wisely on crafting and repairs.,Los Puntos de Acción (PA) son tu energía diaria. Úsalos con prudencia al reparar.,تمثل نقاط العمل طاقتك اليومية. استثمرها بحكمة في التصنيع.
+TUTORIAL_CONTINUE,Continue,Continuar,متابعة
+TUTORIAL_BEAT_1_TEXT,Collector Kane arrives: 'Your friend owed 10,000 cr. Pay 8% installments every 7 days or we seize the shop. Three strikes and you are out.',Llega el Cobrador Kane: 'Tu amigo debía 10.000 cr. Paga cuotas del 8% cada 7 días o embargamos el taller. Tres faltas y fuera.',وصل المحصل كين: 'كان صديقك مديناً بـ 10,000 رصيد. ادفع أقساط 8% كل أسبوع أو نصادر الورشة.'
+TUTORIAL_BEAT_1_HUD_HINT,Notice the top HUD: Daily interest adds 2% every night. Installment deadlines are tracked live.,Fíjate en la barra superior: El interés diario suma 2% cada noche. Las cuotas se siguen en vivo.,انظر للشريط العلوي: تضاف فائدة 2% كل ليلة، ومواعيد الأقساط تظهر بوضوح.
+TUTORIAL_PICK_PATHWAY,Choose Your Specialization,Elige tu Especialización,اختر تخصصك
+TUTORIAL_BEAT_2_SELECT,Select a commercial pathway for the 30-day contract run. This will skew available job types and define your victory condition.,Elige una especialidad para los 30 días. Definirá los tipos de trabajo y la condición de victoria.,حدد مسارك التجاري لحملة الـ 30 يوماً. سيحدد هذا نوعية العقود وهدف نصرك.
+TUTORIAL_BEAT_2_HINT,Pathways skew contracts 50% to their specialty and define your Day 30 goal.,Las especialidades sesgan contratos 50% a su rama y fijan tu meta del Día 30.,توجه المسارات 50% من العقود لتخصصها وتحدد هدف اليوم 30.
+SELECT_CYBER_PATHWAY,A: Cyber-Reputation (Volume & Quality),A: Reputación Cyber (Volumen y Calidad),أ: سمعة السيبروير (السرعة والجودة)
+SELECT_MECH_PATHWAY,B: Mech Championship (Heavy Forging),B: Campeonato de Mechs (Forja Pesada),ب: بطولة الآليات (الحدادة الثقيلة)
+SELECT_DRIFTER_PATHWAY,C: Drifter League (Precision Tuning),C: Liga Drifter (Ajuste de Precisión),ج: دوري الدرفت (المعايرة الدقيقة)
+CHAMPION_BUILD_TITLE_MECH,Steel Colosseum Champion Frame,Armazón Campeón del Coliseo,هيكل بطل حلبة الصلب
+CHAMPION_BUILD_TITLE_DRIFT,Neon Drift Circuit Turbo Rig,Bólido Turbo Circuito Neón,مركبة سباق حلبة النيون
+CHAMPION_SPONSORSHIP_PAID,Tournament sponsorship fee settled,Inscripción del torneo pagada,تم سداد رسوم رعاية البطولة
+CHAMPION_REFORGE_FEE,Part re-forged with 50% material surcharge,Pieza reforjada con recargo del 50%,أعيد تشكيل القطعة مع رسوم 50% للمواد
+SETTINGS_TITLE,Settings & Accessibility,Ajustes y Accesibilidad,الإعدادات وإمكانية الوصول
+SETTINGS_CATEGORY_ACCESSIBILITY,Accessibility & Assists,Accesibilidad y Asistencias,إمكانية الوصول والمساعدة
+SETTINGS_CATEGORY_AUDIO,Audio & Volume,Audio y Volumen,الصوت ومستوى الصوت
+SETTINGS_CATEGORY_LANGUAGE,Language & Direction,Idioma y Dirección,اللغة والاتجاه
+SETTINGS_CATEGORY_PRESET,Economy Preset,Preajuste Económico,إعداد الاقتصاد المسبق
+SETTINGS_PRESET_STANDARD,Standard Preset (10k Debt, 2% Int),Estándar (Deuda 10k, 2% Int),النمط القياسي (دين 10 آلاف، فائدة 2%)
+SETTINGS_PRESET_ASSIST,Assist Preset (7k Debt, 1% Int),Modo Asistido (Deuda 7k, 1% Int),نمط المساعدة (دين 7 آلاف، فائدة 1%)
+SETTINGS_COLORBLIND,Colorblind Palette (No Green + Icons),Paleta para Daltonismo (Sin Verde + Iconos),لوحة عمى الألوان (بدون أخضر + أيقونات)
+SETTINGS_INPUT_MODE,Calibrator Input: Toggle vs Hold,Control Calibrador: Alternar / Mantener,تحكم المعاير: تبديل مقابل ضغط مستمر
+SETTINGS_SLOW_MODE,Slow Mode (0.75x Speed, 1.25x Windows),Modo Lento (0.75x Vel, 1.25x Margen),الوضع البطيء (سرعة 0.75، نافذة 1.25)
+SETTINGS_SKIP_MINIGAMES,Auto-Complete Minigames (0.70 Score),Auto-Completar Minijuegos (0.70 Ptos),إكمال تلقائي للألعاب (نتيجة 0.70)
+SETTINGS_SIMPLE_LANGUAGE,Plain Financial Language,Lenguaje Financiero Claro,لغة مالية مبسطة
+SETTINGS_LARGE_TEXT,Large UI Font Size,Texto de IU Grande,حجم خط الواجهة كبير
+SETTINGS_REDUCED_FLASHING,Reduced Flashing & Shake,Reducir Parpadeo y Sacudida,تقليل الوميض والاهتزاز
+SETTINGS_MASTER_VOL,Master Volume,Volumen Maestro,مستوى الصوت العام
+SETTINGS_MUSIC_VOL,Music Volume,Volumen de Música,مستوى صوت الموسيقى
+SETTINGS_SFX_VOL,SFX Volume,Volumen de Efectos,مستوى المؤثرات الصوتية
+SETTINGS_MUTE_FOCUS,Mute on Focus Loss (Web),Silenciar al Perder Foco (Web),كتم الصوت عند فقد التركيز
+SETTINGS_BACK,Back to Menu,Volver al Menú,العودة للقائمة
+SETTINGS_APPLY,Save & Apply,Guardar y Aplicar,حفظ وتطبيق

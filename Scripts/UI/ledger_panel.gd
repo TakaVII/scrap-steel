@@ -1,5 +1,5 @@
-# purpose: [v2] Enhanced financial ledger overlay supporting category filtering (ALL, INCOME, MATERIALS, RENT, FINE, DEBT).
-# depends on: Control, EventBus, NumberFormat
+# purpose: [v4] Financial ledger with redundant shape icons ([✓] income, [✗] expense, [▲] penalty) and GamePalette (spec §C10).
+# depends on: Control, EventBus, NumberFormat, GamePalette
 # signals emitted: none
 # signals listened to: EventBus.ledger_entry_added
 
@@ -18,11 +18,11 @@ func _ready() -> void:
 func _setup_filters() -> void:
 	filter_option_button.clear()
 	filter_option_button.add_item("All Categories", 0)
-	filter_option_button.add_item("Income", 1)
-	filter_option_button.add_item("Materials", 2)
-	filter_option_button.add_item("Lease / Rent", 3)
-	filter_option_button.add_item("Fines & Fees", 4)
-	filter_option_button.add_item("Debt Payments", 5)
+	filter_option_button.add_item("Income [✓]", 1)
+	filter_option_button.add_item("Materials [✗]", 2)
+	filter_option_button.add_item("Lease / Rent [▲]", 3)
+	filter_option_button.add_item("Fines & Fees [✗]", 4)
+	filter_option_button.add_item("Debt Payments [✓]", 5)
 
 func _on_ledger_entry_added(description: String, amount: int, category: StringName) -> void:
 	all_entries.append({
@@ -45,21 +45,29 @@ func _rebuild_display() -> void:
 			elif current_filter == &"fine" and cat_str != "fine": continue
 			elif current_filter == &"debt" and cat_str != "debt" and cat_str != "debt_added": continue
 
+		var is_positive: bool = entry["amt"] > 0
 		var row := HBoxContainer.new()
+
+		var icon_label := Label.new()
+		icon_label.text = "[✓] " if is_positive else "[✗] "
+		icon_label.add_theme_color_override("font_color", GamePalette.get_color(is_positive))
+		row.add_child(icon_label)
+
 		var cat_label := Label.new()
 		cat_label.text = "[%s]" % str(entry["cat"]).to_upper()
 		cat_label.custom_minimum_size = Vector2(90, 0)
+		row.add_child(cat_label)
 
 		var desc_label := Label.new()
 		desc_label.text = entry["desc"]
 		desc_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(desc_label)
 
 		var amt_label := Label.new()
-		amt_label.text = ("+" if entry["amt"] > 0 else "") + NumberFormat.format_credits(entry["amt"])
-
-		row.add_child(cat_label)
-		row.add_child(desc_label)
+		amt_label.text = ("+" if is_positive else "") + NumberFormat.format_credits(entry["amt"])
+		amt_label.add_theme_color_override("font_color", GamePalette.get_color(is_positive))
 		row.add_child(amt_label)
+
 		entries_container.add_child(row)
 
 func _on_filter_option_button_item_selected(index: int) -> void:

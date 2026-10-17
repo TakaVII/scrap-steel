@@ -21,11 +21,11 @@ grow_vertical = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 28
 theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="HBoxTop" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -42,12 +42,12 @@ size_flags_horizontal = 3
 [node name="OvertimeButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxTop"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "WORKSHOP_OVERTIME"
+text = "WORKSHOP_OVERTIME_BTN"
 
 [node name="EndDayButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxTop"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "WORKSHOP_END_DAY"
+text = "WORKSHOP_END_DAY_BTN"
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -65,8 +65,9 @@ theme_override_constants/separation = 8
 
 [node name="StatusInfoLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
-text = "Click an active part above to spend AP and fabricate components."
+text = ""
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxTop/OvertimeButton" to="." method="_on_overtime_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxTop/EndDayButton" to="." method="_on_end_day_button_pressed"]
