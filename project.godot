@@ -88,6 +88,7 @@ pause={
 
 [internationalization]
 
+locale/translations=PackedStringArray("res://Data/translations.ar.translation", "res://Data/translations.en.translation", "res://Data/translations.es.translation")
 locale/include_text_server_data=true
 
 [physics]
