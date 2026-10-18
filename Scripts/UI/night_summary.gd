@@ -1,5 +1,5 @@
-# purpose: [v2] Night summary rendering financial ledger totals and R&D upgrade shop with payback comparisons.
-# depends on: Control, GameManager, EconomyManager, UpgradeManager, UpgradeData
+# purpose: [v3 manual fix] Night summary rendering financial ledger totals and R&D upgrade shop. Feedback line uses NumberFormat.fmt (no formatting error if the translation is missing).
+# depends on: Control, GameManager, EconomyManager, UpgradeManager, UpgradeData, NumberFormat
 # signals emitted: none
 # signals listened to: EventBus.night_summary_ready, EventBus.upgrade_purchased
 
@@ -46,7 +46,7 @@ func _on_night_summary_ready(summary: Dictionary) -> void:
 
 	var intr: int = summary.get("interest", 0)
 	if intr > 0:
-		feedback_label.text = tr("NIGHT_FEEDBACK_INTEREST") % intr
+		feedback_label.text = NumberFormat.fmt(tr("NIGHT_FEEDBACK_INTEREST"), intr)
 	else:
 		feedback_label.text = tr("NIGHT_FEEDBACK_DEBT_FREE")
 

@@ -115,7 +115,9 @@ func _changed() -> void:
 
 func set_language(locale_code: String) -> void:
 	current_locale = locale_code
-	TranslationServer.set_locale(locale_code) # RTL follows the locale automatically. VERIFY: switch to Arabic and check that the HUD rows and the Settings screen mirror.
+	TranslationServer.set_locale(locale_code)
+	# RTL follows the locale automatically (Window has no settable layout_direction in this build).
+	# VERIFY: switch to Arabic and check that the HUD rows and Settings mirror.
 	_persist()
 	EventBus.locale_changed.emit(locale_code)
 	EventBus.settings_changed.emit()

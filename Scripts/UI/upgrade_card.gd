@@ -1,5 +1,5 @@
-# purpose: [v2 manual fix] R&D upgrade card. Fixes broken "%s"/"%d" formatting (translations contain the placeholders) and uses the run's real interest rate.
-# depends on: Control, UpgradeData, UpgradeManager, EconomyManager
+# purpose: [v3 manual fix] R&D upgrade card. Uses NumberFormat.fmt so a missing translation can never raise a formatting error; uses the run's real interest rate.
+# depends on: Control, UpgradeData, UpgradeManager, EconomyManager, NumberFormat
 # signals emitted: buy_requested(id: StringName)
 # signals listened to: none
 
@@ -21,8 +21,8 @@ func setup(data: UpgradeData) -> void:
 	title_label.text = tr(data.title_key)
 	desc_label.text = tr(data.desc_key)
 	cost_label.text = "%d cr  |  %d TP" % [data.cost_credits, data.cost_tp]
-	payback_label.text = tr("UPG_PAYBACK_PREFIX") % ("%.1f" % data.payback_days)
-	debt_compare_label.text = tr("UPG_DEBT_INTEREST_COMPARE") % EconomyManager.projected_interest()
+	payback_label.text = NumberFormat.fmt(tr("UPG_PAYBACK_PREFIX"), "%.1f" % data.payback_days)
+	debt_compare_label.text = NumberFormat.fmt(tr("UPG_DEBT_INTEREST_COMPARE"), EconomyManager.projected_interest())
 	_update_state()
 
 func _update_state() -> void:
