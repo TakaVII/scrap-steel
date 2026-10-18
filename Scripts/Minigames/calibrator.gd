@@ -1,4 +1,4 @@
-# purpose: The Calibrator minigame balancing tuning bar over drifting RPM zone with Hold or Toggle controls.
+# purpose: [v3 manual fix] The Calibrator minigame. Fixes: mouse input swallowed by Controls (now "hold" action in _input), track size read after layout, tier scaling no longer doubled.
 # depends on: MinigameBase, Balance
 # signals emitted: finished(score: float)
 # signals listened to: none
@@ -26,14 +26,14 @@ var _time_remaining: float = 15.0
 var _time_in_zone: float = 0.0
 var _tier: int = 1
 var _bar_pos_y: float = 100.0
-var _bar_velocity_y: float = 0.0
 var _target_zone_y: float = 80.0
 var _drift_dir: float = 1.0
 var _zone_height: float = 50.0
-var _track_height: float = 180.0
+var _track_height: float = 160.0
 var _is_pressing_rise: bool = false
 var _toggle_rising: bool = false
 var _speed_mult: float = 1.0
+var _was_in_zone: bool = false
 
 func setup(diff: Dictionary) -> void:
 	super.setup(diff)
@@ -43,45 +43,39 @@ func setup(diff: Dictionary) -> void:
 	_time_remaining = round_duration_sec
 
 func start() -> void:
+	await get_tree().process_frame # containers need one frame before sizes are real
+	if not is_inside_tree():
+		return
 	super.start()
-	_track_height = maxf(120.0, track_panel.size.y)
-	var tier_idx: int = clampi(_tier - 1, 0, 2)
-	var h_frac: float = tier_zone_height_fractions[tier_idx]
-	if difficulty.get("window_mult", 1.0) > 1.0:
-		h_frac *= difficulty.get("window_mult", 1.0)
+	_track_height = maxf(60.0, track_panel.size.y)
+	var h_frac: float = tier_zone_height_fractions[clampi(_tier - 1, 0, 2)]
+	var window_mult: float = difficulty.get("window_mult", 1.0)
+	if window_mult > 1.0:
+		h_frac *= window_mult
 	_zone_height = _track_height * h_frac
 	rpm_target_zone.custom_minimum_size.y = _zone_height
 	rpm_target_zone.size.y = _zone_height
-
 	_bar_pos_y = _track_height * 0.5
 	_target_zone_y = _track_height * 0.4
 	_update_visuals()
-
-	if input_mode_toggle:
-		instruct_label.text = tr("MINIGAME_CALIBRATOR_INSTRUCT_TOGGLE")
-	else:
-		instruct_label.text = tr("MINIGAME_CALIBRATOR_INSTRUCT_HOLD")
+	instruct_label.text = tr("MINIGAME_CALIBRATOR_INSTRUCT_TOGGLE") if input_mode_toggle else tr("MINIGAME_CALIBRATOR_INSTRUCT_HOLD")
 
 func _process(delta: float) -> void:
 	if not is_active:
 		return
-
 	_time_remaining -= delta
 	if _time_remaining <= 0.0:
 		_time_remaining = 0.0
-		var final_score: float = _time_in_zone / round_duration_sec
-		_finish(final_score)
+		_finish(_time_in_zone / round_duration_sec)
 		return
 
-	# Handle bar physics with delta
 	var should_rise: bool = _toggle_rising if input_mode_toggle else _is_pressing_rise
 	if should_rise:
 		_bar_pos_y -= bar_rise_speed * delta
 	else:
 		_bar_pos_y += bar_gravity_speed * delta
-	_bar_pos_y = clampf(_bar_pos_y, 0.0, _track_height - 10.0)
+	_bar_pos_y = clampf(_bar_pos_y, 0.0, _track_height - tuning_bar.size.y)
 
-	# Handle RPM zone drift
 	var drift_speed: float = base_drift_speed * tier_speed_mults[clampi(_tier - 1, 0, 2)] * _speed_mult
 	_target_zone_y += drift_speed * _drift_dir * delta
 	if _target_zone_y <= 0.0:
@@ -91,15 +85,13 @@ func _process(delta: float) -> void:
 		_target_zone_y = _track_height - _zone_height
 		_drift_dir = -1.0
 
-	# Check overlap
-	var bar_center: float = _bar_pos_y + 5.0
+	var bar_center: float = _bar_pos_y + tuning_bar.size.y * 0.5
 	var in_zone: bool = bar_center >= _target_zone_y and bar_center <= (_target_zone_y + _zone_height)
 	if in_zone:
 		_time_in_zone += delta
-		status_label.text = tr("MINIGAME_CALIBRATOR_STABILIZED")
-	else:
-		status_label.text = ""
-
+	if in_zone != _was_in_zone: # only touch the label when the state changes (no per-frame allocations)
+		_was_in_zone = in_zone
+		status_label.text = tr("MINIGAME_CALIBRATOR_STABILIZED") if in_zone else ""
 	_update_visuals()
 
 func _update_visuals() -> void:
@@ -108,22 +100,13 @@ func _update_visuals() -> void:
 	timer_label.text = "%.1fs" % _time_remaining
 	score_progress.value = (_time_in_zone / round_duration_sec) * 100.0
 
-func _gui_input(event: InputEvent) -> void:
-	if not is_active:
+## "hold" action = Space / Up + left mouse (Project Settings > Input Map).
+func _input(event: InputEvent) -> void:
+	if not is_active or not event.is_action("hold") or event.is_echo():
 		return
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if input_mode_toggle:
-			if event.pressed:
-				_toggle_rising = not _toggle_rising
-		else:
-			_is_pressing_rise = event.pressed
-
-func _unhandled_input(event: InputEvent) -> void:
-	if not is_active:
-		return
-	if event.is_action("ui_accept") or event.is_action("ui_select"):
-		if input_mode_toggle:
-			if event.is_pressed() and not event.is_echo():
-				_toggle_rising = not _toggle_rising
-		else:
-			_is_pressing_rise = event.is_pressed()
+	get_viewport().set_input_as_handled()
+	if input_mode_toggle:
+		if event.is_pressed():
+			_toggle_rising = not _toggle_rising
+	else:
+		_is_pressing_rise = event.is_pressed()

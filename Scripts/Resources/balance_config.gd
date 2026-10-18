@@ -2,6 +2,7 @@
 # depends on: Resource
 # signals emitted: none
 # signals listened to: none
+# [v2 manual fix] added: assist preset values, max_inspections_per_day, champion_reforge_cost_fraction
 
 class_name BalanceConfig
 extends Resource
@@ -9,6 +10,11 @@ extends Resource
 @export_group("Start")
 @export var start_credits: int = 2000
 @export var start_debt: int = 10000
+
+@export_group("Assist Preset")
+@export var assist_start_credits: int = 2500
+@export var assist_start_debt: int = 7000
+@export var assist_interest_rate: float = 0.01
 
 @export_group("Economy")
 @export var daily_interest_rate: float = 0.02
@@ -33,6 +39,7 @@ extends Resource
 @export var budget_cap_fraction: float = 0.65
 @export var offers_per_day: int = 4
 @export var max_active_jobs: int = 3
+@export var max_inspections_per_day: int = 3
 @export var forge_waste_reduction: float = 0.30
 @export var warranty_delay_days: int = 3
 @export var warranty_cost_fraction: float = 0.35
@@ -45,6 +52,7 @@ extends Resource
 @export var champion_min_quality: float = 0.80
 @export var champion_unlock_day: int = 15
 @export var champion_deadline_day: int = 28
+@export var champion_reforge_cost_fraction: float = 0.50
 @export var reserve_target: int = 9000
 @export var rating_five_star_quality: float = 0.80
 @export var rating_window: int = 8

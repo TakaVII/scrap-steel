@@ -1,4 +1,4 @@
-# purpose: R&D Upgrade card displaying price in credits, Tech Points, ROI payback estimate, and debt interest comparison.
+# purpose: [v2 manual fix] R&D upgrade card. Fixes broken "%s"/"%d" formatting (translations contain the placeholders) and uses the run's real interest rate.
 # depends on: Control, UpgradeData, UpgradeManager, EconomyManager
 # signals emitted: buy_requested(id: StringName)
 # signals listened to: none
@@ -21,11 +21,8 @@ func setup(data: UpgradeData) -> void:
 	title_label.text = tr(data.title_key)
 	desc_label.text = tr(data.desc_key)
 	cost_label.text = "%d cr  |  %d TP" % [data.cost_credits, data.cost_tp]
-	payback_label.text = tr("UPG_PAYBACK_PREFIX") + ": ~%.1f " % data.payback_days + tr("COMMON_DAYS")
-
-	var daily_debt_interest: int = roundi(EconomyManager.debt * Balance.cfg.daily_interest_rate)
-	debt_compare_label.text = tr("UPG_DEBT_INTEREST_COMPARE") + ": %d cr/day" % daily_debt_interest
-
+	payback_label.text = tr("UPG_PAYBACK_PREFIX") % ("%.1f" % data.payback_days)
+	debt_compare_label.text = tr("UPG_DEBT_INTEREST_COMPARE") % EconomyManager.projected_interest()
 	_update_state()
 
 func _update_state() -> void:

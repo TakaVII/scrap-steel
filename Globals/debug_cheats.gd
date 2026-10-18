@@ -1,9 +1,11 @@
-# purpose: Debug cheat keys available in debug builds for rapid economy and progression testing.
+# purpose: [v2 manual fix] Debug cheat keys (debug builds only). Adds F5 = force perfect minigame score (spec D10).
 # depends on: EconomyManager, TimeManager, GameManager, EventBus
 # signals emitted: none
 # signals listened to: none
 
 extends Node
+
+var force_perfect_score: bool = false
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not OS.is_debug_build() and not OS.has_feature("editor"):
@@ -30,8 +32,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_F4:
 			EconomyManager.add_tech_points(3)
 			print("CHEAT: +3 Tech Points granted. Current TP: ", EconomyManager.tech_points)
+		KEY_F5:
+			force_perfect_score = not force_perfect_score
+			print("CHEAT: force perfect minigame score = ", force_perfect_score)
 		KEY_F6:
-			print("CHEAT STATE DUMP -> Day: ", TimeManager.day, " | Credits: ", EconomyManager.credits, " | Debt: ", EconomyManager.debt, " | Strikes: ", EconomyManager.strikes)
+			print("CHEAT STATE DUMP -> Day: ", TimeManager.day, " | Credits: ", EconomyManager.credits, " | Debt: ", EconomyManager.debt, " | Strikes: ", EconomyManager.strikes, " | Interest: ", EconomyManager.interest_rate)
 		KEY_F7:
 			TimeManager.day = 27
-			print("CHEAT: Jumped to Day 27.")
+			print("CHEAT: day counter set to 27. The next morning is Day 28.")

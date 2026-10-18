@@ -1,4 +1,4 @@
-# purpose: [v3] Workshop screen launching real MinigameBase instances through MinigameController with dev sim fallback.
+# purpose: [v4 manual fix] Workshop. Fixes: part button signal binding (3 args into a 2-arg handler = button never worked), start checks (AP/funds/budget) with feedback, Champion Build re-forge buttons, dev-sim button only in debug builds, parts wrap in a flow row.
 # depends on: Control, GameManager, TimeManager, CommissionManager, MinigameController, CraftingManager, EconomyManager, PartResult
 # signals emitted: none
 # signals listened to: EventBus.action_points_changed, EventBus.phase_changed, EventBus.minigame_finished
@@ -27,99 +27,116 @@ func _on_action_points_changed(_cur: int, _max: int) -> void:
 	_update_ui()
 
 func _on_minigame_finished(result: PartResult) -> void:
-	status_info_label.text = "Minigame complete: %s (score %.2f). Charged %d cr materials." % [
-		tr(result.part.display_key), result.score, result.material_cost_charged
-	]
+	status_info_label.text = "%s: %.2f | %d cr" % [tr(result.part.display_key), result.score, result.material_cost_charged]
 	_update_ui()
 
+func _reason_text(reason: StringName) -> String:
+	match reason:
+		&"no_ap":
+			return tr("WORKSHOP_NO_AP")
+		&"no_funds":
+			return tr("WORKSHOP_NO_FUNDS")
+		&"over_budget":
+			return tr("WORKSHOP_NO_BUDGET")
+	return ""
+
 func _update_ui() -> void:
-	ap_display_label.text = "Workshop Active | Available AP: %d / %d" % [TimeManager.ap, TimeManager.ap_max]
+	ap_display_label.text = tr("WORKSHOP_TITLE") + " | " + tr("HUD_AP") + ": %d / %d" % [TimeManager.ap, TimeManager.ap_max]
 	overtime_button.disabled = not TimeManager.can_take_overtime()
 
 	for child in active_jobs_container.get_children():
 		child.queue_free()
 
-	var jobs = CommissionManager.active_jobs()
+	var jobs: Array[CommissionState] = CommissionManager.active_jobs()
 	if jobs.is_empty():
 		var empty_lbl := Label.new()
-		empty_lbl.text = "No active contracts. Return to Morning to accept client offers."
+		empty_lbl.text = tr("WORKSHOP_NO_JOBS")
 		active_jobs_container.add_child(empty_lbl)
 		return
 
-	for job_idx in range(jobs.size()):
-		var job = jobs[job_idx]
-		var job_panel := PanelContainer.new()
-		var margin := MarginContainer.new()
-		margin.add_theme_constant_override("margin_left", 6)
-		margin.add_theme_constant_override("margin_top", 4)
-		margin.add_theme_constant_override("margin_right", 6)
-		margin.add_theme_constant_override("margin_bottom", 4)
+	for job in jobs:
+		active_jobs_container.add_child(_build_job_panel(job))
 
-		var vbox := VBoxContainer.new()
-		var header := Label.new()
-		header.text = "[%s] %s | Payout: %d cr | Budget Spent: %d / %d cr" % [
-			"T%d" % job.tier, tr(job.data.title_key), job.payout, job.materials_spent, job.budget_cap
-		]
-		vbox.add_child(header)
+func _build_job_panel(job: CommissionState) -> PanelContainer:
+	var job_panel := PanelContainer.new()
+	var margin := MarginContainer.new()
+	for side in ["left", "top", "right", "bottom"]:
+		margin.add_theme_constant_override("margin_" + side, 3)
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 2)
 
-		var parts_hbox := HBoxContainer.new()
-		parts_hbox.add_theme_constant_override("separation", 6)
+	var header := Label.new()
+	header.text = "T%d %s | %d cr | %d / %d cr" % [job.tier, tr(job.data.title_key), job.payout, job.materials_spent, job.budget_cap]
+	if job.data.is_champion_build and job.is_complete():
+		header.text += " | Q %d%% / %d%%" % [roundi(job.calculate_quality() * 100.0), roundi(Balance.cfg.champion_min_quality * 100.0)]
+	vbox.add_child(header)
 
-		for part_idx in range(job.parts.size()):
-			var part = job.parts[part_idx]
-			var part_score = job.part_scores[part_idx]
-			var part_vbox := VBoxContainer.new()
+	var parts_row := HFlowContainer.new()
+	parts_row.add_theme_constant_override("h_separation", 4)
+	parts_row.add_theme_constant_override("v_separation", 2)
+	for part_idx in range(job.parts.size()):
+		parts_row.add_child(_build_part_cell(job, part_idx))
+	vbox.add_child(parts_row)
 
-			var btn = PART_BUTTON_SCENE.instantiate()
-			part_vbox.add_child(btn)
-			btn.setup(part_idx, part, part_score, job.tier)
-			btn.part_selected.connect(_on_part_clicked.bind(job, part_idx))
+	margin.add_child(vbox)
+	job_panel.add_child(margin)
+	return job_panel
 
-			# Developer simulation button kept as requested
-			if part_score < 0.0:
-				var sim_btn := Button.new()
-				sim_btn.text = tr("WORKSHOP_DEV_SIM")
-				sim_btn.custom_minimum_size = Vector2(0, 18)
-				sim_btn.pressed.connect(_on_dev_sim_clicked.bind(job, part_idx))
-				part_vbox.add_child(sim_btn)
+func _build_part_cell(job: CommissionState, part_idx: int) -> VBoxContainer:
+	var part: ItemPartData = job.parts[part_idx]
+	var part_score: float = job.part_scores[part_idx]
+	var cell := VBoxContainer.new()
+	cell.add_theme_constant_override("separation", 1)
 
-			parts_hbox.add_child(part_vbox)
+	var btn: Button = PART_BUTTON_SCENE.instantiate()
+	cell.add_child(btn)
+	btn.setup(part_idx, part, part_score, job.tier, CraftingManager.max_part_cost(job, part_idx))
+	btn.part_selected.connect(_on_part_clicked.bind(job)) # signal passes part_index; bind adds job
 
-		vbox.add_child(parts_hbox)
-		margin.add_child(vbox)
-		job_panel.add_child(margin)
-		active_jobs_container.add_child(job_panel)
+	if part_score < 0.0 and OS.is_debug_build():
+		var sim_btn := Button.new()
+		sim_btn.text = tr("WORKSHOP_DEV_SIM")
+		sim_btn.custom_minimum_size = Vector2(0, 14)
+		sim_btn.pressed.connect(_on_dev_sim_clicked.bind(job, part_idx))
+		cell.add_child(sim_btn)
+
+	if job.data.is_champion_build and CommissionManager.can_reforge_champion_part(part_idx):
+		var re_btn := Button.new()
+		re_btn.text = tr("WORKSHOP_REFORGE_BTN")
+		re_btn.custom_minimum_size = Vector2(0, 14)
+		re_btn.pressed.connect(_on_reforge_clicked.bind(part_idx))
+		cell.add_child(re_btn)
+	return cell
 
 func _on_part_clicked(part_idx: int, job: CommissionState) -> void:
-	var part = job.parts[part_idx]
-	if not TimeManager.has_ap(part.ap_cost):
-		status_info_label.text = "Insufficient AP to launch minigame."
+	var reason: StringName = CraftingManager.can_start(job, part_idx)
+	if reason != &"":
+		status_info_label.text = _reason_text(reason)
 		return
-
-	# Launch real minigame via MinigameController
 	if not MinigameController.launch(job, part_idx):
-		status_info_label.text = "Failed to launch minigame."
+		status_info_label.text = tr("WORKSHOP_LAUNCH_FAILED")
+
+func _on_reforge_clicked(part_idx: int) -> void:
+	CommissionManager.reforge_champion_part(part_idx)
+	_update_ui()
 
 func _on_dev_sim_clicked(job: CommissionState, part_idx: int) -> void:
-	var part = job.parts[part_idx]
-	if not TimeManager.has_ap(part.ap_cost):
-		status_info_label.text = "Insufficient AP for simulation."
+	var reason: StringName = CraftingManager.can_start(job, part_idx)
+	if reason != &"":
+		status_info_label.text = _reason_text(reason)
 		return
-	TimeManager.spend_ap(part.ap_cost)
-	var fake_score: float = randf_range(0.65, 0.95)
+	TimeManager.spend_ap(job.parts[part_idx].ap_cost)
 	var res := PartResult.new()
 	res.commission = job
 	res.part_index = part_idx
-	res.part = part
-	res.score = fake_score
+	res.part = job.parts[part_idx]
+	res.score = randf_range(0.65, 0.95)
 	CraftingManager.apply_result(res)
 	EventBus.minigame_finished.emit(res)
 
 func _on_overtime_button_pressed() -> void:
 	if TimeManager.take_overtime():
-		status_info_label.text = "Overtime activated! +2 AP gained tonight."
-	else:
-		status_info_label.text = "Cannot take overtime (already used or insufficient credits)."
+		status_info_label.text = tr("WORKSHOP_OVERTIME_BTN")
 	_update_ui()
 
 func _on_end_day_button_pressed() -> void:

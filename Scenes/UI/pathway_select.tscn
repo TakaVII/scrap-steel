@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://bpx2di5x41y5h"]
 
-[ext_resource type="Script" path="res://Scripts/UI/pathway_select.gd" id="1_pathway"]
+[ext_resource type="Script" uid="uid://brjcu3kuftbyb" path="res://Scripts/UI/pathway_select.gd" id="1_pathway"]
 
-[node name="PathwaySelect" type="Control"]
+[node name="PathwaySelect" type="Control" unique_id=769248751]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pathway")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=934401899]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,7 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.078, 0.067, 0.122, 0.98)
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1271343144]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,125 +32,128 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=585946563]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1434273]
 layout_mode = 2
 text = "SCRAP & STEEL — SYNDICATE RESTRUCTURING MEETING"
 
-[node name="StoryLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="StoryLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=602759473]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 text = "Tutorial story text"
 autowrap_mode = 3
 
-[node name="HudCalloutLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="HudCalloutLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=778785788]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.992, 0.682, 0.380, 1)
+theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
 text = "Notice top HUD: 'Next Due: Day 8, 800 cr' indicates impending installments."
 autowrap_mode = 3
 
-[node name="NextStepButton" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="NextStepButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1393441117]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 28)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "TUTORIAL_CONTINUE"
 
-[node name="PathwaysContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="PathwaysContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1008415525]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="CardReputation" type="PanelContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer"]
+[node name="CardReputation" type="PanelContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer" unique_id=1899989721]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Margin" type="MarginContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardReputation"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardReputation" unique_id=784957824]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardReputation/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardReputation/Margin" unique_id=1025874545]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardReputation/Margin/VBox"]
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardReputation/Margin/VBox" unique_id=1565617536]
 layout_mode = 2
 text = "A: Cyber-Reputation"
 
-[node name="Desc" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardReputation/Margin/VBox"]
+[node name="Desc" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardReputation/Margin/VBox" unique_id=1103178964]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/line_spacing = 0
 text = "50% Cyberware jobs. Win on Day 30: 0 debt + 9,000 cr cash reserve + 5-Star shop rating (>= 80% quality)."
 autowrap_mode = 3
 
-[node name="RepButton" type="Button" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardReputation/Margin/VBox"]
+[node name="RepButton" type="Button" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardReputation/Margin/VBox" unique_id=1144730728]
 layout_mode = 2
 text = "SELECT_CYBER_PATHWAY"
 
-[node name="CardMech" type="PanelContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer"]
+[node name="CardMech" type="PanelContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer" unique_id=1978835435]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Margin" type="MarginContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardMech"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardMech" unique_id=316637235]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardMech/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardMech/Margin" unique_id=619904157]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardMech/Margin/VBox"]
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardMech/Margin/VBox" unique_id=1108286499]
 layout_mode = 2
 text = "B: Mech Championship"
 
-[node name="Desc" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardMech/Margin/VBox"]
+[node name="Desc" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardMech/Margin/VBox" unique_id=2074490556]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/line_spacing = 0
 text = "50% Mech jobs. Win on Day 30: 0 debt + Steel Colosseum Champion Build (Day 15-28, quality >= 80%, 2,000 cr fee)."
 autowrap_mode = 3
 
-[node name="MechButton" type="Button" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardMech/Margin/VBox"]
+[node name="MechButton" type="Button" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardMech/Margin/VBox" unique_id=1320197244]
 layout_mode = 2
 text = "SELECT_MECH_PATHWAY"
 
-[node name="CardDrifter" type="PanelContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer"]
+[node name="CardDrifter" type="PanelContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer" unique_id=1444654014]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Margin" type="MarginContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardDrifter"]
+[node name="Margin" type="MarginContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardDrifter" unique_id=526433083]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardDrifter/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardDrifter/Margin" unique_id=1922898379]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardDrifter/Margin/VBox"]
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardDrifter/Margin/VBox" unique_id=2002302411]
 layout_mode = 2
 text = "C: Drifter League"
 
-[node name="Desc" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardDrifter/Margin/VBox"]
+[node name="Desc" type="Label" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardDrifter/Margin/VBox" unique_id=1490706338]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/line_spacing = 0
 text = "50% Car jobs. Win on Day 30: 0 debt + Neon Drift Circuit Champion Build (Day 15-28, quality >= 80%, 2,000 cr fee)."
 autowrap_mode = 3
 
-[node name="DrifterButton" type="Button" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardDrifter/Margin/VBox"]
+[node name="DrifterButton" type="Button" parent="MarginContainer/VBoxContainer/PathwaysContainer/CardDrifter/Margin/VBox" unique_id=1374355266]
 layout_mode = 2
 text = "SELECT_DRIFTER_PATHWAY"
 

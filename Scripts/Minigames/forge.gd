@@ -1,4 +1,4 @@
-# purpose: [v2] The Forge minigame wired with Juice hit-stop pause, screen shake, and floating rating text.
+# purpose: [v3 manual fix] The Forge minigame. Fixes: mouse clicks were swallowed by Control nodes (now uses the "strike" input action in _input), bar size read after layout (await one frame), tier scaling no longer doubled.
 # depends on: MinigameBase, Balance, Juice
 # signals emitted: finished(score: float)
 # signals listened to: none
@@ -36,19 +36,20 @@ func setup(diff: Dictionary) -> void:
 	super.setup(diff)
 	_tier = diff.get("tier", 1)
 	var tier_idx: int = clampi(_tier - 1, 0, 2)
-	var speed_mult: float = diff.get("speed_mult", 1.0) * tier_speed_mults[tier_idx]
-	_cursor_speed = base_cursor_speed * speed_mult
+	_cursor_speed = base_cursor_speed * tier_speed_mults[tier_idx] * float(diff.get("speed_mult", 1.0))
 
 func start() -> void:
+	await get_tree().process_frame # containers need one frame before sizes are real
+	if not is_inside_tree():
+		return
 	super.start()
 	_current_strike_idx = 0
 	_strike_scores.clear()
-	_bar_width = maxf(200.0, strike_bar_panel.size.x)
-	var tier_idx: int = clampi(_tier - 1, 0, 2)
-	var width_frac: float = tier_sweet_spot_fractions[tier_idx]
-	if difficulty.get("window_mult", 1.0) > 1.0:
-		width_frac *= difficulty.get("window_mult", 1.0)
-
+	_bar_width = maxf(100.0, strike_bar_panel.size.x)
+	var width_frac: float = tier_sweet_spot_fractions[clampi(_tier - 1, 0, 2)]
+	var window_mult: float = difficulty.get("window_mult", 1.0)
+	if window_mult > 1.0:
+		width_frac *= window_mult
 	_sweet_half_width = (_bar_width * width_frac) * 0.5
 	_sweet_center_x = _bar_width * 0.5
 	_setup_sweet_spot()
@@ -65,44 +66,37 @@ func _setup_sweet_spot() -> void:
 func _process(delta: float) -> void:
 	if not is_active:
 		return
-
 	if _hit_stop_timer > 0.0:
 		_hit_stop_timer -= delta
 		return
-
+	var max_x: float = _bar_width - cursor_panel.size.x
 	_cursor_pos_x += _cursor_speed * _cursor_dir * delta
-	if _cursor_pos_x >= _bar_width - 8.0:
-		_cursor_pos_x = _bar_width - 8.0
+	if _cursor_pos_x >= max_x:
+		_cursor_pos_x = max_x
 		_cursor_dir = -1.0
 	elif _cursor_pos_x <= 0.0:
 		_cursor_pos_x = 0.0
 		_cursor_dir = 1.0
-
 	cursor_panel.position.x = _cursor_pos_x
 
-func _gui_input(event: InputEvent) -> void:
+## "strike" action = Space + left mouse (Project Settings > Input Map). _input sees clicks even when Controls would swallow them.
+func _input(event: InputEvent) -> void:
 	if not is_active or _hit_stop_timer > 0.0:
 		return
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		_trigger_strike()
-
-func _unhandled_input(event: InputEvent) -> void:
-	if not is_active or _hit_stop_timer > 0.0:
-		return
-	if (event.is_action("ui_accept") or event.is_action("ui_select")) and event.is_pressed() and not event.is_echo():
+	if event.is_action_pressed("strike"):
+		get_viewport().set_input_as_handled()
 		_trigger_strike()
 
 func _trigger_strike() -> void:
-	var dist: float = absf(_cursor_pos_x - _sweet_center_x)
+	var cursor_center: float = _cursor_pos_x + cursor_panel.size.x * 0.5
+	var dist: float = absf(cursor_center - _sweet_center_x)
 	var s: float = clampf(1.0 - (dist / (falloff_tolerance_factor * _sweet_half_width)), 0.0, 1.0)
 	_strike_scores.append(s)
 	_hit_stop_timer = hit_stop_duration_sec
 
-	# Juice impact hooks
 	Juice.hit_stop(get_tree(), hit_stop_duration_sec)
 	Juice.shake(strike_bar_panel, 3.5 * s, 0.12)
 
-	# Feedback rating and floating text
 	var rating_text: String = ""
 	var rating_color: Color = Color.WHITE
 	if s >= 0.90:
@@ -114,7 +108,6 @@ func _trigger_strike() -> void:
 	else:
 		rating_text = tr("MINIGAME_FORGE_STRIKE_MISS") + " (%.0f%%)" % (s * 100.0)
 		rating_color = Color(0.843, 0.098, 0.109, 1.0)
-
 	feedback_label.text = rating_text
 	Juice.spawn_floating_text(self, rating_text, cursor_panel.global_position, rating_color)
 
@@ -126,17 +119,16 @@ func _trigger_strike() -> void:
 
 	if _current_strike_idx >= total_strikes:
 		var sum: float = 0.0
-		for val in _strike_scores: sum += val
-		var final_score: float = sum / float(total_strikes)
-		_finish(final_score)
+		for val in _strike_scores:
+			sum += val
+		_finish(sum / float(total_strikes))
 
 func _update_strike_ui() -> void:
 	strike_count_label.text = "Strike %d / %d" % [mini(_current_strike_idx + 1, total_strikes), total_strikes]
-	var pips = pips_container.get_children()
+	var pips: Array[Node] = pips_container.get_children()
 	for i in range(pips.size()):
 		if pips[i] is ColorRect:
 			if i < _strike_scores.size():
-				var score_val = _strike_scores[i]
-				pips[i].color = Color(0.168, 0.513, 0.729, 1.0) if score_val >= 0.5 else Color(0.843, 0.098, 0.109, 1.0)
+				pips[i].color = Color(0.168, 0.513, 0.729, 1.0) if _strike_scores[i] >= 0.5 else Color(0.843, 0.098, 0.109, 1.0)
 			else:
 				pips[i].color = Color(0.3, 0.3, 0.35, 1.0)

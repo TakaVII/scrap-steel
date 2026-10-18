@@ -1,4 +1,4 @@
-# purpose: [v3] Main menu with functional Continue button and wired Settings menu dialog (spec §D7).
+# purpose: [v4 manual fix] Main menu. Continue button now refreshes every time the menu is shown (after a run ends it used to stay stale).
 # depends on: Control, GameManager, SaveManager
 # signals emitted: open_settings_requested()
 # signals listened to: none
@@ -12,7 +12,12 @@ signal open_settings_requested()
 @onready var settings_button: Button = %SettingsButton
 
 func _ready() -> void:
-	continue_button.disabled = not SaveManager.has_save()
+	visibility_changed.connect(_refresh_continue)
+	_refresh_continue()
+
+func _refresh_continue() -> void:
+	if visible:
+		continue_button.disabled = not SaveManager.has_save()
 
 func _on_new_game_button_pressed() -> void:
 	GameManager.start_new_run()

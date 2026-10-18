@@ -1,4 +1,4 @@
-# purpose: The Assembler minigame using self-avoiding walk circuit generation to avoid warranty claims.
+# purpose: [v3 manual fix] The Assembler minigame. Fixes: hazards are now VISIBLE (they were hidden until hit), slow-mode time bug (negative time_used), non-contiguous fallback path, grid sized to fit 480x270.
 # depends: MinigameBase, Balance
 # signals emitted: finished(score: float)
 # signals listened to: none
@@ -12,6 +12,7 @@ extends MinigameBase
 @export var hazard_score_penalty: float = 0.25
 @export var time_score_penalty_weight: float = 0.40
 @export var timeout_completion_multiplier: float = 0.30
+@export var cell_size: int = 24
 
 @onready var grid_container: GridContainer = %GridContainer
 @onready var timer_label: Label = %TimerLabel
@@ -22,6 +23,7 @@ enum CellType { EMPTY, START_NODE, END_NODE, HAZARD }
 
 var _tier: int = 1
 var _grid_dim: int = 5
+var _time_limit: float = 25.0
 var _time_remaining: float = 25.0
 var _hazards_hit: int = 0
 var _start_cell: Vector2i = Vector2i(0, 2)
@@ -34,16 +36,13 @@ var _player_path: Array[Vector2i] = []
 func setup(diff: Dictionary) -> void:
 	super.setup(diff)
 	_tier = diff.get("tier", 1)
-	var tier_idx: int = clampi(_tier - 1, 0, 2)
-	_grid_dim = tier_grid_sizes[tier_idx]
-	_time_remaining = time_limit_sec
-	if diff.get("speed_mult", 1.0) < 1.0:
-		_time_remaining *= 1.25
+	_grid_dim = tier_grid_sizes[clampi(_tier - 1, 0, 2)]
+	_time_limit = time_limit_sec * float(diff.get("window_mult", 1.0)) # slow mode = more time
+	_time_remaining = _time_limit
 
 func start() -> void:
 	super.start()
 	_hazards_hit = 0
-	_player_path.clear()
 	_generate_circuit_grid()
 	_build_ui_grid()
 	_update_labels()
@@ -53,120 +52,105 @@ func _generate_circuit_grid() -> void:
 	_solution_path.clear()
 	_start_cell = Vector2i(0, randi_range(1, _grid_dim - 2))
 	_end_cell = Vector2i(_grid_dim - 1, randi_range(1, _grid_dim - 2))
-
-	# Initialize empty cells
 	for y in range(_grid_dim):
 		for x in range(_grid_dim):
 			_cells[Vector2i(x, y)] = CellType.EMPTY
-
 	_cells[_start_cell] = CellType.START_NODE
 	_cells[_end_cell] = CellType.END_NODE
 
-	# Guaranteed self-avoiding random walk from start to end
-	var walk_success: bool = false
+	# Self-avoiding random walk biased toward the output (spec C9).
 	for attempt in range(50):
 		var path: Array[Vector2i] = [_start_cell]
 		var curr: Vector2i = _start_cell
 		var visited: Dictionary = {curr: true}
-
-		while curr != _end_cell and path.size() < (_grid_dim * _grid_dim):
+		while curr != _end_cell:
 			var neighbors: Array[Vector2i] = []
 			for dir in [Vector2i(1, 0), Vector2i(0, 1), Vector2i(0, -1), Vector2i(-1, 0)]:
 				var next: Vector2i = curr + dir
-				if next.x >= 0 and next.x < _grid_dim and next.y >= 0 and next.y < _grid_dim:
-					if not visited.has(next):
-						neighbors.append(next)
+				if next.x >= 0 and next.x < _grid_dim and next.y >= 0 and next.y < _grid_dim and not visited.has(next):
+					neighbors.append(next)
 			if neighbors.is_empty():
 				break
-			# Bias towards end cell
 			neighbors.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
-				return (a.distance_squared_to(_end_cell)) < (b.distance_squared_to(_end_cell))
-			)
-			var chosen: Vector2i = neighbors[0] if randf() < 0.60 or neighbors.size() == 1 else neighbors[1]
+				return a.distance_squared_to(_end_cell) < b.distance_squared_to(_end_cell))
+			var chosen: Vector2i = neighbors[0] if (randf() < 0.60 or neighbors.size() == 1) else neighbors[1]
 			visited[chosen] = true
 			path.append(chosen)
 			curr = chosen
-			if curr == _end_cell:
-				walk_success = true
-				_solution_path = path
-				break
-		if walk_success:
+		if curr == _end_cell:
+			_solution_path = path
 			break
+	if _solution_path.is_empty():
+		_solution_path = _fallback_path()
 
-	if not walk_success:
-		# Fallback direct path
-		_solution_path = [_start_cell, Vector2i(_start_cell.x + 1, _start_cell.y), Vector2i(_end_cell.x - 1, _end_cell.y), _end_cell]
-
-	# Place hazards off the guaranteed solution path (~20% density)
 	var path_set: Dictionary = {}
 	for p in _solution_path:
 		path_set[p] = true
-
 	for y in range(_grid_dim):
 		for x in range(_grid_dim):
 			var pt := Vector2i(x, y)
-			if not path_set.has(pt) and _cells[pt] == CellType.EMPTY:
-				if randf() < hazard_density:
-					_cells[pt] = CellType.HAZARD
-
+			if not path_set.has(pt) and _cells[pt] == CellType.EMPTY and randf() < hazard_density:
+				_cells[pt] = CellType.HAZARD
 	_player_path = [_start_cell]
+
+## Straight run along the start row, then along the end column. Always contiguous.
+func _fallback_path() -> Array[Vector2i]:
+	var path: Array[Vector2i] = []
+	for x in range(_start_cell.x, _end_cell.x + 1):
+		path.append(Vector2i(x, _start_cell.y))
+	var step: int = 1 if _end_cell.y > _start_cell.y else -1
+	var y: int = _start_cell.y + step
+	while y != _end_cell.y + step and _start_cell.y != _end_cell.y:
+		path.append(Vector2i(_end_cell.x, y))
+		y += step
+	return path
 
 func _build_ui_grid() -> void:
 	for child in grid_container.get_children():
 		child.queue_free()
 	_buttons.clear()
-
 	grid_container.columns = _grid_dim
+	grid_container.add_theme_constant_override("h_separation", 2)
+	grid_container.add_theme_constant_override("v_separation", 2)
 	for y in range(_grid_dim):
 		for x in range(_grid_dim):
 			var pt := Vector2i(x, y)
 			var btn := Button.new()
-			btn.custom_minimum_size = Vector2(36, 36)
+			btn.custom_minimum_size = Vector2(cell_size, cell_size)
 			btn.pressed.connect(_on_cell_clicked.bind(pt))
 			grid_container.add_child(btn)
 			_buttons[pt] = btn
-
 	_refresh_cell_visuals()
 
 func _refresh_cell_visuals() -> void:
-	for y in range(_grid_dim):
-		for x in range(_grid_dim):
-			var pt := Vector2i(x, y)
-			var btn: Button = _buttons[pt]
-			var is_in_player_path: bool = _player_path.has(pt)
-			var cell_type: CellType = _cells[pt]
-
-			if pt == _start_cell:
-				btn.text = "PWR"
-				btn.modulate = Color(0.168, 0.513, 0.729, 1.0)
-			elif pt == _end_cell:
-				btn.text = "OUT"
-				btn.modulate = Color(0.992, 0.682, 0.380, 1.0)
-			elif is_in_player_path:
-				btn.text = "●"
-				btn.modulate = Color(0.168, 0.513, 0.729, 1.0)
-			elif cell_type == CellType.HAZARD and _hazards_hit > 0:
-				btn.text = "!"
-				btn.modulate = Color(0.843, 0.098, 0.109, 1.0)
-			else:
-				btn.text = "+"
-				btn.modulate = Color(0.8, 0.8, 0.8, 0.8)
+	for pt in _buttons.keys():
+		var btn: Button = _buttons[pt]
+		if pt == _start_cell:
+			btn.text = "PWR"
+			btn.modulate = GamePalette.POSITIVE
+		elif pt == _end_cell:
+			btn.text = "OUT"
+			btn.modulate = GamePalette.ACCENT
+		elif _player_path.has(pt):
+			btn.text = "o"
+			btn.modulate = GamePalette.POSITIVE
+		elif _cells[pt] == CellType.HAZARD:
+			btn.text = "!"
+			btn.modulate = GamePalette.NEGATIVE # shape "!" + colour: never colour alone
+		else:
+			btn.text = "+"
+			btn.modulate = Color(0.8, 0.8, 0.8, 0.8)
 
 func _on_cell_clicked(pt: Vector2i) -> void:
 	if not is_active:
 		return
-
 	var last: Vector2i = _player_path.back()
-	# Check if clicking previous cell to backtrack
 	if _player_path.size() > 1 and pt == _player_path[_player_path.size() - 2]:
-		_player_path.pop_back()
+		_player_path.pop_back() # click the previous cell to undo
 		_refresh_cell_visuals()
 		return
-
-	# Only allow adjacent cells
-	var diff: Vector2i = pt - last
-	var is_adj: bool = (abs(diff.x) + abs(diff.y)) == 1
-	if not is_adj or _player_path.has(pt):
+	var delta_cell: Vector2i = pt - last
+	if (absi(delta_cell.x) + absi(delta_cell.y)) != 1 or _player_path.has(pt):
 		return
 
 	if _cells[pt] == CellType.HAZARD:
@@ -174,15 +158,13 @@ func _on_cell_clicked(pt: Vector2i) -> void:
 		status_label.text = tr("MINIGAME_ASSEMBLER_HAZARD_HIT")
 	else:
 		status_label.text = ""
-
 	_player_path.append(pt)
 	_refresh_cell_visuals()
 	_update_labels()
 
-	# Reached end
 	if pt == _end_cell:
-		var time_used: float = time_limit_sec - _time_remaining
-		var s: float = clampf(1.0 - (hazard_score_penalty * float(_hazards_hit)) - (time_score_penalty_weight * (time_used / time_limit_sec)), 0.0, 1.0)
+		var time_used: float = _time_limit - _time_remaining
+		var s: float = clampf(1.0 - hazard_score_penalty * float(_hazards_hit) - time_score_penalty_weight * (time_used / _time_limit), 0.0, 1.0)
 		status_label.text = tr("MINIGAME_ASSEMBLER_CIRCUIT_CLOSED")
 		_finish(s)
 
@@ -193,10 +175,8 @@ func _process(delta: float) -> void:
 	_update_labels()
 	if _time_remaining <= 0.0:
 		_time_remaining = 0.0
-		# Timeout score
 		var completion: float = float(_player_path.size() - 1) / float(maxi(1, _solution_path.size() - 1))
-		var s: float = timeout_completion_multiplier * clampf(completion, 0.0, 1.0)
-		_finish(s)
+		_finish(timeout_completion_multiplier * clampf(completion, 0.0, 1.0))
 
 func _update_labels() -> void:
 	timer_label.text = "%.1fs" % _time_remaining

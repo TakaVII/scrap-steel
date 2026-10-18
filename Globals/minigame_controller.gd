@@ -1,5 +1,5 @@
-# purpose: [v2] Production minigame controller mounting scenes under CanvasLayer 50, locking day progression, and routing results through CraftingManager.
-# depends on: EventBus, GameManager, TimeManager, SettingsManager, UpgradeManager, CraftingManager, ItemPartData, PartResult, CommissionState
+# purpose: [v3 manual fix] Mounts minigames under CanvasLayer 50. Checks AP/funds/budget BEFORE spending AP; honours the F5 debug cheat.
+# depends on: EventBus, GameManager, TimeManager, SettingsManager, UpgradeManager, CraftingManager, DebugCheats, ItemPartData, PartResult, CommissionState
 # signals emitted: EventBus.minigame_started, EventBus.minigame_finished
 # signals listened to: none
 
@@ -19,28 +19,27 @@ func _ready() -> void:
 	_layer.layer = 50
 	add_child(_layer)
 
-## Returns false (no AP spent) if player cannot afford part AP
+## Returns false (no AP spent) if the part cannot be started.
 func launch(commission: CommissionState, part_index: int) -> bool:
+	if GameManager.phase != GameManager.Phase.WORKSHOP:
+		return false
+	if CraftingManager.can_start(commission, part_index) != &"":
+		return false
 	var part: ItemPartData = commission.parts[part_index]
 	if not TimeManager.spend_ap(part.ap_cost):
 		return false
 
 	GameManager.begin_minigame()
-	_job = {
-		"commission": commission,
-		"part_index": part_index,
-		"part": part,
-		"tier": commission.tier
-	}
+	_job = {"commission": commission, "part_index": part_index, "part": part, "tier": commission.tier}
 
 	var difficulty: Dictionary = SettingsManager.minigame_difficulty(commission.tier)
 	if difficulty.get("assist_skip", false):
 		_complete(0.70)
 		return true
 
-	var scene_path: String = SCENES.get(part.minigame_type, "res://Scenes/Minigames/calibrator.tscn")
-	var packed: PackedScene = load(scene_path) as PackedScene
+	var packed: PackedScene = load(SCENES.get(part.minigame_type, "")) as PackedScene
 	if not packed:
+		push_warning("MinigameController: scene missing for part %s, auto-completing at 0.70" % part.part_id)
 		_complete(0.70)
 		return true
 
@@ -61,7 +60,7 @@ func _complete(score: float) -> void:
 	result.commission = _job.get("commission")
 	result.part_index = _job.get("part_index", 0)
 	result.part = _job.get("part")
-	var effective_score: float = clampf(score + UpgradeManager.score_bonus(), 0.0, 1.0)
-	result.score = effective_score
+	var raw: float = 1.0 if DebugCheats.force_perfect_score else score
+	result.score = clampf(raw + UpgradeManager.score_bonus(), 0.0, 1.0)
 	CraftingManager.apply_result(result)
 	EventBus.minigame_finished.emit(result)

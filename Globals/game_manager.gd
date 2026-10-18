@@ -1,4 +1,4 @@
-# purpose: [v2] High-level game state router adding tutorial sequencing, Day 30 ranking, and save restoration.
+# purpose: [v3 manual fix] Game state router. Morning logic now runs BEFORE the MORNING phase is announced (UI used to render stale day/offers). Adds resume_from_save, return_to_menu, save deletion on run end.
 # depends on: Balance, EventBus, EconomyManager, TimeManager, CommissionManager, UpgradeManager, SaveManager
 # signals emitted: EventBus.phase_changed, run_ended, night_summary_ready
 # signals listened to: EventBus.minigame_finished, EventBus.debt_changed
@@ -30,13 +30,16 @@ func start_new_run() -> void:
 	UpgradeManager.new_run()
 	_set_phase(Phase.TUTORIAL)
 
+func return_to_menu() -> void:
+	_set_phase(Phase.MENU)
+
 func choose_pathway(p: StringName) -> void:
 	pathway = p
 	CommissionManager.set_pathway(p)
 	enter_morning()
 
 func enter_morning() -> void:
-	_set_phase(Phase.MORNING)
+	EconomyManager.start_day()
 	TimeManager.begin_day()
 	EconomyManager.charge_rent()
 	EconomyManager.process_installment(TimeManager.day)
@@ -44,6 +47,11 @@ func enter_morning() -> void:
 		return
 	CommissionManager.generate_offers(TimeManager.day)
 	SaveManager.autosave()
+	_set_phase(Phase.MORNING) # announce LAST so the UI reads final data
+
+## Called by SaveManager after restoring state. No rent, no installment, no new offers.
+func resume_from_save() -> void:
+	_set_phase(Phase.MORNING)
 
 func begin_workshop() -> void:
 	_set_phase(Phase.WORKSHOP)
@@ -100,6 +108,7 @@ func calculate_final_rank() -> String:
 	return "C"
 
 func _end_run(victory: bool, reason: StringName) -> void:
+	SaveManager.delete_save() # a finished run cannot be continued
 	_set_phase(Phase.VICTORY if victory else Phase.GAME_OVER)
 	EventBus.run_ended.emit(victory, reason)
 

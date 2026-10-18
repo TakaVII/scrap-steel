@@ -1,4 +1,4 @@
-# purpose: Runtime mutable state tracking active progress, barter modifiers, part scores, and delivery of a contract.
+# purpose: [v2 manual fix] Runtime mutable state of a contract: progress, barter modifiers, part scores, delivery. Adds deposit_paid and reforging_parts.
 # depends on: RefCounted, CommissionData, ItemPartData
 # signals emitted: none
 # signals listened to: none
@@ -19,6 +19,10 @@ var part_power: Array[float] = []
 var materials_spent: int = 0
 var delivered: bool = false
 var late_days: int = 0
+## Advance deposit already received (Barter A). Subtracted from the cash paid at delivery.
+var deposit_paid: int = 0
+## Champion Build only: part indexes being re-forged (the redo costs a fraction of the material cost).
+var reforging_parts: Array[int] = []
 
 func is_complete() -> bool:
 	if parts.is_empty():

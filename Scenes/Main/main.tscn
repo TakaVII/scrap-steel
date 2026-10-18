@@ -1,6 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://c6mainrouter"]
+[gd_scene format=3 uid="uid://c6mainrouter"]
 
-[ext_resource type="Script" path="res://Scripts/Main/main.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://bte6lcuceglyp" path="res://Scripts/Main/main.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/hud.tscn" id="2_hud"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/main_menu.tscn" id="3_menu"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/morning_screen.tscn" id="4_morning"]
@@ -8,71 +8,71 @@
 [ext_resource type="PackedScene" path="res://Scenes/UI/night_summary.tscn" id="6_night"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/pathway_select.tscn" id="7_pathway"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/end_screen.tscn" id="8_end"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/settings_menu.tscn" id="9_settings"]
-[ext_resource type="Shader" path="res://Shaders/crt_scanlines.gdshader" id="10_shader"]
+[ext_resource type="PackedScene" uid="uid://c56223n5okipq" path="res://Scenes/UI/settings_menu.tscn" id="9_settings"]
+[ext_resource type="Shader" uid="uid://b8ogcn78r36vf" path="res://Shaders/crt_scanlines.gdshader" id="10_shader"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_crt"]
 shader = ExtResource("10_shader")
 shader_parameter/scanline_count = 270.0
 shader_parameter/scanline_intensity = 0.12
 shader_parameter/vignette_intensity = 0.35
-shader_parameter/vignette_opacity = 0.60
+shader_parameter/vignette_opacity = 0.6
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" unique_id=1931115853]
 script = ExtResource("1_script")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=1280942583]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.078, 0.067, 0.122, 1.0)
+color = Color(0.078, 0.067, 0.122, 1)
 
-[node name="ScreensLayer" type="CanvasLayer" parent="."]
+[node name="ScreensLayer" type="CanvasLayer" parent="." unique_id=1198557947]
 layer = 10
 
-[node name="MainMenu" parent="ScreensLayer" instance=ExtResource("3_menu")]
+[node name="MainMenu" parent="ScreensLayer" unique_id=278044992 instance=ExtResource("3_menu")]
 unique_name_in_owner = true
 
-[node name="PathwaySelect" parent="ScreensLayer" instance=ExtResource("7_pathway")]
-unique_name_in_owner = true
-visible = false
-
-[node name="MorningScreen" parent="ScreensLayer" instance=ExtResource("4_morning")]
+[node name="PathwaySelect" parent="ScreensLayer" unique_id=326118792 instance=ExtResource("7_pathway")]
 unique_name_in_owner = true
 visible = false
 
-[node name="WorkshopScreen" parent="ScreensLayer" instance=ExtResource("5_workshop")]
+[node name="MorningScreen" parent="ScreensLayer" unique_id=620032891 instance=ExtResource("4_morning")]
 unique_name_in_owner = true
 visible = false
 
-[node name="NightSummary" parent="ScreensLayer" instance=ExtResource("6_night")]
+[node name="WorkshopScreen" parent="ScreensLayer" unique_id=675230184 instance=ExtResource("5_workshop")]
 unique_name_in_owner = true
 visible = false
 
-[node name="EndScreen" parent="ScreensLayer" instance=ExtResource("8_end")]
+[node name="NightSummary" parent="ScreensLayer" unique_id=809227367 instance=ExtResource("6_night")]
 unique_name_in_owner = true
 visible = false
 
-[node name="HudLayer" type="CanvasLayer" parent="."]
+[node name="EndScreen" parent="ScreensLayer" unique_id=1209560268 instance=ExtResource("8_end")]
+unique_name_in_owner = true
+visible = false
+
+[node name="HudLayer" type="CanvasLayer" parent="." unique_id=1379729075]
 layer = 20
 
-[node name="HUD" parent="HudLayer" instance=ExtResource("2_hud")]
+[node name="HUD" parent="HudLayer" unique_id=1353907549 instance=ExtResource("2_hud")]
 unique_name_in_owner = true
 visible = false
 
-[node name="ModalLayer" type="CanvasLayer" parent="."]
+[node name="ModalLayer" type="CanvasLayer" parent="." unique_id=270347148]
 layer = 30
 
-[node name="SettingsMenu" parent="ModalLayer" instance=ExtResource("9_settings")]
+[node name="SettingsMenu" parent="ModalLayer" unique_id=1698362907 instance=ExtResource("9_settings")]
 unique_name_in_owner = true
 visible = false
 
-[node name="CrtOverlayLayer" type="CanvasLayer" parent="."]
+[node name="CrtOverlayLayer" type="CanvasLayer" parent="." unique_id=1457308765]
 layer = 100
 
-[node name="CrtOverlay" type="ColorRect" parent="CrtOverlayLayer"]
+[node name="CrtOverlay" type="ColorRect" parent="CrtOverlayLayer" unique_id=739462833]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_crt")
 anchors_preset = 15

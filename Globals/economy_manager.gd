@@ -1,4 +1,4 @@
-# purpose: [v2] Core financial logic supporting Assist economy preset (7k debt, 1% interest, 2.5k credits) and ledger entries (spec §B2, §B3, §C6).
+# purpose: [v3 manual fix] Core financial logic: ledger, rent, interest, installments, debt. Daily totals now reset every morning; shortfalls become debt instead of free money.
 # depends on: Balance (Balance.cfg), SettingsManager, EventBus
 # signals emitted: EventBus.credits_changed, debt_changed, ledger_entry_added, installment_due, strike_issued, tech_points_changed
 # signals listened to: none
@@ -9,34 +9,37 @@ var credits: int = 0
 var debt: int = 0
 var strikes: int = 0
 var tech_points: int = 0
+## Interest rate locked at run start (Standard or Assist preset). Saved with the run.
+var interest_rate: float = 0.02
 var day_totals: Dictionary = {}
+## {"day": int, "due": int, "paid": int} for the installment processed this morning.
+var last_installment: Dictionary = {}
 
 func new_run(config: BalanceConfig) -> void:
-	# Assist economy preset check (spec §B2)
 	if SettingsManager.assist_economy:
-		credits = 2500
-		debt = 7000
+		credits = config.assist_start_credits
+		debt = config.assist_start_debt
+		interest_rate = config.assist_interest_rate
 	else:
 		credits = config.start_credits
 		debt = config.start_debt
-
+		interest_rate = config.daily_interest_rate
 	strikes = 0
 	tech_points = 0
-	_reset_day_totals()
+	last_installment = {}
+	start_day()
 	EventBus.credits_changed.emit(credits, 0)
 	EventBus.debt_changed.emit(debt, 0)
+	EventBus.tech_points_changed.emit(tech_points)
 
-func _reset_day_totals() -> void:
+## Call once at the start of every morning, BEFORE rent is charged.
+func start_day() -> void:
 	day_totals = {
-		"revenue": 0,
-		"materials": 0,
-		"rent": 0,
-		"interest": 0,
-		"fines": 0,
-		"refunds": 0,
-		"upgrades": 0,
-		"debt_paid": 0
+		"revenue": 0, "materials": 0, "rent": 0, "interest": 0, "fines": 0,
+		"refunds": 0, "upgrades": 0, "debt_paid": 0,
+		"ap_used": 0, "jobs_delivered": 0, "quality_sum": 0.0
 	}
+	last_installment = {}
 
 func add_credits(amount: int, description: String, category: StringName = &"income") -> void:
 	credits += amount
@@ -45,6 +48,7 @@ func add_credits(amount: int, description: String, category: StringName = &"inco
 	EventBus.credits_changed.emit(credits, amount)
 	EventBus.ledger_entry_added.emit(description, amount, category)
 
+## Returns false (and changes nothing) if the player cannot afford it.
 func try_spend(amount: int, description: String, category: StringName) -> bool:
 	if amount > credits:
 		return false
@@ -54,12 +58,21 @@ func try_spend(amount: int, description: String, category: StringName) -> bool:
 	EventBus.ledger_entry_added.emit(description, -amount, category)
 	return true
 
+## Charges what the player can pay; the shortfall becomes debt plus the late fee (same rule as rent).
+func charge_with_shortfall(amount: int, description: String, category: StringName, shortfall_description: String) -> void:
+	var paid: int = mini(credits, amount)
+	if paid > 0:
+		try_spend(paid, description, category)
+	var shortfall: int = amount - paid
+	if shortfall > 0:
+		_add_debt(roundi(shortfall * (1.0 + Balance.cfg.late_fee_rate)), shortfall_description)
+
 func _track_expense(category: StringName, amount: int) -> void:
 	match category:
 		&"materials":
 			day_totals["materials"] += amount
-		&"rent":
-			day_totals["rent"] += amount
+		&"rent", &"overtime":
+			day_totals["rent"] += amount # NIGHT_RENT line = lease + overtime overhead
 		&"fine":
 			day_totals["fines"] += amount
 		&"refund":
@@ -68,34 +81,32 @@ func _track_expense(category: StringName, amount: int) -> void:
 			day_totals["upgrades"] += amount
 
 func charge_rent() -> void:
-	var rent: int = Balance.cfg.daily_rent
-	var paid: int = mini(credits, rent)
-	if paid > 0:
-		try_spend(paid, tr("LEDGER_RENT"), &"rent")
-	var shortfall: int = rent - paid
-	if shortfall > 0:
-		var penalty_debt: int = roundi(shortfall * (1.0 + Balance.cfg.late_fee_rate))
-		_add_debt(penalty_debt, tr("LEDGER_RENT_SHORTFALL"))
+	charge_with_shortfall(Balance.cfg.daily_rent, tr("LEDGER_RENT"), &"rent", tr("LEDGER_RENT_SHORTFALL"))
+
+func projected_interest() -> int:
+	return roundi(debt * interest_rate)
 
 func apply_interest() -> int:
 	if debt <= 0:
 		return 0
-	# Assist economy preset applies 1% interest instead of 2% (spec §B2)
-	var interest_rate: float = 0.01 if SettingsManager.assist_economy else Balance.cfg.daily_interest_rate
-	var interest: int = roundi(debt * interest_rate)
+	var interest: int = projected_interest()
 	day_totals["interest"] += interest
 	_add_debt(interest, tr("LEDGER_INTEREST"))
 	return interest
 
+func next_installment_amount() -> int:
+	var raw_due: int = maxi(Balance.cfg.installment_min, roundi(debt * Balance.cfg.installment_pct))
+	return mini(raw_due, debt)
+
 func process_installment(day: int) -> void:
 	if not Balance.cfg.installment_days.has(day) or debt <= 0:
 		return
-	var raw_due: int = maxi(Balance.cfg.installment_min, roundi(debt * Balance.cfg.installment_pct))
-	var due: int = mini(raw_due, debt)
+	var due: int = next_installment_amount()
 	EventBus.installment_due.emit(day, due)
 	var paid: int = mini(credits, due)
 	if paid > 0:
 		pay_debt(paid, tr("LEDGER_INSTALLMENT"))
+	last_installment = {"day": day, "due": due, "paid": paid}
 	if paid < due:
 		strikes += 1
 		var fee: int = roundi((due - paid) * Balance.cfg.late_fee_rate)

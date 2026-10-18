@@ -1,4 +1,4 @@
-# purpose: [v2] End screen displaying victory or defeat, pathway status, and final rank grade (S/A/B/C).
+# purpose: [v3 manual fix] End screen. Restart button now returns to the MAIN MENU (key says "Return to Main Menu"; it used to start a new run directly).
 # depends on: Control, GameManager, EconomyManager, CommissionManager
 # signals emitted: none
 # signals listened to: EventBus.run_ended
@@ -18,10 +18,10 @@ func _on_run_ended(victory: bool, reason: StringName) -> void:
 	if victory:
 		title_label.text = tr("END_VICTORY_TITLE")
 		desc_label.text = tr("END_VICTORY_DESC")
-		var rank: String = GameManager.calculate_final_rank()
-		rank_label.text = "FINAL GRADE: RANK " + rank
-		stats_label.text = "Pathway: %s | Closing Cash: %d cr | Debt: 0 cr | Cleared on Day %d | Rating: %.1f★" % [
-			GameManager.pathway.to_upper(), EconomyManager.credits, GameManager.debt_cleared_day, CommissionManager.shop_rating() * 5.0
+		rank_label.text = "RANK " + GameManager.calculate_final_rank()
+		stats_label.text = "%s | %d cr | Day %d | %.1f*" % [
+			String(GameManager.pathway).to_upper(), EconomyManager.credits,
+			GameManager.debt_cleared_day, CommissionManager.shop_rating() * 5.0
 		]
 	else:
 		if reason == &"seized":
@@ -30,11 +30,11 @@ func _on_run_ended(victory: bool, reason: StringName) -> void:
 		else:
 			title_label.text = tr("END_TIMEOUT_TITLE")
 			desc_label.text = tr("END_TIMEOUT_DESC")
-
-		rank_label.text = "FINAL GRADE: FAILED"
-		stats_label.text = "Debt Remaining: %d cr | Strikes: %d / 3 | Net Worth: %d cr" % [
-			EconomyManager.debt, EconomyManager.strikes, EconomyManager.net_worth()
+		rank_label.text = ""
+		stats_label.text = "%s: %d cr | %s: %d / %d | %d cr" % [
+			tr("HUD_DEBT"), EconomyManager.debt, tr("MORNING_STRIKES_WARNING"),
+			EconomyManager.strikes, Balance.cfg.max_strikes, EconomyManager.net_worth()
 		]
 
 func _on_restart_button_pressed() -> void:
-	GameManager.start_new_run()
+	GameManager.return_to_menu()
