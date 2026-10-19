@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://Scripts/UI/morning_screen.gd" id="1_morning"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/barter_panel.tscn" id="2_barter"]
@@ -12,77 +12,176 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_morning")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 28
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="HeaderRow" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Margin/VBox/HeaderRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "MORNING_TITLE"
+
+[node name="BillsLabel" type="Label" parent="Margin/VBox/HeaderRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Rent"
+
+[node name="BannerLabel" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = ""
+autowrap_mode = 3
+
+[node name="HSeparator" type="HSeparator" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="OfferColumn" type="VBoxContainer" parent="Margin/VBox/Body"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="OffersHeader" type="Label" parent="Margin/VBox/Body/OfferColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
+text = "MORNING_OFFERS"
+
+[node name="OfferRows" type="VBoxContainer" parent="Margin/VBox/Body/OfferColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="DetailPanel" type="PanelContainer" parent="Margin/VBox/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DetailMargin" type="MarginContainer" parent="Margin/VBox/Body/DetailPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="DetailVBox" type="VBoxContainer" parent="Margin/VBox/Body/DetailPanel/DetailMargin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TopRow" type="HBoxContainer" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="HBoxHeader" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="MorningTitleLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxHeader"]
+[node name="PortraitHolder" type="Control" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/TopRow"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-text = "MORNING BRIEFING — DAY 1"
+size_flags_vertical = 0
 
-[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/HBoxHeader"]
+[node name="NameBox" type="VBoxContainer" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/TopRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RentInfoLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxHeader"]
+[node name="ClientNameLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/TopRow/NameBox"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Shop Lease: 150 cr"
+theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
+text = "Client"
 
-[node name="InstallmentInfoLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxHeader"]
+[node name="ContractTitleLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/TopRow/NameBox"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Installment: 800 cr"
+text = "Contract"
+autowrap_mode = 3
 
-[node name="StrikesWarningLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxHeader"]
+[node name="BadgeLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/TopRow/NameBox"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Strikes: 0 / 3"
+text = "T1"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+[node name="QuoteLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.9, 1)
+text = ""
+autowrap_mode = 3
+
+[node name="HSeparator2" type="HSeparator" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox"]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+[node name="KeyInfoLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+
+[node name="AdvancedLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.8, 1)
+text = ""
+
+[node name="Spacer" type="Control" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ContractsContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="ButtonsRow" type="HBoxContainer" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="DetailsButton" type="Button" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/ButtonsRow"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/separation = 10
+toggle_mode = true
+text = "MORNING_DETAILS"
 
-[node name="HBoxBottom" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="InstructionLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxBottom"]
-layout_mode = 2
-text = "Inspect and accept contracts before opening the workshop."
-
-[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/HBoxBottom"]
+[node name="ButtonSpacer" type="Control" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/ButtonsRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="OpenShopButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxBottom"]
+[node name="BarterButton" type="Button" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/ButtonsRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(140, 30)
+layout_mode = 2
+text = "BTN_BARTER"
+
+[node name="AcceptButton" type="Button" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/ButtonsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "BTN_ACCEPT"
+
+[node name="BottomRow" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="HintLabel" type="Label" parent="Margin/VBox/BottomRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "MORNING_HINT"
+clip_text = true
+
+[node name="OpenShopButton" type="Button" parent="Margin/VBox/BottomRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 22)
 layout_mode = 2
 text = "MORNING_OPEN_SHOP"
 
@@ -90,5 +189,3 @@ text = "MORNING_OPEN_SHOP"
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
-
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxBottom/OpenShopButton" to="." method="_on_open_shop_button_pressed"]

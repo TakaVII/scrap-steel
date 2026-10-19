@@ -1,4 +1,4 @@
-# purpose: [v3 manual fix] Mounts minigames under CanvasLayer 50. Checks AP/funds/budget BEFORE spending AP; honours the F5 debug cheat.
+# purpose: [v4] Mounts minigames under CanvasLayer 50. Checks AP/funds/budget BEFORE spending AP. The F5 cheat only works in debug builds.
 # depends on: EventBus, GameManager, TimeManager, SettingsManager, UpgradeManager, CraftingManager, DebugCheats, ItemPartData, PartResult, CommissionState
 # signals emitted: EventBus.minigame_started, EventBus.minigame_finished
 # signals listened to: none
@@ -60,7 +60,8 @@ func _complete(score: float) -> void:
 	result.commission = _job.get("commission")
 	result.part_index = _job.get("part_index", 0)
 	result.part = _job.get("part")
-	var raw: float = 1.0 if DebugCheats.force_perfect_score else score
+	var cheat: bool = OS.is_debug_build() and DebugCheats.force_perfect_score
+	var raw: float = 1.0 if cheat else score
 	result.score = clampf(raw + UpgradeManager.score_bonus(), 0.0, 1.0)
 	CraftingManager.apply_result(result)
 	EventBus.minigame_finished.emit(result)

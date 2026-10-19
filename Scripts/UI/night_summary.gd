@@ -1,11 +1,13 @@
-# purpose: [v3 manual fix] Night summary rendering financial ledger totals and R&D upgrade shop. Feedback line uses NumberFormat.fmt (no formatting error if the translation is missing).
-# depends on: Control, GameManager, EconomyManager, UpgradeManager, UpgradeData, NumberFormat
+# purpose: [v4] Night summary + R&D shop. v4: no hardcoded English, thousands separators, safe feedback formatting, and a "client mail" line (satisfied/unhappy quote from the client of today's delivery).
+# depends on: Control, GameManager, EconomyManager, UpgradeManager, UpgradeData, NumberFormat, ClientRoster
 # signals emitted: none
-# signals listened to: EventBus.night_summary_ready, EventBus.upgrade_purchased
+# signals listened to: EventBus.night_summary_ready, EventBus.upgrade_purchased, EventBus.commission_delivered, EventBus.day_started
 
 extends Control
 
 const UPGRADE_CARD_SCENE = preload("res://Scenes/UI/upgrade_card.tscn")
+const MAIL_HAPPY_MIN_QUALITY: float = 0.75
+const MAIL_UNHAPPY_MAX_QUALITY: float = 0.50
 
 @onready var title_label: Label = %TitleLabel
 @onready var revenue_label: Label = %RevenueLabel
@@ -22,40 +24,81 @@ const UPGRADE_CARD_SCENE = preload("res://Scenes/UI/upgrade_card.tscn")
 @onready var upgrades_container: HBoxContainer = %UpgradesContainer
 @onready var next_day_button: Button = %NextDayButton
 
+## Deliveries of the current day: {"client": StringName, "q": float}
+var _mail: Array[Dictionary] = []
+
 func _ready() -> void:
 	EventBus.night_summary_ready.connect(_on_night_summary_ready)
 	EventBus.upgrade_purchased.connect(_on_upgrade_purchased)
+	EventBus.commission_delivered.connect(_on_commission_delivered)
+	EventBus.day_started.connect(_on_day_started)
+	# NextDayButton.pressed is already connected in night_summary.tscn (do not connect it twice).
+	feedback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+
+func _on_day_started(_day: int) -> void:
+	_mail.clear()
+
+func _on_commission_delivered(commission: Resource, quality: float, _payout: int) -> void:
+	var data: CommissionData = commission as CommissionData
+	if data != null:
+		_mail.append({"client": data.client_id, "q": quality})
 
 func _on_night_summary_ready(summary: Dictionary) -> void:
-	title_label.text = "NIGHT SUMMARY — DAY %d" % summary.get("day", 1)
-	revenue_label.text = "+%d cr" % summary.get("revenue", 0)
-	materials_label.text = "-%d cr" % summary.get("materials", 0)
-	rent_label.text = "-%d cr" % summary.get("rent", 0)
-	interest_label.text = "-%d cr" % summary.get("interest", 0)
-	fines_label.text = "-%d cr" % summary.get("fines", 0)
-	refunds_label.text = "-%d cr" % summary.get("refunds", 0)
-	upgrades_spent_label.text = "-%d cr" % summary.get("upgrades", 0)
+	title_label.text = tr("NIGHT_TITLE") + " - " + tr("HUD_DAY") + " %d" % int(summary.get("day", 1))
+	revenue_label.text = "+" + NumberFormat.format_credits(int(summary.get("revenue", 0)))
+	materials_label.text = "-" + NumberFormat.format_credits(int(summary.get("materials", 0)))
+	rent_label.text = "-" + NumberFormat.format_credits(int(summary.get("rent", 0)))
+	interest_label.text = "-" + NumberFormat.format_credits(int(summary.get("interest", 0)))
+	fines_label.text = "-" + NumberFormat.format_credits(int(summary.get("fines", 0)))
+	refunds_label.text = "-" + NumberFormat.format_credits(int(summary.get("refunds", 0)))
+	upgrades_spent_label.text = "-" + NumberFormat.format_credits(int(summary.get("upgrades", 0)))
 
-	var rev: int = summary.get("revenue", 0)
-	var exp: int = summary.get("materials", 0) + summary.get("rent", 0) + summary.get("interest", 0) + summary.get("fines", 0) + summary.get("refunds", 0) + summary.get("upgrades", 0)
-	var net: int = rev - exp
-	net_profit_label.text = "%s%d cr" % ["+" if net >= 0 else "", net]
+	var rev: int = int(summary.get("revenue", 0))
+	var spent: int = int(summary.get("materials", 0)) + int(summary.get("rent", 0)) + int(summary.get("interest", 0)) + int(summary.get("fines", 0)) + int(summary.get("refunds", 0)) + int(summary.get("upgrades", 0))
+	var net: int = rev - spent
+	net_profit_label.text = ("+" if net >= 0 else "") + NumberFormat.format_credits(net)
 
-	current_balance_label.text = "Cash: %d cr" % summary.get("credits", 0)
-	current_debt_label.text = "Syndicate Debt: %d cr" % summary.get("debt", 0)
+	current_balance_label.text = tr("NIGHT_NEW_BALANCE") + ": " + NumberFormat.format_credits(int(summary.get("credits", 0)))
+	current_debt_label.text = tr("NIGHT_NEW_DEBT") + ": " + NumberFormat.format_credits(int(summary.get("debt", 0)))
 
-	var intr: int = summary.get("interest", 0)
+	var intr: int = int(summary.get("interest", 0))
+	var text: String = ""
 	if intr > 0:
-		feedback_label.text = NumberFormat.fmt(tr("NIGHT_FEEDBACK_INTEREST"), intr)
+		text = NumberFormat.fmt(tr("NIGHT_FEEDBACK_INTEREST"), NumberFormat.group(intr))
 	else:
-		feedback_label.text = tr("NIGHT_FEEDBACK_DEBT_FREE")
-
+		text = tr("NIGHT_FEEDBACK_DEBT_FREE")
+	var mail: String = _client_mail()
+	if mail != "":
+		text += "\n" + mail
+	feedback_label.text = text
 	_build_upgrades()
+
+## One client quote: the unhappiest if someone got a poor job, otherwise the happiest good one.
+func _client_mail() -> String:
+	if _mail.is_empty():
+		return ""
+	var worst: Dictionary = _mail[0]
+	var best: Dictionary = _mail[0]
+	for m in _mail:
+		if float(m["q"]) < float(worst["q"]):
+			worst = m
+		if float(m["q"]) > float(best["q"]):
+			best = m
+	var pick: Dictionary = {}
+	var kind: String = ""
+	if float(worst["q"]) < MAIL_UNHAPPY_MAX_QUALITY:
+		pick = worst
+		kind = "UNHAPPY"
+	elif float(best["q"]) >= MAIL_HAPPY_MIN_QUALITY:
+		pick = best
+		kind = "SATISFIED"
+	if pick.is_empty() or ClientRoster.get_client(pick["client"]).is_empty():
+		return ""
+	return "%s: \"%s\"" % [ClientRoster.display_name(pick["client"]), tr(ClientRoster.line_key(pick["client"], kind))]
 
 func _build_upgrades() -> void:
 	for child in upgrades_container.get_children():
 		child.queue_free()
-
 	for upg in UpgradeManager.available_upgrades:
 		var card = UPGRADE_CARD_SCENE.instantiate()
 		upgrades_container.add_child(card)

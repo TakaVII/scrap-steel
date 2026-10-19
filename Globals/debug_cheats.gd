@@ -1,8 +1,11 @@
-# purpose: [v2] Debug cheat keys available in debug builds for rapid economy, progression, and telemetry testing.
+# purpose: [v3] Debug cheat keys (debug builds only). Adds F5 force_perfect_score, which MinigameController reads (it was missing and crashed when a minigame finished).
 # depends on: EconomyManager, TimeManager, GameManager, EventBus, Telemetry
 # signals emitted: none
 # signals listened to: none
 extends Node
+
+## F5 toggles this. MinigameController returns score 1.0 while it is true (debug builds only).
+var force_perfect_score: bool = false
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not OS.is_debug_build() and not OS.has_feature("editor"):
@@ -28,10 +31,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_F4:
 			EconomyManager.add_tech_points(3)
 			print("CHEAT: +3 Tech Points granted. Current TP: ", EconomyManager.tech_points)
+		KEY_F5:
+			force_perfect_score = not force_perfect_score
+			print("CHEAT: force perfect minigame score = ", force_perfect_score)
 		KEY_F6:
 			print("CHEAT STATE DUMP -> Day: ", TimeManager.day, " | Credits: ", EconomyManager.credits, " | Debt: ", EconomyManager.debt, " | Strikes: ", EconomyManager.strikes)
 		KEY_F7:
 			TimeManager.day = 27
-			print("CHEAT: Jumped to Day 27.")
+			print("CHEAT: Jumped to Day 27 (next morning is Day 28).")
 		KEY_F9:
 			Telemetry.print_telemetry_debug()

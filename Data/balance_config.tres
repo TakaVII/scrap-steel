@@ -1,44 +1,6 @@
-[gd_resource type="Resource" script_class="BalanceConfig" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="BalanceConfig" format=3 uid="uid://bsbpo0djacph0"]
 
-[ext_resource type="Script" path="res://Scripts/Resources/balance_config.gd" id="1_balance_cfg"]
+[ext_resource type="Script" uid="uid://dny8p3abj5qyf" path="res://Scripts/Resources/balance_config.gd" id="1_balance_cfg"]
 
 [resource]
 script = ExtResource("1_balance_cfg")
-start_credits = 2000
-start_debt = 10000
-assist_start_credits = 2500
-assist_start_debt = 7000
-assist_interest_rate = 0.01
-daily_interest_rate = 0.02
-daily_rent = 150
-late_fee_rate = 0.1
-seize_debt_threshold = 25000
-max_strikes = 3
-installment_days = Array[int]([8, 15, 22, 29])
-installment_min = 400
-installment_pct = 0.08
-campaign_days = 30
-base_ap = 6
-overtime_ap = 2
-overtime_cost = 150
-overtime_next_day_ap_penalty = 1
-payout_per_ap = Array[float]([304.0, 395.2, 516.8])
-material_cost_fraction = 0.5
-budget_cap_fraction = 0.65
-offers_per_day = 4
-max_active_jobs = 3
-max_inspections_per_day = 3
-forge_waste_reduction = 0.3
-warranty_delay_days = 3
-warranty_cost_fraction = 0.35
-late_payout_mult = 0.8
-power_fine_mult = 0.85
-champion_build_cost_materials = 7000
-champion_build_sponsorship = 2000
-champion_min_quality = 0.8
-champion_unlock_day = 15
-champion_deadline_day = 28
-champion_reforge_cost_fraction = 0.5
-reserve_target = 9000
-rating_five_star_quality = 0.8
-rating_window = 8

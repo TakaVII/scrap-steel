@@ -1,5 +1,5 @@
-# purpose: [v4 manual fix] Offers, barter, delivery payout (separate ledger lines), warranty, Champion Build, rating, and save/restore serialization.
-# depends on: Balance, EventBus, EconomyManager, TimeManager, UpgradeManager, CraftingManager, ItemPartData, CommissionData, CommissionState
+# purpose: [v5] Offers, barter, delivery payout (separate ledger lines), warranty, Champion Build, rating, save/restore. v5: payout gets the spec's +-10% variance per job (B5) and every offer gets a client from ClientRoster (face + dialogue).
+# depends on: Balance, EventBus, EconomyManager, TimeManager, UpgradeManager, CraftingManager, ItemPartData, CommissionData, CommissionState, ClientRoster
 # signals emitted: EventBus.commission_accepted, commission_delivered, commission_failed, warranty_claim_charged
 # signals listened to: none
 
@@ -32,6 +32,9 @@ const FALLBACK_PARTS: Dictionary = {
 	ItemPartData.Archetype.SERVO_ACTUATOR: [2, ItemPartData.MinigameType.CALIBRATE, 80.0],
 	ItemPartData.Archetype.POWER_CELL: [1, ItemPartData.MinigameType.ASSEMBLE, 20.0],
 }
+## Spec B5: payout is +-10% per job around AP x rate (balance_sim.py uses the same range).
+const PAYOUT_VARIANCE_MIN: float = 0.90
+const PAYOUT_VARIANCE_MAX: float = 1.10
 
 var current_pathway: StringName = &"mech"
 var offers: Array[CommissionData] = []
@@ -107,6 +110,7 @@ func _create_champion_contract() -> void:
 	champ.tier = 3
 	champ.deadline_days = Balance.cfg.champion_deadline_day - Balance.cfg.champion_unlock_day
 	champ.type = CommissionData.Type.MECH if current_pathway == &"mech" else CommissionData.Type.CAR
+	champ.client_id = &"ironhead" if current_pathway == &"mech" else &"gideon"
 	champ.title_key = "CHAMPION_BUILD_TITLE_MECH" if current_pathway == &"mech" else "CHAMPION_BUILD_TITLE_DRIFT"
 	champ.base_payout = 0
 	champ.budget_cap = Balance.cfg.champion_build_cost_materials * 2
@@ -175,6 +179,10 @@ func _create_procedural_offer(day: int) -> CommissionData:
 				alt.append(t)
 		data.type = (alt[0] if randf() < 0.50 else alt[1]) as CommissionData.Type
 
+	# Every offer has a client (portrait + dialogue line on the card).
+	var client: Dictionary = ClientRoster.pick_for_type(int(data.type))
+	data.client_id = client["id"]
+
 	var pool: Array[int] = []
 	match data.type:
 		CommissionData.Type.CAR:
@@ -201,7 +209,7 @@ func _create_procedural_offer(day: int) -> CommissionData:
 	var rate: float = Balance.cfg.payout_per_ap[data.tier - 1]
 	if UpgradeManager.has_upgrade(&"client_rolodex"):
 		rate *= 1.03
-	data.base_payout = roundi(ap_sum * rate)
+	data.base_payout = roundi(ap_sum * rate * randf_range(PAYOUT_VARIANCE_MIN, PAYOUT_VARIANCE_MAX))
 	data.budget_cap = roundi(data.base_payout * Balance.cfg.budget_cap_fraction)
 	data.power_limit_watts = watts_sum * randf_range(1.04, 1.16)
 	data.deadline_days = 2 if randf() < 0.70 else 3
@@ -252,6 +260,14 @@ func accept_offer(offer_id: int, barter_choice: int) -> bool:
 
 func active_jobs() -> Array[CommissionState]:
 	return active_contracts
+
+## Active non-champion jobs (the number that counts against max_active_jobs).
+func normal_job_count() -> int:
+	var n: int = 0
+	for c in active_contracts:
+		if not c.data.is_champion_build:
+			n += 1
+	return n
 
 # ---------------------------------------------------------------- evening
 

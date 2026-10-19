@@ -1,4 +1,4 @@
-# purpose: [v3 manual fix] Currency and number formatting preserving Latin digits (0-9) and standard suffixes across all locales including Arabic RTL (spec §C10, §C11, §D9). Adds fmt(): safe replacement for tr(KEY) % value.
+# purpose: [v4] Number and text formatting. Latin digits in every locale. fmt() no longer uses the % operator on translated text (it raised "incomplete format" when a string held a stray %). Adds group() thousands separators and render() for {placeholder} dialogue text.
 # depends on: RefCounted
 # signals emitted: none
 # signals listened to: none
@@ -6,26 +6,43 @@
 class_name NumberFormat
 extends RefCounted
 
-## Formats integer credits into Latin digits with 'cr' suffix.
-## In RTL contexts, keeps Latin numerals intact without reverse mangling.
-static func format_credits(amount: int) -> String:
-	return "%d cr" % amount
+## 1850 -> "1,850". Negative numbers keep the minus sign.
+static func group(amount: int) -> String:
+	var digits: String = str(absi(amount))
+	var out: String = ""
+	var count: int = 0
+	for i in range(digits.length() - 1, -1, -1):
+		if count > 0 and count % 3 == 0:
+			out = "," + out
+		out = digits[i] + out
+		count += 1
+	return ("-" if amount < 0 else "") + out
 
-## Formats percentages as Latin digits with '%' suffix.
+static func format_credits(amount: int) -> String:
+	return group(amount) + " cr"
+
 static func format_percent(val: float) -> String:
 	return "%d%%" % int(round(val * 100.0))
 
-## Formats AP values.
 static func format_ap(current: int, maximum: int) -> String:
 	return "%d / %d" % [current, maximum]
 
-## Formats Day counter.
 static func format_day(day: int, max_days: int) -> String:
 	return "%d / %d" % [day, max_days]
 
-## Safe replacement for `tr("KEY") % value`. If the key is untranslated (raw key returned) or the
-## string has no placeholder, `%` raises "not all arguments converted"; this appends the value instead.
+## Replaces %d / %s in translated text with the value. Never uses the % operator on the
+## translation, so a stray "%" (or a CSV row cut at a comma) can no longer crash the game.
 static func fmt(translated: String, value: Variant) -> String:
-	if translated.contains("%"):
-		return translated % value
-	return "%s %s" % [translated, str(value)]
+	var v: String = str(value)
+	if translated.contains("%d"):
+		return translated.replace("%d", v)
+	if translated.contains("%s"):
+		return translated.replace("%s", v)
+	return translated + " " + v
+
+## Replaces {name} placeholders with values from vars. Used by dialogue and tooltips.
+static func render(text: String, vars: Dictionary) -> String:
+	var out: String = text
+	for key in vars.keys():
+		out = out.replace("{" + str(key) + "}", str(vars[key]))
+	return out
