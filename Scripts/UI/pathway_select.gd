@@ -12,7 +12,7 @@ enum Step { PROLOGUE, JOB_INTRO, JOB, JOB_DONE, KANE, CHOOSE, PICKED }
 const FORGE_SCENE: String = "res://Scenes/Minigames/forge.tscn"
 const TUTORIAL_FORGE_SPEED: float = 0.75
 const TUTORIAL_FORGE_WINDOW: float = 1.3
-const RESULT_PAUSE_SEC: float = 0.8
+const RESULT_PAUSE_SEC: float = 0.1 # the Forge already waits to show its result
 
 @onready var scene_art: TextureRect = %SceneArt
 @onready var minigame_host: Control = %MinigameHost

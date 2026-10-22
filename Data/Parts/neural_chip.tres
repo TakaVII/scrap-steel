@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemPartData" format=3 uid="uid://0fjhom0nqqjj"]
+
+[ext_resource type="Script" uid="uid://dkmfv4egomkgk" path="res://Scripts/Resources/item_part_data.gd" id="1_1ohup"]
+
+[resource]
+script = ExtResource("1_1ohup")
+part_id = &"neural_chip"
+display_key = "PART_NEURAL_CHIP"
+archetype = 8
+minigame_type = 2
+base_power_watts = 25.0

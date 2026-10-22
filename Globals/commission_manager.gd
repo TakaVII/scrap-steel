@@ -1,4 +1,4 @@
-# purpose: [v5] Offers, barter, delivery payout (separate ledger lines), warranty, Champion Build, rating, save/restore. v5: payout gets the spec's +-10% variance per job (B5) and every offer gets a client from ClientRoster (face + dialogue).
+# purpose: [v6] (v6: a RUSH contract that misses its deadline is cancelled) Offers, barter, delivery payout (separate ledger lines), warranty, Champion Build, rating, save/restore. v5: payout gets the spec's +-10% variance per job (B5) and every offer gets a client from ClientRoster (face + dialogue).
 # depends on: Balance, EventBus, EconomyManager, TimeManager, UpgradeManager, CraftingManager, ItemPartData, CommissionData, CommissionState, ClientRoster
 # signals emitted: EventBus.commission_accepted, commission_delivered, commission_failed, warranty_claim_charged
 # signals listened to: none
@@ -295,7 +295,8 @@ func resolve_evening(current_day: int) -> void:
 			_deliver_contract(job, current_day)
 		elif current_day > job.deadline_day:
 			job.late_days += 1
-			if job.late_days >= 2:
+			# A RUSH client does not wait: miss the 1-day deadline and the contract is cancelled (materials lost).
+			if job.late_days >= 2 or job.barter == CommissionData.Barter.RUSH:
 				EventBus.commission_failed.emit(job.data, tr("COMMISSION_EXPIRED"))
 			else:
 				remaining_jobs.append(job)

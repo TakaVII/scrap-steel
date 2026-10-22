@@ -1,4 +1,4 @@
-# purpose: [v4] Night summary + R&D shop. v4: no hardcoded English, thousands separators, safe feedback formatting, and a "client mail" line (satisfied/unhappy quote from the client of today's delivery).
+# purpose: [v5] Night summary + R&D shop. v5: feedback and client mail are fixed single lines (clipped), so they can no longer grow and push the Next Morning button off screen. v4: no hardcoded English, thousands separators, safe feedback formatting, and a "client mail" line (satisfied/unhappy quote from the client of today's delivery).
 # depends on: Control, GameManager, EconomyManager, UpgradeManager, UpgradeData, NumberFormat, ClientRoster
 # signals emitted: none
 # signals listened to: EventBus.night_summary_ready, EventBus.upgrade_purchased, EventBus.commission_delivered, EventBus.day_started
@@ -26,6 +26,7 @@ const MAIL_UNHAPPY_MAX_QUALITY: float = 0.50
 
 ## Deliveries of the current day: {"client": StringName, "q": float}
 var _mail: Array[Dictionary] = []
+var _mail_label: Label
 
 func _ready() -> void:
 	EventBus.night_summary_ready.connect(_on_night_summary_ready)
@@ -33,7 +34,17 @@ func _ready() -> void:
 	EventBus.commission_delivered.connect(_on_commission_delivered)
 	EventBus.day_started.connect(_on_day_started)
 	# NextDayButton.pressed is already connected in night_summary.tscn (do not connect it twice).
-	feedback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	feedback_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	feedback_label.clip_text = true
+	feedback_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_mail_label = Label.new()
+	_mail_label.clip_text = true
+	_mail_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_mail_label.add_theme_color_override("font_color", GamePalette.ACCENT)
+	_mail_label.visible = false
+	var holder: Node = feedback_label.get_parent()
+	holder.add_child(_mail_label)
+	holder.move_child(_mail_label, feedback_label.get_index() + 1)
 
 func _on_day_started(_day: int) -> void:
 	_mail.clear()
@@ -67,10 +78,10 @@ func _on_night_summary_ready(summary: Dictionary) -> void:
 		text = NumberFormat.fmt(tr("NIGHT_FEEDBACK_INTEREST"), NumberFormat.group(intr))
 	else:
 		text = tr("NIGHT_FEEDBACK_DEBT_FREE")
-	var mail: String = _client_mail()
-	if mail != "":
-		text += "\n" + mail
 	feedback_label.text = text
+	var mail: String = _client_mail()
+	_mail_label.text = mail
+	_mail_label.visible = mail != ""
 	_build_upgrades()
 
 ## One client quote: the unhappiest if someone got a poor job, otherwise the happiest good one.

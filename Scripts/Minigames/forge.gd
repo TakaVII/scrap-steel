@@ -1,4 +1,4 @@
-# purpose: [v4] The Forge. Skill shrinks the window: every successful strike narrows the sweet spot (a miss widens it back, never past its start width), a flat "perfect core" scores 1.0, and outside it the score falls off linearly. Juice: sparks (CPUParticles2D, no art needed), root shake, hit-stop on the cursor, optional hammer sprite (Assets/Textures/Minigames/forge_hammer.png, 4 frames of 32x32).
+# purpose: [v5] The Forge. v5: a countdown timer (unstruck strikes score 0), difficulty that scales hard with the contract tier (speed, window, shrink rate, perfect core), and a delayed finish with a result popup. v4:  Skill shrinks the window: every successful strike narrows the sweet spot (a miss widens it back, never past its start width), a flat "perfect core" scores 1.0, and outside it the score falls off linearly. Juice: sparks (CPUParticles2D, no art needed), root shake, hit-stop on the cursor, optional hammer sprite (Assets/Textures/Minigames/forge_hammer.png, 4 frames of 32x32).
 # depends on: MinigameBase, SpriteKit, Sfx, Juice, GamePalette
 # signals emitted: finished(score: float)
 # signals listened to: none
@@ -8,19 +8,23 @@ extends MinigameBase
 @export_group("Forge Mechanics")
 @export var total_strikes: int = 5
 @export var base_cursor_speed: float = 320.0
-@export var speed_increase_per_strike: float = 1.08
-@export var tier_speed_mults: Array[float] = [1.0, 1.25, 1.5]
+## Contract tier 1 / 2 / 3: the higher the tier, the harder the forge.
+@export var tier_speed_mults: Array[float] = [1.0, 1.25, 1.55]
+@export var tier_speed_increase_per_strike: Array[float] = [1.05, 1.08, 1.10]
 ## Sweet-spot width as a fraction of the bar at the first strike (it shrinks from here).
-@export var tier_start_width_fractions: Array[float] = [0.24, 0.19, 0.15]
-@export var min_width_fraction: float = 0.06
-@export var shrink_on_success: float = 0.85
+@export var tier_start_width_fractions: Array[float] = [0.26, 0.19, 0.14]
+@export var min_width_fraction: float = 0.05
+## Window multiplier after a successful strike (smaller = shrinks faster).
+@export var tier_shrink_on_success: Array[float] = [0.88, 0.84, 0.80]
 @export var widen_on_fail: float = 1.12
 @export var success_threshold: float = 0.60
 @export var fail_threshold: float = 0.25
-## Centre of the sweet spot that scores exactly 1.0 (fraction of the half-width).
-@export var perfect_core_fraction: float = 0.20
+## Centre of the sweet spot that scores exactly 1.0 (fraction of the half-width), by tier.
+@export var tier_perfect_core_fractions: Array[float] = [0.25, 0.20, 0.15]
 ## The score reaches 0 at this many half-widths from the centre.
 @export var falloff_tolerance_factor: float = 1.2
+## Total time for the whole forge. Strikes not made in time score 0. Slow mode adds time.
+@export var tier_time_limits: Array[float] = [16.0, 14.0, 12.0]
 @export var center_min: float = 0.20
 @export var center_max: float = 0.80
 @export var hit_stop_duration_sec: float = 0.06
@@ -52,12 +56,16 @@ var _core_rect: ColorRect
 var _sparks: CPUParticles2D
 var _hammer: AnimatedSprite2D
 var _juice_built: bool = false
+var _time_left: float = 16.0
+var _last_tenth: int = -1
+var _timer_label: Label
 
 func setup(diff: Dictionary) -> void:
 	super.setup(diff)
 	_tier = diff.get("tier", 1)
 	var tier_idx: int = clampi(_tier - 1, 0, 2)
 	_cursor_speed = base_cursor_speed * tier_speed_mults[tier_idx] * float(diff.get("speed_mult", 1.0))
+	_time_left = tier_time_limits[tier_idx] * float(diff.get("window_mult", 1.0))
 
 func start() -> void:
 	await get_tree().process_frame # containers need one frame before sizes are real
@@ -82,6 +90,9 @@ func _build_juice_nodes() -> void:
 	if _juice_built:
 		return
 	_juice_built = true
+	_timer_label = Label.new()
+	_timer_label.text = ""
+	strike_count_label.get_parent().add_child(_timer_label)
 	sweet_spot_panel.modulate = Color(GamePalette.NEON_CYAN, 0.55)
 	cursor_panel.modulate = GamePalette.ACCENT
 	_core_rect = ColorRect.new()
@@ -118,11 +129,14 @@ func _apply_visual(center: float, half: float) -> void:
 	sweet_spot_panel.custom_minimum_size.x = w
 	sweet_spot_panel.size.x = w
 	sweet_spot_panel.position.x = center - half
-	var core_w: float = w * perfect_core_fraction
+	var core_w: float = w * tier_perfect_core_fractions[clampi(_tier - 1, 0, 2)]
 	_core_rect.size = Vector2(core_w, sweet_spot_panel.size.y)
 	_core_rect.position = Vector2((w - core_w) * 0.5, 0.0)
 
 func _process(delta: float) -> void:
+	if not is_active:
+		return
+	_tick_timer(delta)
 	if not is_active:
 		return
 	if _hit_stop_timer > 0.0:
@@ -148,9 +162,29 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		_trigger_strike()
 
+func _tick_timer(delta: float) -> void:
+	_time_left -= delta
+	var tenth: int = int(maxf(0.0, _time_left) * 10.0)
+	if tenth != _last_tenth:
+		_last_tenth = tenth
+		_timer_label.text = "%.1fs" % maxf(0.0, _time_left)
+		_timer_label.add_theme_color_override("font_color", GamePalette.NEGATIVE if _time_left < 4.0 else GamePalette.NEUTRAL_TEXT)
+	if _time_left <= 0.0:
+		_time_left = 0.0
+		feedback_label.text = tr("MG_TIME_UP")
+		feedback_label.add_theme_color_override("font_color", GamePalette.NEGATIVE)
+		finish_with_delay(_mean_score())
+
+## Strikes that were never made count as 0.
+func _mean_score() -> float:
+	var sum: float = 0.0
+	for val in _strike_scores:
+		sum += val
+	return sum / float(total_strikes)
+
 func _score_strike(cursor_center: float) -> float:
 	var dist: float = absf(cursor_center - _sweet_center_x)
-	var core: float = _sweet_half_width * perfect_core_fraction
+	var core: float = _sweet_half_width * tier_perfect_core_fractions[clampi(_tier - 1, 0, 2)]
 	if dist <= core:
 		return 1.0
 	var outer: float = _sweet_half_width * falloff_tolerance_factor
@@ -179,20 +213,17 @@ func _trigger_strike() -> void:
 	feedback_label.add_theme_color_override("font_color", rating_color)
 
 	_current_strike_idx += 1
-	_cursor_speed *= speed_increase_per_strike
+	_cursor_speed *= tier_speed_increase_per_strike[clampi(_tier - 1, 0, 2)]
 	_adapt_window(s)
 	_update_strike_ui()
 
 	if _current_strike_idx >= total_strikes:
-		var sum: float = 0.0
-		for val in _strike_scores:
-			sum += val
-		_finish(sum / float(total_strikes))
+		finish_with_delay(_mean_score())
 
 ## Skill shrinks the window: success narrows it, a clear miss widens it back (never past the start width).
 func _adapt_window(s: float) -> void:
 	if s >= success_threshold:
-		_width_frac = maxf(min_width_fraction, _width_frac * shrink_on_success)
+		_width_frac = maxf(min_width_fraction, _width_frac * tier_shrink_on_success[clampi(_tier - 1, 0, 2)])
 	elif s <= fail_threshold:
 		_width_frac = minf(_start_width_frac, _width_frac * widen_on_fail)
 	var new_half: float = _bar_width * _width_frac * 0.5

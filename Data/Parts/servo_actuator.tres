@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemPartData" format=3 uid="uid://gn7gp5wok8fq"]
+
+[ext_resource type="Script" uid="uid://dkmfv4egomkgk" path="res://Scripts/Resources/item_part_data.gd" id="1_hyt1g"]
+
+[resource]
+script = ExtResource("1_hyt1g")
+part_id = &"servo_actuator"
+display_key = "PART_SERVO_ACTUATOR"
+archetype = 9
+minigame_type = 1
+ap_cost = 2
+base_power_watts = 80.0

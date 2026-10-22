@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ClientData" format=3 uid="uid://wmm4j7axwu5j"]
+
+[ext_resource type="Script" uid="uid://dmr166h2l2885" path="res://Scripts/Resources/client_data.gd" id="1_lmn2e"]
+
+[resource]
+script = ExtResource("1_lmn2e")
+client_id = &"talia"
+client_name = "Talia Ramos"
+greeting_key = "CLIENT_TALIA_GREET"
+satisfied_key = "CLIENT_TALIA_SATISFIED"
+unhappy_key = "CLIENT_TALIA_UNHAPPY"

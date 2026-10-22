@@ -10,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+clip_contents = true
 script = ExtResource("1_morning")
 
 [node name="Margin" type="MarginContainer" parent="."]
@@ -26,7 +27,7 @@ theme_override_constants/margin_bottom = 8
 
 [node name="VBox" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
 [node name="HeaderRow" type="HBoxContainer" parent="Margin/VBox"]
 layout_mode = 2
@@ -36,18 +37,20 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "MORNING_TITLE"
+clip_text = true
 
 [node name="BillsLabel" type="Label" parent="Margin/VBox/HeaderRow"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Rent"
+clip_text = true
 
 [node name="BannerLabel" type="Label" parent="Margin/VBox"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = ""
-autowrap_mode = 3
+clip_text = true
 
 [node name="HSeparator" type="HSeparator" parent="Margin/VBox"]
 layout_mode = 2
@@ -67,10 +70,17 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
 text = "MORNING_OFFERS"
+clip_text = true
 
-[node name="OfferRows" type="VBoxContainer" parent="Margin/VBox/Body/OfferColumn"]
+[node name="OfferScroll" type="ScrollContainer" parent="Margin/VBox/Body/OfferColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="OfferRows" type="VBoxContainer" parent="Margin/VBox/Body/OfferColumn/OfferScroll"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 3
 
 [node name="DetailPanel" type="PanelContainer" parent="Margin/VBox/Body"]
@@ -81,69 +91,87 @@ size_flags_horizontal = 3
 [node name="DetailMargin" type="MarginContainer" parent="Margin/VBox/Body/DetailPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 6
-theme_override_constants/margin_top = 6
+theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 6
-theme_override_constants/margin_bottom = 6
+theme_override_constants/margin_bottom = 5
 
 [node name="DetailVBox" type="VBoxContainer" parent="Margin/VBox/Body/DetailPanel/DetailMargin"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="TopRow" type="HBoxContainer" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+[node name="DetailScroll" type="ScrollContainer" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ScrollContent" type="VBoxContainer" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/DetailScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="TopRow" type="HBoxContainer" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/DetailScroll/ScrollContent"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="PortraitHolder" type="Control" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/TopRow"]
+[node name="PortraitHolder" type="Control" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/DetailScroll/ScrollContent/TopRow"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="NameBox" type="VBoxContainer" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/TopRow"]
+[node name="NameBox" type="VBoxContainer" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/DetailScroll/ScrollContent/TopRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ClientNameLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/TopRow/NameBox"]
+[node name="ClientNameLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/DetailScroll/ScrollContent/TopRow/NameBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
 text = "Client"
+clip_text = true
 
-[node name="ContractTitleLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/TopRow/NameBox"]
+[node name="ContractTitleLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/DetailScroll/ScrollContent/TopRow/NameBox"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Contract"
 autowrap_mode = 3
+max_lines_visible = 2
 
-[node name="BadgeLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/TopRow/NameBox"]
+[node name="BadgeLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/DetailScroll/ScrollContent/TopRow/NameBox"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "T1"
+clip_text = true
 
-[node name="QuoteLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+[node name="QuoteLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/DetailScroll/ScrollContent"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.8, 0.9, 1)
 text = ""
 autowrap_mode = 3
+max_lines_visible = 2
 
-[node name="HSeparator2" type="HSeparator" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+[node name="HSeparator2" type="HSeparator" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/DetailScroll/ScrollContent"]
 layout_mode = 2
 
-[node name="KeyInfoLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+[node name="InfoRow" type="HBoxContainer" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/DetailScroll/ScrollContent"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="KeyInfoLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/DetailScroll/ScrollContent/InfoRow"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 0
 text = ""
 
-[node name="AdvancedLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+[node name="AdvancedLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/DetailScroll/ScrollContent/InfoRow"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
 theme_override_colors/font_color = Color(0.7, 0.7, 0.8, 1)
 text = ""
-
-[node name="Spacer" type="Control" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox"]
-layout_mode = 2
-size_flags_vertical = 3
+autowrap_mode = 3
 
 [node name="ButtonsRow" type="HBoxContainer" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox"]
 layout_mode = 2

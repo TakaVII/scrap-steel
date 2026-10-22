@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemPartData" format=3 uid="uid://bhcg6tscg72hg"]
+
+[ext_resource type="Script" uid="uid://dkmfv4egomkgk" path="res://Scripts/Resources/item_part_data.gd" id="1_wpkyy"]
+
+[resource]
+script = ExtResource("1_wpkyy")
+part_id = &"mech_chassis"
+display_key = "PART_MECH_CHASSIS"
+archetype = 4
+ap_cost = 2
+base_power_watts = 0.0

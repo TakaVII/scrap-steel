@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemPartData" format=3 uid="uid://bht6uyi43hx3b"]
+
+[ext_resource type="Script" uid="uid://dkmfv4egomkgk" path="res://Scripts/Resources/item_part_data.gd" id="1_3wxb2"]
+
+[resource]
+script = ExtResource("1_3wxb2")
+part_id = &"synth_limb"
+display_key = "PART_SYNTH_LIMB"
+archetype = 7
+ap_cost = 2
+base_power_watts = 30.0

@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://cmvucfty6ho2l"]
 
-[ext_resource type="Script" path="res://Scripts/Minigames/calibrator.gd" id="1_calibrator"]
+[ext_resource type="Script" uid="uid://bw5dfrkm5x2ra" path="res://Scripts/Minigames/calibrator.gd" id="1_calibrator"]
 
-[node name="Calibrator" type="Control"]
+[node name="Calibrator" type="Control" unique_id=378181432]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_calibrator")
 
-[node name="ColorRectBackdrop" type="ColorRect" parent="."]
+[node name="ColorRectBackdrop" type="ColorRect" parent="." unique_id=1813592159]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,7 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0784314, 0.0666667, 0.121569, 0.95)
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1995577681]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,55 +28,55 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MainPanel" type="PanelContainer" parent="CenterContainer"]
+[node name="MainPanel" type="PanelContainer" parent="CenterContainer" unique_id=1182941206]
 custom_minimum_size = Vector2(420, 240)
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MainPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MainPanel" unique_id=1619906525]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MainPanel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MainPanel/MarginContainer" unique_id=1075122554]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="HBoxHeader" type="HBoxContainer" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer"]
+[node name="HBoxHeader" type="HBoxContainer" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=656513657]
 layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxHeader"]
+[node name="TitleLabel" type="Label" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxHeader" unique_id=647004178]
 layout_mode = 2
 text = "MINIGAME_CALIBRATOR_TITLE"
 
-[node name="Spacer" type="Control" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxHeader"]
+[node name="Spacer" type="Control" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxHeader" unique_id=1225350851]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TimerLabel" type="Label" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxHeader"]
+[node name="TimerLabel" type="Label" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxHeader" unique_id=1028684948]
 unique_name_in_owner = true
 layout_mode = 2
 text = "15.0s"
 
-[node name="ScoreProgress" type="ProgressBar" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer"]
+[node name="ScoreProgress" type="ProgressBar" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=576409858]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 show_percentage = false
 
-[node name="HBoxBody" type="HBoxContainer" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer"]
+[node name="HBoxBody" type="HBoxContainer" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer" unique_id=1580683732]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 
-[node name="TrackPanel" type="Control" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody"]
+[node name="TrackPanel" type="Control" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody" unique_id=67908032]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 160)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="TrackBackground" type="ColorRect" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody/TrackPanel"]
+[node name="TrackBackground" type="ColorRect" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody/TrackPanel" unique_id=1256139052]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -85,14 +85,14 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.12, 0.1, 0.18, 1)
 
-[node name="RpmTargetZone" type="Panel" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody/TrackPanel"]
+[node name="RpmTargetZone" type="Panel" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody/TrackPanel" unique_id=1007418064]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 40)
 layout_mode = 0
 offset_right = 100.0
 offset_bottom = 40.0
 
-[node name="TuningBar" type="Panel" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody/TrackPanel"]
+[node name="TuningBar" type="Panel" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody/TrackPanel" unique_id=48348578]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 8)
 layout_mode = 0
@@ -100,19 +100,18 @@ offset_top = 80.0
 offset_right = 100.0
 offset_bottom = 88.0
 
-[node name="VBoxInfo" type="VBoxContainer" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody"]
+[node name="VBoxInfo" type="VBoxContainer" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody" unique_id=1135643841]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="InstructLabel" type="Label" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody/VBoxInfo"]
+[node name="InstructLabel" type="Label" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody/VBoxInfo" unique_id=1676958131]
 unique_name_in_owner = true
 layout_mode = 2
 text = "MINIGAME_CALIBRATOR_INSTRUCT_HOLD"
 autowrap_mode = 3
 
-[node name="StatusLabel" type="Label" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody/VBoxInfo"]
+[node name="StatusLabel" type="Label" parent="CenterContainer/MainPanel/MarginContainer/VBoxContainer/HBoxBody/VBoxInfo" unique_id=1355073378]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.168627, 0.513726, 0.729412, 1)
-text = ""

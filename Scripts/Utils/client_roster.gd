@@ -7,19 +7,20 @@ class_name ClientRoster
 extends RefCounted
 
 # type: 0 = CAR, 1 = MECH, 2 = CYBER (CommissionData.Type)
+# mood: how patient the client is in a negotiation. 3 = friendly, 2 = neutral, 1 = impatient (walks away after one refusal).
 const CLIENTS: Array = [
-	{"id": &"sparky", "name": "Jax 'Sparky' Vane", "type": 0},
-	{"id": &"zero", "name": "Cipher Zero", "type": 0},
-	{"id": &"talia", "name": "Talia Ramos", "type": 0},
-	{"id": &"gideon", "name": "Gideon Vex", "type": 0},
-	{"id": &"mara", "name": "Mara Chen", "type": 1},
-	{"id": &"boris", "name": "Boris 'Piston' Volkov", "type": 1},
-	{"id": &"val", "name": "Valerie Vance", "type": 1},
-	{"id": &"ironhead", "name": "Hector Ironhead", "type": 1},
-	{"id": &"nyx", "name": "Nyx Holliday", "type": 2},
-	{"id": &"seraph", "name": "Unit Seraph-7", "type": 2},
-	{"id": &"mira", "name": "Mira Kuroda", "type": 2},
-	{"id": &"juno", "name": "Juno Okoro", "type": 2},
+	{"id": &"sparky", "mood": 2, "name": "Jax 'Sparky' Vane", "type": 0},
+	{"id": &"zero", "mood": 1, "name": "Cipher Zero", "type": 0},
+	{"id": &"talia", "mood": 3, "name": "Talia Ramos", "type": 0},
+	{"id": &"gideon", "mood": 2, "name": "Gideon Vex", "type": 0},
+	{"id": &"mara", "mood": 3, "name": "Mara Chen", "type": 1},
+	{"id": &"boris", "mood": 2, "name": "Boris 'Piston' Volkov", "type": 1},
+	{"id": &"val", "mood": 1, "name": "Valerie Vance", "type": 1},
+	{"id": &"ironhead", "mood": 1, "name": "Hector Ironhead", "type": 1},
+	{"id": &"nyx", "mood": 2, "name": "Nyx Holliday", "type": 2},
+	{"id": &"seraph", "mood": 3, "name": "Unit Seraph-7", "type": 2},
+	{"id": &"mira", "mood": 2, "name": "Mira Kuroda", "type": 2},
+	{"id": &"juno", "mood": 3, "name": "Juno Okoro", "type": 2},
 ]
 
 static func get_client(id: StringName) -> Dictionary:
@@ -27,6 +28,10 @@ static func get_client(id: StringName) -> Dictionary:
 		if c["id"] == id:
 			return c
 	return {}
+
+## Starting mood in a negotiation (1 impatient .. 3 friendly).
+static func start_mood(id: StringName) -> int:
+	return int(get_client(id).get("mood", 2))
 
 static func pick_for_type(type: int) -> Dictionary:
 	var pool: Array = []

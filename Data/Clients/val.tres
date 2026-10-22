@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ClientData" format=3 uid="uid://dll1qx0tign0t"]
+
+[ext_resource type="Script" uid="uid://dmr166h2l2885" path="res://Scripts/Resources/client_data.gd" id="1_skyvu"]
+
+[resource]
+script = ExtResource("1_skyvu")
+client_id = &"val"
+client_name = "Valerie Vance"
+greeting_key = "CLIENT_VAL_GREET"
+satisfied_key = "CLIENT_VAL_SATISFIED"
+unhappy_key = "CLIENT_VAL_UNHAPPY"

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ClientData" format=3 uid="uid://ttei47dd1g47"]
+
+[ext_resource type="Script" uid="uid://dmr166h2l2885" path="res://Scripts/Resources/client_data.gd" id="1_ifb5w"]
+
+[resource]
+script = ExtResource("1_ifb5w")
+client_id = &"boris"
+client_name = "Boris 'Piston' Volkov"
+preferred_type = 1
+greeting_key = "CLIENT_BORIS_GREET"
+satisfied_key = "CLIENT_BORIS_SATISFIED"
+unhappy_key = "CLIENT_BORIS_UNHAPPY"

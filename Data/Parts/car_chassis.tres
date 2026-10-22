@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemPartData" format=3 uid="uid://dmbq11n8rg2gw"]
+
+[ext_resource type="Script" uid="uid://dkmfv4egomkgk" path="res://Scripts/Resources/item_part_data.gd" id="1_gg6en"]
+
+[resource]
+script = ExtResource("1_gg6en")
+part_id = &"car_chassis"
+display_key = "PART_CAR_CHASSIS"
+archetype = 3
+ap_cost = 2
+base_power_watts = 0.0

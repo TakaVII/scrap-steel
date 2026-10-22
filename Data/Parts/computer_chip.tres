@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemPartData" format=3 uid="uid://b3s2wftossdih"]
+
+[ext_resource type="Script" uid="uid://dkmfv4egomkgk" path="res://Scripts/Resources/item_part_data.gd" id="1_unfy7"]
+
+[resource]
+script = ExtResource("1_unfy7")
+part_id = &"computer_chip"
+display_key = "PART_COMPUTER_CHIP"
+archetype = 2
+minigame_type = 2
+base_power_watts = 40.0

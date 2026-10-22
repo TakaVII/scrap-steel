@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemPartData" format=3 uid="uid://cm07fditiqsdr"]
+
+[ext_resource type="Script" uid="uid://dkmfv4egomkgk" path="res://Scripts/Resources/item_part_data.gd" id="1_aewgv"]
+
+[resource]
+script = ExtResource("1_aewgv")
+part_id = &"armor_plating"
+display_key = "PART_ARMOR_PLATING"
+archetype = 5
+ap_cost = 2
+base_power_watts = 0.0

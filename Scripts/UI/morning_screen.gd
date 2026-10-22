@@ -1,7 +1,7 @@
-# purpose: [v4] Morning briefing as master/detail. Left: compact offer rows (portrait, title, tier, AP, pay). Right: the selected offer with client portrait + greeting line, pay/AP/deadline, and (progressively disclosed) margin, pay per AP, power limit and material budget. Barter and Accept act on the selected offer.
+# purpose: [v5] Morning briefing as master/detail (lists scroll, the Details numbers sit to the right of the key numbers, so nothing can push the buttons off screen). Left: compact offer rows (portrait, title, tier, AP, pay). Right: the selected offer with client portrait + greeting line, pay/AP/deadline, and (progressively disclosed) margin, pay per AP, power limit and material budget. Barter and Accept act on the selected offer.
 # depends on: Control, GameManager, EconomyManager, TimeManager, CommissionManager, Balance, ClientRoster, PortraitView, NumberFormat, GamePalette
 # signals emitted: none
-# signals listened to: EventBus.phase_changed, BarterPanel.barter_resolved
+# signals listened to: EventBus.phase_changed, BarterPanel.barter_resolved, BarterPanel.client_left
 
 extends Control
 
@@ -39,6 +39,8 @@ var _show_advanced: bool = false
 func _ready() -> void:
 	EventBus.phase_changed.connect(_on_phase_changed)
 	barter_panel.barter_resolved.connect(_on_barter_resolved)
+	barter_panel.client_left.connect(_on_client_left)
+	barter_panel.cancelled.connect(_on_barter_cancelled)
 	details_button.toggled.connect(_on_details_toggled)
 	barter_button.pressed.connect(_on_barter_pressed)
 	accept_button.pressed.connect(_on_accept_pressed)
@@ -73,12 +75,18 @@ func _refresh_banner() -> void:
 
 # ---------------------------------------------------------------- offer list
 
+func _refresh_header() -> void:
+	var talks_left: int = maxi(0, Balance.cfg.max_inspections_per_day - CommissionManager.inspections_used_today)
+	offers_header.text = "%s  %s %d/%d  %s %d/%d" % [
+		tr("MORNING_OFFERS"), tr("MORNING_JOBS"), CommissionManager.normal_job_count(), Balance.cfg.max_active_jobs,
+		tr("MORNING_TALKS"), talks_left, Balance.cfg.max_inspections_per_day]
+
 func _rebuild_offers() -> void:
 	for child in offer_rows.get_children():
 		offer_rows.remove_child(child)
 		child.queue_free()
 	_row_buttons.clear()
-	offers_header.text = "%s  -  %s %d/%d" % [tr("MORNING_OFFERS"), tr("MORNING_JOBS"), CommissionManager.normal_job_count(), Balance.cfg.max_active_jobs]
+	_refresh_header()
 
 	var offers: Array[CommissionData] = CommissionManager.offers
 	if offers.is_empty():
@@ -177,11 +185,19 @@ func _on_barter_pressed() -> void:
 	var offer: CommissionData = _find_offer(_selected_id)
 	if offer == null:
 		return
-	if CommissionManager.inspections_used_today >= Balance.cfg.max_inspections_per_day:
+	if not barter_panel.open_for_offer(offer):
 		hint_label.text = tr("MORNING_NEGOTIATIONS_USED")
 		return
-	CommissionManager.inspections_used_today += 1
-	barter_panel.open_for_offer(offer)
+	_refresh_header()
+
+func _on_barter_cancelled() -> void:
+	_rebuild_offers() # the pay may have changed during the talk
+
+## The client walked out of the negotiation: the offer is gone.
+func _on_client_left(_offer_id: int, client_name: String) -> void:
+	hint_label.text = NumberFormat.render(tr("NEG_LEFT"), {"name": client_name})
+	_selected_id = -1
+	_rebuild_offers()
 
 func _on_accept_pressed() -> void:
 	_try_accept(_selected_id, CommissionData.Barter.NONE)

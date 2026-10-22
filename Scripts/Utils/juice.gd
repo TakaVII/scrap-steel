@@ -57,7 +57,7 @@ static func animate_number(node: Node, label: Label, from_val: int, to_val: int,
 	, from_val, to_val, duration)
 
 ## Spawns drifting floating text.
-static func spawn_floating_text(parent: Control, text_msg: String, pos: Vector2, text_color: Color = Color.WHITE) -> void:
+static func spawn_floating_text(parent: Control, text_msg: String, pos: Vector2, text_color: Color = Color.WHITE, font_size: int = 0) -> void:
 	if not parent:
 		return
 	var lbl := Label.new()
@@ -65,10 +65,12 @@ static func spawn_floating_text(parent: Control, text_msg: String, pos: Vector2,
 	lbl.position = pos
 	lbl.modulate = text_color
 	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if font_size > 0:
+		lbl.add_theme_font_size_override("font_size", font_size)
 	parent.add_child(lbl)
 
 	var tween := parent.create_tween()
 	tween.set_parallel(true)
-	tween.tween_property(lbl, "position:y", pos.y - 20.0, 0.6)
-	tween.tween_property(lbl, "modulate:a", 0.0, 0.6)
+	tween.tween_property(lbl, "position:y", pos.y - 20.0, 0.7)
+	tween.tween_property(lbl, "modulate:a", 0.0, 0.7).set_delay(0.2)
 	tween.chain().tween_callback(lbl.queue_free)

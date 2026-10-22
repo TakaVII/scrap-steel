@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ClientData" format=3 uid="uid://dshboq1jkp1ol"]
+
+[ext_resource type="Script" uid="uid://dmr166h2l2885" path="res://Scripts/Resources/client_data.gd" id="1_c5nim"]
+
+[resource]
+script = ExtResource("1_c5nim")
+client_id = &"seraph"
+client_name = "Unit Seraph-7"
+preferred_type = 2
+greeting_key = "CLIENT_SERAPH_GREET"
+satisfied_key = "CLIENT_SERAPH_SATISFIED"
+unhappy_key = "CLIENT_SERAPH_UNHAPPY"
