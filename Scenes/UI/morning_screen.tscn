@@ -43,7 +43,6 @@ clip_text = true
 unique_name_in_owner = true
 layout_mode = 2
 text = "Rent"
-clip_text = true
 
 [node name="BannerLabel" type="Label" parent="Margin/VBox"]
 unique_name_in_owner = true
@@ -61,7 +60,7 @@ size_flags_vertical = 3
 theme_override_constants/separation = 8
 
 [node name="OfferColumn" type="VBoxContainer" parent="Margin/VBox/Body"]
-custom_minimum_size = Vector2(190, 0)
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_constants/separation = 3
 
@@ -100,6 +99,7 @@ layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="DetailScroll" type="ScrollContainer" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
@@ -133,6 +133,7 @@ clip_text = true
 [node name="ContractTitleLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/DetailScroll/ScrollContent/TopRow/NameBox"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/line_spacing = 0
 text = "Contract"
 autowrap_mode = 3
 max_lines_visible = 2
@@ -147,6 +148,7 @@ clip_text = true
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.8, 0.9, 1)
+theme_override_constants/line_spacing = 0
 text = ""
 autowrap_mode = 3
 max_lines_visible = 2
@@ -162,6 +164,7 @@ theme_override_constants/separation = 10
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
+theme_override_constants/line_spacing = 0
 text = ""
 
 [node name="AdvancedLabel" type="Label" parent="Margin/VBox/Body/DetailPanel/DetailMargin/DetailVBox/DetailScroll/ScrollContent/InfoRow"]
@@ -170,6 +173,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 theme_override_colors/font_color = Color(0.7, 0.7, 0.8, 1)
+theme_override_constants/line_spacing = 0
 text = ""
 autowrap_mode = 3
 

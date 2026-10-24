@@ -174,6 +174,9 @@ KEYS = {
     "MINIGAME_ASSEMBLER_OUT_UNLOCKED": ["Output unlocked!", "¡Salida desbloqueada!", "تم فتح المخرج!"],
     "MINIGAME_ASSEMBLER_INSTRUCT": ["Connect every node (C), then reach OUT. Wire and time are limited.", "Conecta todos los nodos (C) y llega a OUT. Cable y tiempo limitados.", "صِل كل العقد (C) ثم اصل إلى OUT. السلك والوقت محدودان."],
     "MINIGAME_CALIBRATOR_STREAK": ["Streak {s}s", "Racha {s}s", "تتابع {s}ث"],
+
+    # ---- v9.1 ----
+    "UPG_BUY": ["Buy", "Comprar", "شراء"],
 }
 
 

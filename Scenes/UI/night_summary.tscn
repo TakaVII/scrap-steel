@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://Scripts/UI/night_summary.gd" id="1_night"]
 
@@ -9,164 +9,203 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+clip_contents = true
 script = ExtResource("1_night")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 6
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBox" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
-[node name="HBoxTop" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxTop" type="HBoxContainer" parent="Margin/VBox"]
 layout_mode = 2
+theme_override_constants/separation = 10
 
-[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxTop"]
+[node name="TitleLabel" type="Label" parent="Margin/VBox/HBoxTop"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "NIGHT SUMMARY — DAY 1"
-
-[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/HBoxTop"]
-layout_mode = 2
 size_flags_horizontal = 3
+text = "NIGHT_TITLE"
+clip_text = true
 
-[node name="CurrentBalanceLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxTop"]
+[node name="CurrentBalanceLabel" type="Label" parent="Margin/VBox/HBoxTop"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Cash: 2,000 cr"
 
-[node name="CurrentDebtLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxTop"]
+[node name="CurrentDebtLabel" type="Label" parent="Margin/VBox/HBoxTop"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Debt: 10,000 cr"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="Margin/VBox"]
 layout_mode = 2
 
-[node name="HBoxFinancials" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="Body" type="HBoxContainer" parent="Margin/VBox"]
 layout_mode = 2
-theme_override_constants/separation = 12
+size_flags_vertical = 3
+theme_override_constants/separation = 10
 
-[node name="GridNumbers" type="GridContainer" parent="MarginContainer/VBoxContainer/HBoxFinancials"]
+[node name="LeftCol" type="VBoxContainer" parent="Margin/VBox/Body"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="GridNumbers" type="GridContainer" parent="Margin/VBox/Body/LeftCol"]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 1
+columns = 2
+
+[node name="Lbl1" type="Label" parent="Margin/VBox/Body/LeftCol/GridNumbers"]
 layout_mode = 2
 size_flags_horizontal = 3
-columns = 4
-
-[node name="Lbl1" type="Label" parent="MarginContainer/VBoxContainer/HBoxFinancials/GridNumbers"]
-layout_mode = 2
 text = "NIGHT_REVENUE"
+clip_text = true
 
-[node name="RevenueLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxFinancials/GridNumbers"]
+[node name="RevenueLabel" type="Label" parent="Margin/VBox/Body/LeftCol/GridNumbers"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "+0 cr"
+horizontal_alignment = 2
 
-[node name="Lbl2" type="Label" parent="MarginContainer/VBoxContainer/HBoxFinancials/GridNumbers"]
+[node name="Lbl2" type="Label" parent="Margin/VBox/Body/LeftCol/GridNumbers"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "NIGHT_MATERIALS"
+clip_text = true
 
-[node name="MaterialsLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxFinancials/GridNumbers"]
+[node name="MaterialsLabel" type="Label" parent="Margin/VBox/Body/LeftCol/GridNumbers"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "-0 cr"
+horizontal_alignment = 2
 
-[node name="Lbl3" type="Label" parent="MarginContainer/VBoxContainer/HBoxFinancials/GridNumbers"]
+[node name="Lbl3" type="Label" parent="Margin/VBox/Body/LeftCol/GridNumbers"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "NIGHT_RENT"
+clip_text = true
 
-[node name="RentLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxFinancials/GridNumbers"]
+[node name="RentLabel" type="Label" parent="Margin/VBox/Body/LeftCol/GridNumbers"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "-150 cr"
+horizontal_alignment = 2
 
-[node name="Lbl4" type="Label" parent="MarginContainer/VBoxContainer/HBoxFinancials/GridNumbers"]
+[node name="Lbl4" type="Label" parent="Margin/VBox/Body/LeftCol/GridNumbers"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "NIGHT_INTEREST_PAID"
+clip_text = true
 
-[node name="InterestLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxFinancials/GridNumbers"]
+[node name="InterestLabel" type="Label" parent="Margin/VBox/Body/LeftCol/GridNumbers"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "-200 cr"
+horizontal_alignment = 2
 
-[node name="Lbl5" type="Label" parent="MarginContainer/VBoxContainer/HBoxFinancials/GridNumbers"]
+[node name="Lbl5" type="Label" parent="Margin/VBox/Body/LeftCol/GridNumbers"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "NIGHT_FINES"
+clip_text = true
 
-[node name="FinesLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxFinancials/GridNumbers"]
+[node name="FinesLabel" type="Label" parent="Margin/VBox/Body/LeftCol/GridNumbers"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "-0 cr"
+horizontal_alignment = 2
 
-[node name="Lbl6" type="Label" parent="MarginContainer/VBoxContainer/HBoxFinancials/GridNumbers"]
+[node name="Lbl6" type="Label" parent="Margin/VBox/Body/LeftCol/GridNumbers"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "NIGHT_REFUNDS"
+clip_text = true
 
-[node name="RefundsLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxFinancials/GridNumbers"]
+[node name="RefundsLabel" type="Label" parent="Margin/VBox/Body/LeftCol/GridNumbers"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "-0 cr"
+horizontal_alignment = 2
 
-[node name="Lbl7" type="Label" parent="MarginContainer/VBoxContainer/HBoxFinancials/GridNumbers"]
+[node name="Lbl7" type="Label" parent="Margin/VBox/Body/LeftCol/GridNumbers"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "NIGHT_UPGRADES"
+clip_text = true
 
-[node name="UpgradesSpentLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxFinancials/GridNumbers"]
+[node name="UpgradesSpentLabel" type="Label" parent="Margin/VBox/Body/LeftCol/GridNumbers"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "-0 cr"
+horizontal_alignment = 2
 
-[node name="Lbl8" type="Label" parent="MarginContainer/VBoxContainer/HBoxFinancials/GridNumbers"]
+[node name="Lbl8" type="Label" parent="Margin/VBox/Body/LeftCol/GridNumbers"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "NIGHT_NET_PROFIT"
+clip_text = true
 
-[node name="NetProfitLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxFinancials/GridNumbers"]
+[node name="NetProfitLabel" type="Label" parent="Margin/VBox/Body/LeftCol/GridNumbers"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.992, 0.682, 0.380, 1)
 text = "+0 cr"
+horizontal_alignment = 2
+theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
 
-[node name="FeedbackLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="Margin/VBox/Body/LeftCol"]
+layout_mode = 2
+
+[node name="FeedbackLabel" type="Label" parent="Margin/VBox/Body/LeftCol"]
 unique_name_in_owner = true
 layout_mode = 2
 text = ""
 
-[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+[node name="RightCol" type="VBoxContainer" parent="Margin/VBox/Body"]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
 
-[node name="RdHeaderLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="RdHeaderLabel" type="Label" parent="Margin/VBox/Body/RightCol"]
 layout_mode = 2
-text = "R&D UPGRADE BENCH (Spend Credits & Tech Points)"
+theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
+text = "NIGHT_UPGRADES"
+clip_text = true
 
-[node name="ScrollUpgrades" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+[node name="ScrollUpgrades" type="ScrollContainer" parent="Margin/VBox/Body/RightCol"]
 layout_mode = 2
 size_flags_vertical = 3
+horizontal_scroll_mode = 0
 
-[node name="UpgradesContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollUpgrades"]
+[node name="UpgradesContainer" type="VBoxContainer" parent="Margin/VBox/Body/RightCol/ScrollUpgrades"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 8
+theme_override_constants/separation = 3
 
-[node name="HBoxBottom" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxBottom" type="HBoxContainer" parent="Margin/VBox"]
 layout_mode = 2
 
-[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/HBoxBottom"]
+[node name="Spacer" type="Control" parent="Margin/VBox/HBoxBottom"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="NextDayButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxBottom"]
+[node name="NextDayButton" type="Button" parent="Margin/VBox/HBoxBottom"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 26)
+custom_minimum_size = Vector2(160, 24)
 layout_mode = 2
 text = "NIGHT_NEXT_DAY"
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxBottom/NextDayButton" to="." method="_on_next_day_button_pressed"]
+[connection signal="pressed" from="Margin/VBox/HBoxBottom/NextDayButton" to="." method="_on_next_day_button_pressed"]

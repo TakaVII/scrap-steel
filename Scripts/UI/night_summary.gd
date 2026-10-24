@@ -1,4 +1,4 @@
-# purpose: [v5] Night summary + R&D shop. v5: feedback and client mail are fixed single lines (clipped), so they can no longer grow and push the Next Morning button off screen. v4: no hardcoded English, thousands separators, safe feedback formatting, and a "client mail" line (satisfied/unhappy quote from the client of today's delivery).
+# purpose: [v6] Night summary + R&D shop. v6: two columns (numbers left, upgrades right, vertical scroll), short header labels so no language can widen the screen, top margin below the HUD. v5: feedback and client mail are fixed single lines (clipped), so they can no longer grow and push the Next Morning button off screen. v4: no hardcoded English, thousands separators, safe feedback formatting, and a "client mail" line (satisfied/unhappy quote from the client of today's delivery).
 # depends on: Control, GameManager, EconomyManager, UpgradeManager, UpgradeData, NumberFormat, ClientRoster
 # signals emitted: none
 # signals listened to: EventBus.night_summary_ready, EventBus.upgrade_purchased, EventBus.commission_delivered, EventBus.day_started
@@ -21,7 +21,7 @@ const MAIL_UNHAPPY_MAX_QUALITY: float = 0.50
 @onready var feedback_label: Label = %FeedbackLabel
 @onready var current_balance_label: Label = %CurrentBalanceLabel
 @onready var current_debt_label: Label = %CurrentDebtLabel
-@onready var upgrades_container: HBoxContainer = %UpgradesContainer
+@onready var upgrades_container: VBoxContainer = %UpgradesContainer
 @onready var next_day_button: Button = %NextDayButton
 
 ## Deliveries of the current day: {"client": StringName, "q": float}
@@ -34,17 +34,21 @@ func _ready() -> void:
 	EventBus.commission_delivered.connect(_on_commission_delivered)
 	EventBus.day_started.connect(_on_day_started)
 	# NextDayButton.pressed is already connected in night_summary.tscn (do not connect it twice).
-	feedback_label.autowrap_mode = TextServer.AUTOWRAP_OFF
-	feedback_label.clip_text = true
-	feedback_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_style_wrapped(feedback_label)
 	_mail_label = Label.new()
-	_mail_label.clip_text = true
-	_mail_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_style_wrapped(_mail_label)
 	_mail_label.add_theme_color_override("font_color", GamePalette.ACCENT)
 	_mail_label.visible = false
 	var holder: Node = feedback_label.get_parent()
 	holder.add_child(_mail_label)
 	holder.move_child(_mail_label, feedback_label.get_index() + 1)
+
+## Wraps to at most 2 lines and then ellipsizes, so the left column has a fixed maximum height.
+func _style_wrapped(l: Label) -> void:
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.max_lines_visible = 2
+	l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	l.add_theme_constant_override("line_spacing", 0)
 
 func _on_day_started(_day: int) -> void:
 	_mail.clear()
@@ -69,8 +73,8 @@ func _on_night_summary_ready(summary: Dictionary) -> void:
 	var net: int = rev - spent
 	net_profit_label.text = ("+" if net >= 0 else "") + NumberFormat.format_credits(net)
 
-	current_balance_label.text = tr("NIGHT_NEW_BALANCE") + ": " + NumberFormat.format_credits(int(summary.get("credits", 0)))
-	current_debt_label.text = tr("NIGHT_NEW_DEBT") + ": " + NumberFormat.format_credits(int(summary.get("debt", 0)))
+	current_balance_label.text = tr("HUD_CREDITS") + ": " + NumberFormat.format_credits(int(summary.get("credits", 0)))
+	current_debt_label.text = tr("HUD_DEBT") + ": " + NumberFormat.format_credits(int(summary.get("debt", 0)))
 
 	var intr: int = int(summary.get("interest", 0))
 	var text: String = ""

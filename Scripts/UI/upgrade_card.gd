@@ -1,7 +1,8 @@
-# purpose: [v3 manual fix] R&D upgrade card. Uses NumberFormat.fmt so a missing translation can never raise a formatting error; uses the run's real interest rate.
+# purpose: [v4] R&D upgrade card (compact row: title, cost and Buy button on one line, then effect and payback). Uses NumberFormat.fmt so a missing translation can never raise a formatting error; uses the run's real interest rate. The debt-interest comparison moved to the payback line's tooltip.
 # depends on: Control, UpgradeData, UpgradeManager, EconomyManager, NumberFormat
 # signals emitted: buy_requested(id: StringName)
 # signals listened to: none
+# note: BuyButton.pressed is connected in upgrade_card.tscn.
 
 extends PanelContainer
 
@@ -20,9 +21,11 @@ func setup(data: UpgradeData) -> void:
 	_upgrade_id = data.id
 	title_label.text = tr(data.title_key)
 	desc_label.text = tr(data.desc_key)
-	cost_label.text = "%d cr  |  %d TP" % [data.cost_credits, data.cost_tp]
+	cost_label.text = "%s | %d TP" % [NumberFormat.format_credits(data.cost_credits), data.cost_tp]
 	payback_label.text = NumberFormat.fmt(tr("UPG_PAYBACK_PREFIX"), "%.1f" % data.payback_days)
 	debt_compare_label.text = NumberFormat.fmt(tr("UPG_DEBT_INTEREST_COMPARE"), EconomyManager.projected_interest())
+	payback_label.tooltip_text = debt_compare_label.text
+	desc_label.tooltip_text = desc_label.text
 	_update_state()
 
 func _update_state() -> void:
@@ -30,7 +33,7 @@ func _update_state() -> void:
 		buy_button.text = tr("UPG_OWNED")
 		buy_button.disabled = true
 	else:
-		buy_button.text = tr("UPG_PURCHASE")
+		buy_button.text = tr("UPG_BUY")
 		buy_button.disabled = not UpgradeManager.can_purchase(_upgrade_id)
 
 func _on_buy_button_pressed() -> void:

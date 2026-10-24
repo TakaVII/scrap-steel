@@ -16,6 +16,7 @@ const DETAIL_PORTRAIT_PX: int = 40
 @onready var offers_header: Label = %OffersHeader
 @onready var offer_rows: VBoxContainer = %OfferRows
 @onready var detail_panel: PanelContainer = %DetailPanel
+@onready var detail_scroll: ScrollContainer = %DetailScroll
 @onready var portrait_holder: Control = %PortraitHolder
 @onready var client_name_label: Label = %ClientNameLabel
 @onready var contract_title_label: Label = %ContractTitleLabel
@@ -139,6 +140,7 @@ func _find_offer(offer_id: int) -> CommissionData:
 # ---------------------------------------------------------------- detail
 
 func _show_detail(offer: CommissionData) -> void:
+	detail_scroll.scroll_vertical = 0
 	var has_client: bool = ClientRoster.get_client(offer.client_id).size() > 0
 	portrait_holder.visible = has_client
 	client_name_label.visible = has_client
