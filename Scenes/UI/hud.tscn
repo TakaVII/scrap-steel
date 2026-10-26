@@ -1,46 +1,90 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://Scripts/UI/hud.gd" id="1_hud"]
+[ext_resource type="Script" path="res://Scripts/UI/hud_pips.gd" id="2_pips"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_money"]
+bg_color = Color(0.078, 0.067, 0.122, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.169, 0.514, 0.729, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_center"]
+bg_color = Color(0.078, 0.067, 0.122, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0.898, 1, 0.8)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_right"]
+bg_color = Color(0.078, 0.067, 0.122, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.992, 0.682, 0.38, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
 [node name="HUD" type="Control"]
-custom_minimum_size = Vector2(480, 26)
+custom_minimum_size = Vector2(480, 30)
 layout_mode = 3
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 26.0
+offset_bottom = 30.0
 grow_horizontal = 2
-clip_contents = true
 script = ExtResource("1_hud")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="Margin" type="MarginContainer" parent="Panel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 4
+theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 1
-theme_override_constants/margin_right = 4
+theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 1
 
-[node name="Rows" type="VBoxContainer" parent="Panel/Margin"]
+[node name="Row" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="MoneyPanel" type="PanelContainer" parent="Margin/Row"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_money")
+
+[node name="MoneyMargin" type="MarginContainer" parent="Margin/Row/MoneyPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 0
+
+[node name="MoneyVBox" type="VBoxContainer" parent="Margin/Row/MoneyPanel/MoneyMargin"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Row1" type="HBoxContainer" parent="Panel/Margin/Rows"]
+[node name="CreditsRow" type="HBoxContainer" parent="Margin/Row/MoneyPanel/MoneyMargin/MoneyVBox"]
 layout_mode = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 3
 
-[node name="CreditsIcon" type="TextureRect" parent="Panel/Margin/Rows/Row1"]
+[node name="CreditsIcon" type="TextureRect" parent="Margin/Row/MoneyPanel/MoneyMargin/MoneyVBox/CreditsRow"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(10, 10)
@@ -49,12 +93,16 @@ size_flags_vertical = 4
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CreditsLabel" type="Label" parent="Panel/Margin/Rows/Row1"]
+[node name="CreditsLabel" type="Label" parent="Margin/Row/MoneyPanel/MoneyMargin/MoneyVBox/CreditsRow"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0 cr"
 
-[node name="DebtIcon" type="TextureRect" parent="Panel/Margin/Rows/Row1"]
+[node name="DebtRow" type="HBoxContainer" parent="Margin/Row/MoneyPanel/MoneyMargin/MoneyVBox"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="DebtIcon" type="TextureRect" parent="Margin/Row/MoneyPanel/MoneyMargin/MoneyVBox/DebtRow"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(10, 10)
@@ -63,61 +111,138 @@ size_flags_vertical = 4
 expand_mode = 1
 stretch_mode = 5
 
-[node name="DebtLabel" type="Label" parent="Panel/Margin/Rows/Row1"]
+[node name="DebtLabel" type="Label" parent="Margin/Row/MoneyPanel/MoneyMargin/MoneyVBox/DebtRow"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 0
 text = "0 cr"
 
-[node name="Spacer" type="Control" parent="Panel/Margin/Rows/Row1"]
+[node name="DebtBar" type="ProgressBar" parent="Margin/Row/MoneyPanel/MoneyMargin/MoneyVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
+show_percentage = false
+
+[node name="CenterPanel" type="PanelContainer" parent="Margin/Row"]
+unique_name_in_owner = true
 size_flags_horizontal = 3
-
-[node name="ApIcon" type="TextureRect" parent="Panel/Margin/Rows/Row1"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
-size_flags_vertical = 4
-expand_mode = 1
-stretch_mode = 5
+theme_override_styles/panel = SubResource("StyleBoxFlat_center")
 
-[node name="ApLabel" type="Label" parent="Panel/Margin/Rows/Row1"]
-unique_name_in_owner = true
+[node name="CenterMargin" type="MarginContainer" parent="Margin/Row/CenterPanel"]
 layout_mode = 2
-text = "0/0"
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 0
 
-[node name="TpIcon" type="TextureRect" parent="Panel/Margin/Rows/Row1"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(10, 10)
+[node name="CenterVBox" type="VBoxContainer" parent="Margin/Row/CenterPanel/CenterMargin"]
 layout_mode = 2
-size_flags_vertical = 4
-expand_mode = 1
-stretch_mode = 5
+theme_override_constants/separation = 0
 
-[node name="TpLabel" type="Label" parent="Panel/Margin/Rows/Row1"]
-unique_name_in_owner = true
+[node name="DayRow" type="HBoxContainer" parent="Margin/Row/CenterPanel/CenterMargin/CenterVBox"]
 layout_mode = 2
-text = "0"
+theme_override_constants/separation = 6
 
-[node name="DayLabel" type="Label" parent="Panel/Margin/Rows/Row1"]
+[node name="DayLabel" type="Label" parent="Margin/Row/CenterPanel/CenterMargin/CenterVBox/DayRow"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Day 0/30"
 
-[node name="Row2" type="HBoxContainer" parent="Panel/Margin/Rows"]
+[node name="DayPips" type="Control" parent="Margin/Row/CenterPanel/CenterMargin/CenterVBox/DayRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(124, 9)
 layout_mode = 2
-theme_override_constants/separation = 8
+size_flags_vertical = 4
+script = ExtResource("2_pips")
+mode = 0
 
-[node name="InstallmentLabel" type="Label" parent="Panel/Margin/Rows/Row2"]
+[node name="InstRow" type="HBoxContainer" parent="Margin/Row/CenterPanel/CenterMargin/CenterVBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="InstallmentLabel" type="Label" parent="Margin/Row/CenterPanel/CenterMargin/CenterVBox/InstRow"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = ""
 clip_text = true
+text = ""
 
-[node name="StrikesLabel" type="Label" parent="Panel/Margin/Rows/Row2"]
+[node name="InstallmentBar" type="ProgressBar" parent="Margin/Row/CenterPanel/CenterMargin/CenterVBox/InstRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(44, 4)
+layout_mode = 2
+size_flags_vertical = 4
+show_percentage = false
+
+[node name="RightPanel" type="PanelContainer" parent="Margin/Row"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_right")
+
+[node name="RightMargin" type="MarginContainer" parent="Margin/Row/RightPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 0
+
+[node name="RightVBox" type="VBoxContainer" parent="Margin/Row/RightPanel/RightMargin"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ApRow" type="HBoxContainer" parent="Margin/Row/RightPanel/RightMargin/RightVBox"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="ApIcon" type="TextureRect" parent="Margin/Row/RightPanel/RightMargin/RightVBox/ApRow"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ApLabel" type="Label" parent="Margin/Row/RightPanel/RightMargin/RightVBox/ApRow"]
 unique_name_in_owner = true
 layout_mode = 2
-text = ""
+text = "0/0"
+
+[node name="ApPips" type="Control" parent="Margin/Row/RightPanel/RightMargin/RightVBox/ApRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 8)
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("2_pips")
+mode = 1
+
+[node name="TpRow" type="HBoxContainer" parent="Margin/Row/RightPanel/RightMargin/RightVBox"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="TpIcon" type="TextureRect" parent="Margin/Row/RightPanel/RightMargin/RightVBox/TpRow"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TpLabel" type="Label" parent="Margin/Row/RightPanel/RightMargin/RightVBox/TpRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="Spacer" type="Control" parent="Margin/Row/RightPanel/RightMargin/RightVBox/TpRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StrikePips" type="Control" parent="Margin/Row/RightPanel/RightMargin/RightVBox/TpRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(28, 9)
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("2_pips")
+mode = 2

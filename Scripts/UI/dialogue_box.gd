@@ -1,7 +1,7 @@
-# purpose: Reusable dialogue box (portrait, name, typewriter text). play(seq_id, lines) shows a sequence; click or Space/Enter advances (finishes typing first); Esc skips the whole sequence. Lines come from StoryData: {who, key, vars, mood, act}.
-# depends on: Control, PortraitView, ClientRoster, NumberFormat
+# purpose: [v2] Reusable dialogue box (portrait, name, typewriter text). play(seq_id, lines) shows a sequence; click or Space/Enter advances (finishes typing first); Esc skips the whole sequence. Lines come from StoryData: {who, key, vars, mood, act}. v2: the continue hint is a translation KEY (auto-translates; it used to be translated once in _ready and stayed Spanish after switching to English), body text is 2 px bigger than the UI base size, hint moved next to the name so the box is shorter.
+# depends on: Control, PortraitView, ClientRoster, NumberFormat, SettingsManager, EventBus
 # signals emitted: sequence_finished(seq_id), line_shown(index, line)
-# signals listened to: none
+# signals listened to: EventBus.settings_changed
 
 extends Control
 
@@ -9,6 +9,9 @@ signal sequence_finished(seq_id: StringName)
 signal line_shown(index: int, line: Dictionary)
 
 const CHARS_PER_SEC: float = 60.0
+## Dialogue text is this many px bigger than the UI base size (SettingsManager.FONT_SIZE_NORMAL / LARGE).
+## If the pixel font looks blurry at 10, try 12 (bonus 4).
+const TEXT_SIZE_BONUS: int = 2
 
 @onready var dim: ColorRect = %Dim
 @onready var portrait_holder: Control = %PortraitHolder
@@ -29,7 +32,13 @@ func _ready() -> void:
 	portrait_holder.add_child(_portrait)
 	_portrait.set_anchors_preset(Control.PRESET_FULL_RECT)
 	dim.gui_input.connect(_on_dim_gui_input)
-	hint_label.text = tr("DIALOGUE_CONTINUE")
+	hint_label.text = "DIALOGUE_CONTINUE" # a key: Label auto-translates it and follows locale changes
+	EventBus.settings_changed.connect(_apply_font)
+	_apply_font()
+
+func _apply_font() -> void:
+	var base: int = SettingsManager.FONT_SIZE_LARGE if SettingsManager.large_text else SettingsManager.FONT_SIZE_NORMAL
+	text_label.add_theme_font_size_override("font_size", base + TEXT_SIZE_BONUS)
 
 func is_playing() -> bool:
 	return visible

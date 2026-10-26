@@ -27,12 +27,6 @@ size_flags_horizontal = 3
 text = "Upgrade"
 clip_text = true
 
-[node name="CostLabel" type="Label" parent="Margin/VBox/HBoxTop"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
-text = "800 cr | 2 TP"
-
 [node name="BuyButton" type="Button" parent="Margin/VBox/HBoxTop"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(54, 18)
@@ -45,9 +39,20 @@ layout_mode = 2
 text = ""
 clip_text = true
 
-[node name="PaybackLabel" type="Label" parent="Margin/VBox"]
+[node name="CostRow" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CostLabel" type="Label" parent="Margin/VBox/CostRow"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
+text = "800 cr | 2 TP"
+
+[node name="PaybackLabel" type="Label" parent="Margin/VBox/CostRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.168, 0.513, 0.729, 1)
 text = ""
 clip_text = true
