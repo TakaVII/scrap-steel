@@ -3,6 +3,7 @@
 # signals emitted: none
 # signals listened to: none
 # [v2 manual fix] added: assist preset values, max_inspections_per_day, champion_reforge_cost_fraction
+# [v3] payout_per_ap x0.90 (simulated with balance_sim_v3.py); material grades, market swing, graduated power fine, bad reviews
 
 class_name BalanceConfig
 extends Resource
@@ -34,7 +35,7 @@ extends Resource
 @export var overtime_next_day_ap_penalty: int = 1
 
 @export_group("Commissions")
-@export var payout_per_ap: Array[float] = [304.0, 395.2, 516.8] # Tier 1, 2, 3
+@export var payout_per_ap: Array[float] = [273.6, 355.7, 465.1] # Tier 1, 2, 3 (spec 304 / 395.2 / 516.8 x 0.90)
 @export var material_cost_fraction: float = 0.50
 @export var budget_cap_fraction: float = 0.65
 @export var offers_per_day: int = 4
@@ -44,7 +45,28 @@ extends Resource
 @export var warranty_delay_days: int = 3
 @export var warranty_cost_fraction: float = 0.35
 @export var late_payout_mult: float = 0.80
-@export var power_fine_mult: float = 0.85
+@export var power_fine_mult: float = 0.85 # legacy flat fine, no longer used (see power_fine_* below)
+
+@export_group("Materials")
+## Index 0 = Scrap, 1 = Standard, 2 = Premium.
+@export var grade_cost_mult: Array[float] = [0.75, 1.0, 1.2]
+## Minigame difficulty by grade (applied on top of the accessibility multipliers). Higher speed = harder; lower window = harder.
+@export var grade_speed_mult: Array[float] = [0.9, 1.0, 1.15]
+@export var grade_window_mult: Array[float] = [1.15, 1.0, 0.9]
+@export var scrap_quality_cap: float = 0.68
+@export var premium_quality_bonus: float = 0.08
+## Added to the warranty-claim chance, multiplied by the share of Scrap parts in the job.
+@export var scrap_warranty_add: float = 0.30
+## Daily material price swing (+-): rolled every morning.
+@export var market_swing: float = 0.15
+
+@export_group("Penalties")
+@export var power_fine_min: float = 0.05
+@export var power_fine_max: float = 0.30
+@export var power_fine_slope: float = 1.5
+## A delivery with quality below this counts extra-badly in the shop rating.
+@export var bad_review_quality: float = 0.50
+@export var bad_review_penalty: float = 0.15
 
 @export_group("Endings")
 @export var champion_build_cost_materials: int = 7000

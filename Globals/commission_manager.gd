@@ -1,6 +1,6 @@
-# purpose: [v6] (v6: a RUSH contract that misses its deadline is cancelled) Offers, barter, delivery payout (separate ledger lines), warranty, Champion Build, rating, save/restore. v5: payout gets the spec's +-10% variance per job (B5) and every offer gets a client from ClientRoster (face + dialogue).
-# depends on: Balance, EventBus, EconomyManager, TimeManager, UpgradeManager, CraftingManager, ItemPartData, CommissionData, CommissionState, ClientRoster
-# signals emitted: EventBus.commission_accepted, commission_delivered, commission_failed, warranty_claim_charged
+# purpose: [v7] Offers, barter, delivery payout (separate ledger lines), warranty, Champion Build, rating, save/restore. v7: daily MATERIAL MARKET price, AP by tier (offers' total AP and payout follow it), part grades/qualities in contracts and saves, graduated power fine, scrap warranty risk + warranty warning at delivery, bad reviews in the shop rating. v6: a RUSH contract that misses its deadline is cancelled.
+# depends on: Balance, EventBus, EconomyManager, TimeManager, UpgradeManager, CraftingManager, ItemPartData, CommissionData, CommissionState, ClientRoster, NumberFormat
+# signals emitted: EventBus.commission_accepted, commission_delivered, commission_failed, warranty_claim_charged, ledger_entry_added
 # signals listened to: none
 
 extends Node
@@ -46,6 +46,8 @@ var inspections_used_today: int = 0
 var champion_completed: bool = false
 var champion_registration_paid: bool = false
 var champion_contract: CommissionState = null
+## Today's material price multiplier (1.0 = nominal). Rolled every morning; Champion Build ignores it.
+var market_mult: float = 1.0
 var _next_id: int = 1
 var _archetypes_cache: Dictionary = {}
 
@@ -61,6 +63,7 @@ func new_run() -> void:
 	champion_registration_paid = false
 	champion_contract = null
 	inspections_used_today = 0
+	market_mult = 1.0
 	_next_id = 1
 
 func set_pathway(p: StringName) -> void:
@@ -87,9 +90,14 @@ func _part_for(arch: int) -> ItemPartData:
 
 # ---------------------------------------------------------------- offers
 
+func _roll_market() -> void:
+	var swing: float = Balance.cfg.market_swing
+	market_mult = snappedf(randf_range(1.0 - swing, 1.0 + swing), 0.01)
+
 func generate_offers(day: int) -> void:
 	offers.clear()
 	inspections_used_today = 0
+	_roll_market()
 	var count: int = Balance.cfg.offers_per_day
 	if UpgradeManager.has_upgrade(&"client_rolodex"):
 		count += 1
@@ -133,9 +141,7 @@ func _create_champion_contract() -> void:
 	var ap_sum: int = 0
 	for arch in pool:
 		var p: ItemPartData = _part_for(arch)
-		state.parts.append(p)
-		state.part_scores.append(-1.0)
-		state.part_power.append(0.0)
+		state.add_part_slot(p)
 		ap_sum += p.ap_cost
 	champ.total_ap = ap_sum
 	champion_contract = state
@@ -202,7 +208,7 @@ func _create_procedural_offer(day: int) -> CommissionData:
 		var arch: int = pool[randi() % pool.size()]
 		data.part_archetypes.append(arch)
 		var p: ItemPartData = _part_for(arch)
-		ap_sum += p.ap_cost
+		ap_sum += p.ap_for_tier(data.tier) # AP depends on the tier now
 		watts_sum += p.base_power_watts
 
 	data.total_ap = ap_sum
@@ -241,9 +247,7 @@ func accept_offer(offer_id: int, barter_choice: int) -> bool:
 	state.budget_cap = roundi(offer.budget_cap * (0.85 if barter_choice == CommissionData.Barter.PROFIT_SHARE else 1.0))
 	state.payout = offer.base_payout
 	for arch in offer.part_archetypes:
-		state.parts.append(_part_for(arch))
-		state.part_scores.append(-1.0)
-		state.part_power.append(0.0)
+		state.add_part_slot(_part_for(arch))
 
 	if barter_choice == CommissionData.Barter.ADVANCE_DEPOSIT:
 		# 20% paid now, total payout -10%. The deposit is an ADVANCE: it is subtracted at delivery.
@@ -333,6 +337,10 @@ func reforge_champion_part(part_index: int) -> bool:
 		champion_contract.reforging_parts.append(part_index)
 	champion_contract.part_scores[part_index] = -1.0
 	champion_contract.part_power[part_index] = 0.0
+	if part_index < champion_contract.part_quality.size():
+		champion_contract.part_quality[part_index] = -1.0
+	if part_index < champion_contract.part_grades.size():
+		champion_contract.part_grades[part_index] = -1
 	return true
 
 static func _quality_multiplier(q: float) -> float:
@@ -348,7 +356,12 @@ static func _quality_multiplier(q: float) -> float:
 func _deliver_contract(contract: CommissionState, current_day: int) -> void:
 	contract.delivered = true
 	var q: float = contract.calculate_quality()
-	delivered_qualities.append(q)
+	# Bad work hurts the shop rating extra: a delivery below the threshold counts as a worse review than its quality.
+	var review: float = q
+	if q < Balance.cfg.bad_review_quality:
+		review = maxf(0.0, q - Balance.cfg.bad_review_penalty)
+		EventBus.ledger_entry_added.emit(tr("LEDGER_BAD_REVIEW"), 0, &"info")
+	delivered_qualities.append(review)
 	while delivered_qualities.size() > Balance.cfg.rating_window:
 		delivered_qualities.pop_front()
 
@@ -361,18 +374,24 @@ func _deliver_contract(contract: CommissionState, current_day: int) -> void:
 	pay *= _quality_multiplier(q)
 	var gross: int = roundi(pay)
 
+	# Graduated power fine: the more the total draw exceeds the client's limit, the bigger the fine.
 	var power_fine: int = 0
-	if contract.total_power_draw() > contract.data.power_limit_watts:
-		power_fine = roundi(gross * (1.0 - Balance.cfg.power_fine_mult))
+	var draw: float = contract.total_power_draw()
+	var limit: float = contract.data.power_limit_watts
+	var power_frac: float = 0.0
+	if limit > 0.0 and draw > limit:
+		power_frac = clampf(Balance.cfg.power_fine_min + (draw / limit - 1.0) * Balance.cfg.power_fine_slope, Balance.cfg.power_fine_min, Balance.cfg.power_fine_max)
+		power_fine = roundi(gross * power_frac)
 	var after_power: int = gross - power_fine
 	var late_fine: int = 0
 	if current_day > contract.deadline_day:
 		late_fine = roundi(after_power * (1.0 - Balance.cfg.late_payout_mult))
 	var net: int = after_power - late_fine
 
-	EconomyManager.add_credits(maxi(0, gross - contract.deposit_paid), tr("LEDGER_COMMISSION_PAYOUT"), &"income")
+	EconomyManager.add_credits(maxi(0, gross - contract.deposit_paid), tr("LEDGER_COMMISSION_PAYOUT") + " (%d%%)" % roundi(q * 100.0), &"income")
 	if power_fine > 0:
-		EconomyManager.charge_with_shortfall(power_fine, tr("LEDGER_POWER_FINE"), &"fine", tr("LEDGER_POWER_FINE"))
+		var fine_text: String = tr("LEDGER_POWER_FINE") + " (%d / %d W, -%d%%)" % [roundi(draw), roundi(limit), roundi(power_frac * 100.0)]
+		EconomyManager.charge_with_shortfall(power_fine, fine_text, &"fine", fine_text)
 	if late_fine > 0:
 		EconomyManager.charge_with_shortfall(late_fine, tr("LEDGER_LATE_PENALTY"), &"fine", tr("LEDGER_LATE_PENALTY"))
 	EventBus.commission_delivered.emit(contract.data, q, net)
@@ -384,7 +403,7 @@ func _deliver_contract(contract: CommissionState, current_day: int) -> void:
 	elif q >= 0.75:
 		EconomyManager.add_tech_points(1)
 
-	# Warranty claim (spec C4): based on mean ASSEMBLE score, 0.8 when the job has none.
+	# Warranty claim (spec C4): based on mean ASSEMBLE score, 0.8 when the job has none; Scrap material adds risk.
 	var assemble_total: float = 0.0
 	var assemble_count: int = 0
 	for i in range(contract.parts.size()):
@@ -392,13 +411,17 @@ func _deliver_contract(contract: CommissionState, current_day: int) -> void:
 			assemble_total += contract.part_scores[i]
 			assemble_count += 1
 	var avg_a: float = (assemble_total / assemble_count) if assemble_count > 0 else 0.80
-	var warranty_prob: float = (1.0 - avg_a) * 0.50 + (0.40 if q < 0.50 else 0.0)
+	var warranty_prob: float = (1.0 - avg_a) * 0.50 + (0.40 if q < 0.50 else 0.0) + Balance.cfg.scrap_warranty_add * contract.scrap_ratio()
 	if randf() < warranty_prob:
+		var claim_amount: int = roundi(net * Balance.cfg.warranty_cost_fraction)
+		var due_day: int = current_day + Balance.cfg.warranty_delay_days
 		pending_warranty_claims.append({
-			"day_due": current_day + Balance.cfg.warranty_delay_days,
-			"amount": roundi(net * Balance.cfg.warranty_cost_fraction),
+			"day_due": due_day,
+			"amount": claim_amount,
 			"commission": contract.data
 		})
+		var shown: int = roundi(claim_amount * 0.50) if UpgradeManager.has_upgrade(&"warranty_insurance") else claim_amount
+		EventBus.ledger_entry_added.emit(NumberFormat.render(tr("LEDGER_WARRANTY_WARN"), {"amount": NumberFormat.format_credits(shown), "day": due_day}), 0, &"info")
 
 func shop_rating() -> float:
 	if delivered_qualities.is_empty():
@@ -448,6 +471,7 @@ func _state_to_dict(st: CommissionState) -> Dictionary:
 		"accepted_day": st.accepted_day, "deadline_day": st.deadline_day,
 		"budget_cap": st.budget_cap, "payout": st.payout, "materials_spent": st.materials_spent,
 		"part_scores": st.part_scores.duplicate(), "part_power": st.part_power.duplicate(),
+		"part_grades": st.part_grades.duplicate(), "part_quality": st.part_quality.duplicate(),
 		"delivered": st.delivered, "late_days": st.late_days, "deposit_paid": st.deposit_paid,
 		"reforging": st.reforging_parts.duplicate()
 	}
@@ -471,6 +495,15 @@ func _dict_to_state(s: Dictionary) -> CommissionState:
 		st.part_scores.append(float(v))
 	for v in s.get("part_power", []):
 		st.part_power.append(float(v))
+	for v in s.get("part_grades", []):
+		st.part_grades.append(int(v))
+	for v in s.get("part_quality", []):
+		st.part_quality.append(float(v))
+	# Old saves have no grades/qualities: pad so every part has a slot (-1 = unknown).
+	while st.part_grades.size() < st.parts.size():
+		st.part_grades.append(-1)
+	while st.part_quality.size() < st.parts.size():
+		st.part_quality.append(-1.0)
 	for v in s.get("reforging", []):
 		st.reforging_parts.append(int(v))
 	return st
@@ -489,7 +522,7 @@ func serialize() -> Dictionary:
 		"pathway": String(current_pathway), "offers": offers_out, "active": active_out,
 		"claims": claims_out, "qualities": delivered_qualities.duplicate(),
 		"champion_completed": champion_completed, "champion_paid": champion_registration_paid,
-		"inspections": inspections_used_today, "next_id": _next_id
+		"inspections": inspections_used_today, "next_id": _next_id, "market": market_mult
 	}
 
 func restore(s: Dictionary) -> void:
@@ -507,6 +540,7 @@ func restore(s: Dictionary) -> void:
 	champion_registration_paid = bool(s.get("champion_paid", false))
 	inspections_used_today = int(s.get("inspections", 0))
 	_next_id = int(s.get("next_id", 1))
+	market_mult = float(s.get("market", 1.0))
 	for st in active_contracts:
 		if st.data.is_champion_build:
 			champion_contract = st

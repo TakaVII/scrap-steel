@@ -1,5 +1,5 @@
-# purpose: [v4] Mounts minigames under CanvasLayer 50. Checks AP/funds/budget BEFORE spending AP. The F5 cheat only works in debug builds.
-# depends on: EventBus, GameManager, TimeManager, SettingsManager, UpgradeManager, CraftingManager, DebugCheats, ItemPartData, PartResult, CommissionState
+# purpose: [v5] Mounts minigames under CanvasLayer 50. Checks AP/funds/budget BEFORE spending AP. v5: takes the material grade (Premium = faster/shorter minigame, Scrap = slower/longer) and the tier-based AP cost. The F5 cheat only works in debug builds.
+# depends on: EventBus, GameManager, TimeManager, SettingsManager, UpgradeManager, CraftingManager, DebugCheats, MaterialGrade, ItemPartData, PartResult, CommissionState
 # signals emitted: EventBus.minigame_started, EventBus.minigame_finished
 # signals listened to: none
 
@@ -20,19 +20,22 @@ func _ready() -> void:
 	add_child(_layer)
 
 ## Returns false (no AP spent) if the part cannot be started.
-func launch(commission: CommissionState, part_index: int) -> bool:
+func launch(commission: CommissionState, part_index: int, grade: int = MaterialGrade.Grade.STANDARD) -> bool:
 	if GameManager.phase != GameManager.Phase.WORKSHOP:
 		return false
-	if CraftingManager.can_start(commission, part_index) != &"":
+	if CraftingManager.can_start(commission, part_index, grade) != &"":
 		return false
 	var part: ItemPartData = commission.parts[part_index]
-	if not TimeManager.spend_ap(part.ap_cost):
+	if not TimeManager.spend_ap(CraftingManager.part_ap(commission, part_index)):
 		return false
 
 	GameManager.begin_minigame()
-	_job = {"commission": commission, "part_index": part_index, "part": part, "tier": commission.tier}
+	_job = {"commission": commission, "part_index": part_index, "part": part, "tier": commission.tier, "grade": grade}
 
 	var difficulty: Dictionary = SettingsManager.minigame_difficulty(commission.tier)
+	# Material grade: Premium is harder (faster cursor / less time), Scrap is easier. The minigames read speed_mult and window_mult.
+	difficulty["speed_mult"] = float(difficulty.get("speed_mult", 1.0)) * MaterialGrade.speed_mult(grade)
+	difficulty["window_mult"] = float(difficulty.get("window_mult", 1.0)) * MaterialGrade.window_mult(grade)
 	if difficulty.get("assist_skip", false):
 		_complete(0.70)
 		return true
@@ -60,6 +63,7 @@ func _complete(score: float) -> void:
 	result.commission = _job.get("commission")
 	result.part_index = _job.get("part_index", 0)
 	result.part = _job.get("part")
+	result.grade = int(_job.get("grade", MaterialGrade.Grade.STANDARD))
 	var cheat: bool = OS.is_debug_build() and DebugCheats.force_perfect_score
 	var raw: float = 1.0 if cheat else score
 	result.score = clampf(raw + UpgradeManager.score_bonus(), 0.0, 1.0)

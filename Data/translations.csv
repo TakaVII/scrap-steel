@@ -298,3 +298,33 @@ MINIGAME_ASSEMBLER_NO_WIRE,No wire left. Click your last cell to undo it.,Sin ca
 MINIGAME_ASSEMBLER_OUT_UNLOCKED,Output unlocked!,¡Salida desbloqueada!,تم فتح المخرج!
 MINIGAME_CALIBRATOR_STREAK,Streak {s}s,Racha {s}s,تتابع {s}ث
 UPG_BUY,Buy,Comprar,شراء
+DLG_YOU,You,Tú,أنت
+DLG_J1,"Knock, knock. You're the new owner, right? Dax's friend?","Toc, toc. ¿Tú eres el nuevo dueño? ¿El amigo de Dax?",طق طق. أنت المالك الجديد، صحيح؟ صديق داكس؟
+DLG_J1_OPT_A,Yeah. Dax left me this mess.,Sí. Dax me dejó este lío.,نعم. داكس ترك لي هذه الفوضى.
+DLG_J1_OPT_B,Who's asking?,¿Quién pregunta?,من يسأل؟
+DLG_J1_A,"Sounds like Dax. Mess or not, I need a bracket forged.","Típico de Dax. Lío o no, necesito forjar un soporte.",هذا يشبه داكس. فوضى أم لا، أحتاج إلى حامل مصنوع.
+DLG_J1_B,Mara. Welder from the docks. I need a bracket forged.,Mara. Soldadora del puerto. Necesito forjar un soporte.,مارا. لحّامة من الميناء. أحتاج إلى حامل مصنوع.
+DLG_J2,"First one's a favor. After that, I pay. Deal?","El primero es un favor. Luego, yo pago. ¿Trato?",الأول معروف. بعده سأدفع. اتفقنا؟
+DLG_J6,I'll spread the word. The garage is open again.,Correré la voz. El taller vuelve a abrir.,سأنشر الخبر. الورشة عادت للعمل.
+DLG_K_OPT_A,I'm not Dax.,Yo no soy Dax.,أنا لست داكس.
+DLG_K_OPT_B,How much do I owe?,¿Cuánto debo?,كم أدين؟
+DLG_K_A,No. But you have his garage. And the garage has his debt.,No. Pero tienes su taller. Y el taller tiene su deuda.,لا. لكنك تملك ورشته. والورشة عليها دينه.
+DLG_K_B,Straight to the point. Good.,Directo al grano. Bien.,مباشر وواضح. جيد.
+DLG_Q_STRIKE,What if I miss one?,¿Y si falto a una?,ماذا لو فاتني قسط؟
+DLG_Q_RENT,And the rent?,¿Y el alquiler?,والإيجار؟
+DLG_Q_DONE,Understood.,Entendido.,مفهوم.
+GRADE_SCRAP,Scrap,Chatarra,خردة
+GRADE_STANDARD,Standard,Estándar,عادي
+GRADE_PREMIUM,Premium,Premium,ممتاز
+GRADE_PICK_TITLE,Choose materials,Elige los materiales,اختر المواد
+GRADE_MARKET,Materials market: {pct},Mercado de materiales: {pct},سوق المواد: {pct}
+GRADE_BUDGET_LEFT,Budget left,Presupuesto restante,الميزانية المتبقية
+GRADE_DESC_SCRAP,Cheaper and easier. Max quality {cap}%. More warranty claims.,Más barato y fácil. Calidad máxima {cap}%. Más reclamos de garantía.,أرخص وأسهل. أقصى جودة {cap}%. مطالبات ضمان أكثر.
+GRADE_DESC_STANDARD,"Normal cost, quality and difficulty.","Costo, calidad y dificultad normales.",تكلفة وجودة وصعوبة عادية.
+GRADE_DESC_PREMIUM,Quality +{bonus} pts. The minigame is harder.,Calidad +{bonus} pts. El minijuego es más difícil.,الجودة +{bonus} نقطة. اللعبة أصعب.
+GRADE_NO_SCRAP,Not allowed for the Champion Build.,No permitido en el Montaje Campeón.,غير مسموح في تجميعة البطل.
+WORKSHOP_MATERIALS,Materials,Materiales,المواد
+WORKSHOP_POWER,Power,Energía,الطاقة
+WORKSHOP_QUALITY,Quality,Calidad,الجودة
+LEDGER_WARRANTY_WARN,Warranty claim expected: {amount} on Day {day},Reclamo de garantía previsto: {amount} el Día {day},مطالبة ضمان متوقعة: {amount} في اليوم {day}
+LEDGER_BAD_REVIEW,Bad review: your shop rating drops,Mala reseña: baja la calificación de tu taller,تقييم سيئ: ينخفض تقييم ورشتك

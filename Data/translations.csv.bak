@@ -22,7 +22,7 @@ WORKSHOP_DEV_SIM,[Dev Sim],[Sim Des],[محاكاة]
 NIGHT_TITLE,Night Financial Summary,Resumen Financiero Nocturno,الملخص المالي الليلي
 NIGHT_REVENUE,Revenue,Ingresos,الإيرادات
 NIGHT_MATERIALS,Material Costs,Costos de Material,تكلفة المواد
-NIGHT_RENT,Shop Lease,Alquiler del Taller,إيجار الورشة
+NIGHT_RENT,Shop Lease & Overtime,Alquiler y Horas Extra,الإيجار والعمل الإضافي
 NIGHT_INTEREST,Syndicate Interest Charged,Interés del Sindicato Cobrado,فائدة النقابة المحتسبة
 NIGHT_INTEREST_PAID,Syndicate Interest,Interés del Sindicato,فائدة النقابة
 NIGHT_PAY_DEBT,Pay Down Principal,Amortizar Capital,سداد أصل الدين
@@ -33,7 +33,7 @@ NIGHT_DEBT_PAID,Debt Principal Paid,Capital de Deuda Pagado,المسدد من ا
 NIGHT_NET_PROFIT,Net Daily Profit,Beneficio Neto Diario,صافي الربح اليومي
 NIGHT_NEW_BALANCE,New Cash Balance,Nuevo Saldo de Caja,الرصيد النقدي الجديد
 NIGHT_NEW_DEBT,Remaining Syndicate Debt,Deuda Restante del Sindicato,دين النقابة المتبقي
-NIGHT_FEEDBACK_INTEREST,Syndicate interest compounds every night. Keep paying down the principal.,El interés del sindicato se acumula cada noche. Sigue amortizando el capital.,تتراكم فائدة النقابة كل ليلة. استمر في سداد أصل الدين.
+NIGHT_FEEDBACK_INTEREST,Syndicate interest cost you %d cr today. Keep paying down the principal.,El interés del sindicato te costó %d cr hoy. Sigue amortizando el capital.,كلفتك فائدة النقابة %d رصيد اليوم. استمر في سداد أصل الدين.
 NIGHT_FEEDBACK_DEBT_FREE,Zero debt! Every credit earned now builds your pathway reserves.,¡Cero deudas! Cada crédito ganado ahora acumula reservas para tu objetivo.,بدون ديون! كل رصيد تكسبه يبني احتياطيات مسارك الآن.
 NIGHT_NEXT_DAY,Next Morning,Siguiente Mañana,الصباح التالي
 LEDGER_TITLE,Financial Ledger,Libro Mayor Financiero,دفتر الحسابات المالي
@@ -96,8 +96,8 @@ CLIENT_MARA_UNHAPPY,Diagnostics flag micro-fractures. Disappointing.,El diagnós
 CLIENT_ZERO_GREET,Astra City moves fast. Keep my rig running faster.,Astra City va rápido. Haz que mi máquina vaya más.,المدينة تسير بسرعة، اجعل عتادي أسرع.
 CLIENT_ZERO_SATISFIED,Pure kinetic power. Keep the change.,Pura potencia cinética. Quédate el cambio.,طاقة حركية خالصة. احتفظ بالباقي.
 CLIENT_ZERO_UNHAPPY,Sloppy calibration. Cost me a race position.,Calibración descuidada. Me costó un puesto.,معايرة رديئة. خسرتني مركزاً بالسباق.
-CLIENT_BORIS_GREET,Heavy steel, heavy work. Don't cut corners.,Acero pesado, trabajo duro. No recortes gastos.,حديد ثقيل وعمل جاد. لا تختصر.
-CLIENT_BORIS_SATISFIED,Solid weld. You earned your fee, mechanic.,Soldadura sólida. Te ganaste la paga, mecánico.,لحام متين. استحققت أجرك يا ميكانيكي.
+CLIENT_BORIS_GREET,"Heavy steel, heavy work. Don't cut corners.","Acero pesado, trabajo duro. No recortes gastos.",حديد ثقيل وعمل جاد. لا تختصر.
+CLIENT_BORIS_SATISFIED,"Solid weld. You earned your fee, mechanic.","Soldadura sólida. Te ganaste la paga, mecánico.",لحام متين. استحققت أجرك يا ميكانيكي.
 CLIENT_BORIS_UNHAPPY,Joint seized during testing. What garbage.,La junta se trabó en pruebas. Qué basura.,المفصل علق أثناء الاختبار. يا للردءة.
 CLIENT_TALIA_GREET,Precision circuitry only. No solder burns.,Solo circuitos de precisión. Sin quemaduras.,دوائر دقيقة فقط دون حروق لحام.
 CLIENT_TALIA_SATISFIED,Optimal telemetry readings. Impressive turnaround.,Telemetría óptima. Plazo de entrega impresionante.,قراءات القياس ممتازة، إنجاز مذهل.
@@ -133,7 +133,7 @@ MINIGAME_FORGE_STRIKE_PERFECT,[★] PERFECT STRIKE,[★] GOLPE PERFECTO,[★] ض
 MINIGAME_FORGE_STRIKE_GOOD,[✓] GOOD STRIKE,[✓] BUEN GOLPE,[✓] ضربة جيدة
 MINIGAME_FORGE_STRIKE_MISS,[✗] STRIKE MISS,[✗] GOLPE FALLIDO,[✗] ضربة خاطئة
 MINIGAME_ASSEMBLER_TITLE,ECU Circuit Assembler,Ensamblador de Circuitos ECU,مجمع دوائر التحكم الإلكتروني
-MINIGAME_ASSEMBLER_INSTRUCT,Click adjacent cells to route power without hitting hazards,Haz clic en casillas contiguas para conectar sin tocar peligros,انقر على الخلايا المجاورة للتوصيل وتجنب المخاطر
+MINIGAME_ASSEMBLER_INSTRUCT,"Connect every node (C), then reach OUT. Wire and time are limited.",Conecta todos los nodos (C) y llega a OUT. Cable y tiempo limitados.,صِل كل العقد (C) ثم اصل إلى OUT. السلك والوقت محدودان.
 MINIGAME_ASSEMBLER_HAZARD_HIT,[▲] SHORT CIRCUIT HAZARD,[▲] PELIGRO DE CORTOCIRCUITO,[▲] خطر ماس كهربائي
 MINIGAME_ASSEMBLER_CIRCUIT_CLOSED,[✓] CIRCUIT COMPLETE,[✓] CIRCUITO COMPLETO,[✓] اكتملت الدائرة
 UPG_SUPPLIER_TITLE,Supplier Network,Red de Proveedores,شبكة الموردين
@@ -150,14 +150,6 @@ UPG_PAYBACK_PREFIX,Pays for itself in ~%s days,Se amortiza en ~%s días,تستر
 UPG_DEBT_INTEREST_COMPARE,Syndicate debt interest: %d cr/day,Interés de deuda del sindicato: %d cr/día,فائدة دين النقابة: %d رصيد/يوم
 UPG_PURCHASE,Acquire Upgrade,Comprar Mejora,شراء الترقية
 UPG_OWNED,[✓] ACQUIRED,[✓] ADQUIRIDO,[✓] تم الشراء
-TUTORIAL_BEAT_0_TEXT,Welcome to Scrap & Steel. Your predecessor left behind this garage and a crushing debt to the Scraphound Syndicate. Let's inspect the bench.,Te damos la bienvenida a Scrap & Steel. Tu predecesor dejó este taller y una deuda con el sindicato. Revisemos el banco.,مرحباً بك في ورشة الخردة والصلب. ترك سلفك ديناً ثقيلاً لنقابة الخردة. لنفحص طاولة العمل.
-TUTORIAL_BEAT_0_CALLOUT,Action Points (AP) represent your daily energy. Spend them wisely on crafting and repairs.,Los Puntos de Acción (PA) son tu energía diaria. Úsalos con prudencia al reparar.,تمثل نقاط العمل طاقتك اليومية. استثمرها بحكمة في التصنيع.
-TUTORIAL_CONTINUE,Continue,Continuar,متابعة
-TUTORIAL_BEAT_1_TEXT,Collector Kane arrives: 'Your friend owed 10,000 cr. Pay 8% installments every 7 days or we seize the shop. Three strikes and you are out.',Llega el Cobrador Kane: 'Tu amigo debía 10.000 cr. Paga cuotas del 8% cada 7 días o embargamos el taller. Tres faltas y fuera.',وصل المحصل كين: 'كان صديقك مديناً بـ 10,000 رصيد. ادفع أقساط 8% كل أسبوع أو نصادر الورشة.'
-TUTORIAL_BEAT_1_HUD_HINT,Notice the top HUD: Daily interest adds 2% every night. Installment deadlines are tracked live.,Fíjate en la barra superior: El interés diario suma 2% cada noche. Las cuotas se siguen en vivo.,انظر للشريط العلوي: تضاف فائدة 2% كل ليلة، ومواعيد الأقساط تظهر بوضوح.
-TUTORIAL_PICK_PATHWAY,Choose Your Specialization,Elige tu Especialización,اختر تخصصك
-TUTORIAL_BEAT_2_SELECT,Select a commercial pathway for the 30-day contract run. This will skew available job types and define your victory condition.,Elige una especialidad para los 30 días. Definirá los tipos de trabajo y la condición de victoria.,حدد مسارك التجاري لحملة الـ 30 يوماً. سيحدد هذا نوعية العقود وهدف نصرك.
-TUTORIAL_BEAT_2_HINT,Pathways skew contracts 50% to their specialty and define your Day 30 goal.,Las especialidades sesgan contratos 50% a su rama y fijan tu meta del Día 30.,توجه المسارات 50% من العقود لتخصصها وتحدد هدف اليوم 30.
 SELECT_CYBER_PATHWAY,A: Cyber-Reputation (Volume & Quality),A: Reputación Cyber (Volumen y Calidad),أ: سمعة السيبروير (السرعة والجودة)
 SELECT_MECH_PATHWAY,B: Mech Championship (Heavy Forging),B: Campeonato de Mechs (Forja Pesada),ب: بطولة الآليات (الحدادة الثقيلة)
 SELECT_DRIFTER_PATHWAY,C: Drifter League (Precision Tuning),C: Liga Drifter (Ajuste de Precisión),ج: دوري الدرفت (المعايرة الدقيقة)
@@ -170,11 +162,11 @@ SETTINGS_CATEGORY_ACCESSIBILITY,Accessibility & Assists,Accesibilidad y Asistenc
 SETTINGS_CATEGORY_AUDIO,Audio & Volume,Audio y Volumen,الصوت ومستوى الصوت
 SETTINGS_CATEGORY_LANGUAGE,Language & Direction,Idioma y Dirección,اللغة والاتجاه
 SETTINGS_CATEGORY_PRESET,Economy Preset,Preajuste Económico,إعداد الاقتصاد المسبق
-SETTINGS_PRESET_STANDARD,Standard Preset (10k Debt, 2% Int),Estándar (Deuda 10k, 2% Int),النمط القياسي (دين 10 آلاف، فائدة 2%)
-SETTINGS_PRESET_ASSIST,Assist Preset (7k Debt, 1% Int),Modo Asistido (Deuda 7k, 1% Int),نمط المساعدة (دين 7 آلاف، فائدة 1%)
+SETTINGS_PRESET_STANDARD,"Standard Preset (10k Debt, 2% Int)","Estándar (Deuda 10k, 2% Int)",النمط القياسي (دين 10 آلاف، فائدة 2%)
+SETTINGS_PRESET_ASSIST,"Assist Preset (7k Debt, 1% Int)","Modo Asistido (Deuda 7k, 1% Int)",نمط المساعدة (دين 7 آلاف، فائدة 1%)
 SETTINGS_COLORBLIND,Colorblind Palette (No Green + Icons),Paleta para Daltonismo (Sin Verde + Iconos),لوحة عمى الألوان (بدون أخضر + أيقونات)
 SETTINGS_INPUT_MODE,Calibrator Input: Toggle vs Hold,Control Calibrador: Alternar / Mantener,تحكم المعاير: تبديل مقابل ضغط مستمر
-SETTINGS_SLOW_MODE,Slow Mode (0.75x Speed, 1.25x Windows),Modo Lento (0.75x Vel, 1.25x Margen),الوضع البطيء (سرعة 0.75، نافذة 1.25)
+SETTINGS_SLOW_MODE,"Slow Mode (0.75x Speed, 1.25x Windows)","Modo Lento (0.75x Vel, 1.25x Margen)",الوضع البطيء (سرعة 0.75، نافذة 1.25)
 SETTINGS_SKIP_MINIGAMES,Auto-Complete Minigames (0.70 Score),Auto-Completar Minijuegos (0.70 Ptos),إكمال تلقائي للألعاب (نتيجة 0.70)
 SETTINGS_SIMPLE_LANGUAGE,Plain Financial Language,Lenguaje Financiero Claro,لغة مالية مبسطة
 SETTINGS_LARGE_TEXT,Large UI Font Size,Texto de IU Grande,حجم خط الواجهة كبير
@@ -185,3 +177,154 @@ SETTINGS_SFX_VOL,SFX Volume,Volumen de Efectos,مستوى المؤثرات ال�
 SETTINGS_MUTE_FOCUS,Mute on Focus Loss (Web),Silenciar al Perder Foco (Web),كتم الصوت عند فقد التركيز
 SETTINGS_BACK,Back to Menu,Volver al Menú,العودة للقائمة
 SETTINGS_APPLY,Save & Apply,Guardar y Aplicar,حفظ وتطبيق
+LEDGER_LATE_PENALTY,Late delivery penalty,Penalización por entrega tardía,غرامة التأخير في التسليم
+WORKSHOP_NO_AP,Not enough AP for this part.,No hay PA suficientes para esta pieza.,لا توجد نقاط عمل كافية لهذه القطعة.
+WORKSHOP_NO_FUNDS,Not enough credits for the materials.,No hay créditos para los materiales.,لا يوجد رصيد كاف للمواد.
+WORKSHOP_NO_BUDGET,Materials would exceed the client budget cap.,Los materiales superarían el límite del cliente.,المواد ستتجاوز حد ميزانية العميل.
+WORKSHOP_REFORGE_BTN,Re-forge,Reforjar,إعادة التشكيل
+WORKSHOP_NO_JOBS,No active contracts. Accept offers in the morning.,Sin contratos activos. Acepta ofertas por la mañana.,لا توجد عقود نشطة. اقبل العروض في الصباح.
+WORKSHOP_LAUNCH_FAILED,Could not start the minigame.,No se pudo iniciar el minijuego.,تعذر بدء اللعبة المصغرة.
+MORNING_HINT,"Pick a contract, then open the workshop.",Elige un contrato y abre el taller.,اختر عقداً ثم افتح الورشة.
+MORNING_MAX_JOBS,Workshop full. Finish a job first.,Taller lleno. Termina un trabajo primero.,الورشة ممتلئة. أنهِ مهمة أولاً.
+MORNING_NEGOTIATIONS_USED,No negotiations left today.,No quedan negociaciones hoy.,لا مفاوضات متبقية اليوم.
+MORNING_OFFERS,Offers,Ofertas,العروض
+MORNING_JOBS,Jobs,Trabajos,المهام
+MORNING_DETAILS,Details,Detalles,التفاصيل
+MORNING_NO_OFFERS,No offers left today.,No quedan ofertas hoy.,لا عروض متبقية اليوم.
+OFFER_PAY,Pay,Pago,الأجر
+OFFER_WORK,Work,Trabajo,العمل
+OFFER_DEADLINE,Deadline,Plazo,الموعد
+OFFER_MARGIN,Est. margin,Margen est.,الهامش المقدر
+OFFER_PER_AP,Pay per AP,Pago por PA,الأجر لكل نقطة
+OFFER_POWER,Power limit,Límite de energía,حد الطاقة
+OFFER_BUDGET,Material budget,Presupuesto de material,ميزانية المواد
+BTN_ACCEPT,Accept,Aceptar,قبول
+BTN_BARTER,Barter,Negociar,مساومة
+TYPE_CAR,Drift car,Coche drift,سيارة درفت
+TYPE_MECH,Mech,Mech,آلي
+TYPE_CYBER,Cyberware,Ciberware,سيبروير
+HUD_PER_DAY,/day,/día,/يوم
+HUD_TIP_DEBT,Interest adds {interest} to your debt every night.,El interés suma {interest} a tu deuda cada noche.,تضيف الفائدة {interest} إلى دينك كل ليلة.
+LEDGER_F_ALL,All,Todo,الكل
+LEDGER_F_INCOME,Income,Ingresos,الإيرادات
+LEDGER_F_MATERIALS,Materials,Materiales,المواد
+LEDGER_F_RENT,Rent,Alquiler,الإيجار
+LEDGER_F_FINES,Fines,Multas,الغرامات
+LEDGER_F_DEBT,Debt,Deuda,الدين
+MINIGAME_ASSEMBLER_HAZARDS,Hazards,Peligros,المخاطر
+MINIGAME_ASSEMBLER_NODES,Nodes,Nodos,العقد
+MINIGAME_ASSEMBLER_NEED_NODES,Connect every node first.,Conecta todos los nodos primero.,صِل كل العقد أولاً.
+MINIGAME_FORGE_STRIKE_COUNT,Strike {n} / {total},Golpe {n} / {total},ضربة {n} / {total}
+DIALOGUE_CONTINUE,Click or Space,Clic o Espacio,انقر أو مسافة
+TUT_SKIP,Skip tutorial,Saltar tutorial,تخطي الشرح
+TUT_CHOOSE,Choose your road,Elige tu camino,اختر طريقك
+PATH_REP_DESC,"50% cyberware jobs. Win on Day 30: no debt, {reserve} in cash and a 5-star shop rating ({quality}%+ quality).","50% trabajos de ciberware. Gana el Día 30: sin deuda, {reserve} en caja y 5 estrellas ({quality}%+ de calidad).",50% وظائف سيبروير. الفوز في اليوم 30: بلا دين و{reserve} نقداً وتقييم 5 نجوم (جودة {quality}%+).
+PATH_MECH_DESC,"50% mech jobs. Win on Day 30: no debt and the Champion Build done (Day {unlock}-{deadline}, quality {quality}%+, {fee} entry fee).","50% trabajos de mech. Gana el Día 30: sin deuda y el Montaje Campeón hecho (Día {unlock}-{deadline}, calidad {quality}%+, inscripción {fee}).",50% وظائف آليات. الفوز في اليوم 30: بلا دين وإنجاز تجميعة البطل (اليوم {unlock}-{deadline}، جودة {quality}%+، رسوم {fee}).
+PATH_DRIFT_DESC,"50% car jobs. Win on Day 30: no debt and the Champion Build done (Day {unlock}-{deadline}, quality {quality}%+, {fee} entry fee).","50% trabajos de coches. Gana el Día 30: sin deuda y el Montaje Campeón hecho (Día {unlock}-{deadline}, calidad {quality}%+, inscripción {fee}).",50% وظائف السيارات. الفوز في اليوم 30: بلا دين وإنجاز تجميعة البطل (اليوم {unlock}-{deadline}، جودة {quality}%+، رسوم {fee}).
+CLIENT_JUNO_GREET,Fixers talk. They say you do clean work.,Los intermediarios hablan. Dicen que trabajas limpio.,الوسطاء يتحدثون. يقولون إنك تعمل بنظافة.
+CLIENT_JUNO_SATISFIED,Smooth install. I will send friends.,Instalación fina. Mandaré amigos.,تركيب سلس. سأرسل أصدقاء.
+CLIENT_JUNO_UNHAPPY,Glitchy and slow. Not what I paid for.,Falla y va lento. No es lo que pagué.,متعثر وبطيء. ليس ما دفعت ثمنه.
+TUT_P1,Astra City. Neon rain on cold steel. And a garage that is now yours.,Astra City. Lluvia de neón sobre acero frío. Y un taller que ahora es tuyo.,مدينة أسترا. مطر النيون فوق الفولاذ البارد. وورشة أصبحت لك الآن.
+TUT_P2,Your friend Dax built Scrap & Steel by hand. Then he vanished. He left only a note.,Tu amigo Dax levantó Scrap & Steel con sus manos. Luego desapareció. Solo dejó una nota.,بنى صديقك داكس ورشة الخردة والصلب بيديه. ثم اختفى. ولم يترك سوى ملاحظة.
+TUT_P3,"'Fix what they bring you. Never miss a payment. Sorry, kid. - Dax'","'Arregla lo que te traigan. Nunca faltes a un pago. Perdona, chaval. - Dax'",'أصلح ما يحضرونه لك. لا تتأخر عن أي دفعة. آسف يا فتى. - داكس'
+TUT_P4,The bench still works. Let's see if you do.,El banco aún funciona. Veamos si tú también.,طاولة العمل ما زالت تعمل. لنرَ إن كنت تعمل أنت أيضاً.
+TUT_J1,"You must be Dax's friend. Forge me this bracket. First one is a favor. After that, I pay.","Debes ser amigo de Dax. Forja este soporte. El primero es un favor. Luego, yo pago.",لا بد أنك صديق داكس. اصنع لي هذا الحامل. الأول معروف. بعده سأدفع.
+TUT_J2,Press Space or click to strike when the cursor is inside the glowing zone.,Pulsa Espacio o haz clic para golpear cuando el cursor esté en la zona brillante.,اضغط مسافة أو انقر للضرب عندما يكون المؤشر داخل المنطقة المضيئة.
+TUT_J3,Every clean strike shrinks the zone. Center hits score best.,Cada golpe limpio reduce la zona. Los golpes al centro puntúan más.,كل ضربة نظيفة تصغّر المنطقة. الضربات في المركز تعطي أعلى نتيجة.
+TUT_J4G,Clean work. Dax would be grinning.,Trabajo limpio. Dax estaría sonriendo.,عمل نظيف. كان داكس سيبتسم.
+TUT_J4O,"Rough, but it holds. You will improve.","Tosco, pero aguanta. Mejorarás.",خشن لكنه متين. ستتحسن.
+TUT_J4L,Hm. It will hold. Barely. Keep practicing.,Hm. Aguantará. Por poco. Sigue practicando.,همم. سيصمد بالكاد. واصل التدرب.
+TUT_J5,"That is the loop: spend Action Points (AP) on parts, hit the marks, get paid. Better quality pays more.","Ese es el ciclo: gasta Puntos de Acción (PA) en piezas, acierta las marcas y cobra. Más calidad, más pago.",هذه هي الحلقة: أنفق نقاط العمل على القطع، أصب الأهداف، واقبض. الجودة الأعلى تدفع أكثر.
+TUT_K1,The door slams. A tall man in a gray coat shakes the rain off his sleeves.,La puerta se cierra de golpe. Un hombre alto con abrigo gris sacude la lluvia de sus mangas.,ينغلق الباب بعنف. رجل طويل بمعطف رمادي ينفض المطر عن كميه.
+TUT_K2,Collector Kane. Scraphound Syndicate. Dax borrowed. Dax ran. Now it is your problem.,Cobrador Kane. Sindicato Scraphound. Dax pidió prestado. Dax huyó. Ahora es tu problema.,المحصّل كين. نقابة سكرابهاوند. داكس اقترض. داكس هرب. والآن المشكلة مشكلتك.
+TUT_K3,Your debt is {debt}. Look at the top bar. That number never sleeps.,Tu deuda es {debt}. Mira la barra superior. Ese número nunca duerme.,دينك {debt}. انظر إلى الشريط العلوي. هذا الرقم لا ينام أبداً.
+TUT_K4,Interest: {rate}% a day. Tonight alone that adds {interest}.,Interés: {rate}% al día. Solo esta noche suma {interest}.,الفائدة: {rate}% يومياً. هذه الليلة وحدها تضيف {interest}.
+TUT_K5,First installment: {due} on Day {due_day}. Pay in full or take a strike.,Primera cuota: {due} el Día {due_day}. Págala completa o recibes una falta.,القسط الأول: {due} في اليوم {due_day}. ادفعه كاملاً أو تنل إنذاراً.
+TUT_K6,"Three strikes, or debt above {limit}, and the garage is ours.","Tres faltas, o una deuda superior a {limit}, y el taller es nuestro.",ثلاثة إنذارات، أو دين فوق {limit}، وتصبح الورشة لنا.
+TUT_K7,"Rent is {rent} every morning. Money in, money out. Press L any time to see the ledger.","El alquiler es {rent} cada mañana. Entra dinero, sale dinero. Pulsa L para ver el libro mayor.",الإيجار {rent} كل صباح. مال يدخل ومال يخرج. اضغط L لرؤية دفتر الحسابات.
+TUT_K8,"Choose your road, mechanic. The city pays for what it respects.","Elige tu camino, mecánico. La ciudad paga por lo que respeta.",اختر طريقك أيها الميكانيكي. المدينة تدفع مقابل ما تحترمه.
+TUT_PATH_REP,"Cyberware and a spotless name. Reputation pays slowly, but it pays.","Ciberware y un nombre impecable. La reputación paga despacio, pero paga.",سيبروير وسمعة نظيفة. السمعة تدفع ببطء لكنها تدفع.
+TUT_PATH_MECH,"Mechs. Heavy iron, heavy money. Do not drop the hammer.","Mechs. Hierro pesado, dinero pesado. No sueltes el martillo.",آليات. حديد ثقيل ومال ثقيل. لا تُسقط المطرقة.
+TUT_PATH_DRIFT,Drift cars. Precision or nothing. Do not spin out.,Coches de drift. Precisión o nada. No derrapes mal.,سيارات الدرفت. الدقة أو لا شيء. لا تفقد السيطرة.
+TIP_D1_1,Morning briefing. Pick a contract on the left and read its details.,Informe matutino. Elige un contrato a la izquierda y lee sus detalles.,التقرير الصباحي. اختر عقداً من اليسار واقرأ تفاصيله.
+TIP_D1_2,"Check the pay, the AP it needs and the deadline. Then open the workshop.","Revisa el pago, los PA necesarios y el plazo. Luego abre el taller.",راجع الأجر ونقاط العمل المطلوبة والموعد. ثم افتح الورشة.
+TIP_FIRST,Your first payout. Every credit in and out is in the Ledger. Press L.,Tu primer pago. Cada crédito que entra y sale está en el libro mayor. Pulsa L.,أول دفعة لك. كل رصيد يدخل ويخرج في دفتر الحسابات. اضغط L.
+DAX_1,"Under the bench, a greasy note: 'Interest never sleeps. Pay the big debt first.' - D","Bajo el banco, una nota grasienta: 'El interés nunca duerme. Paga primero la deuda grande.' - D",تحت الطاولة ملاحظة ملطخة بالشحم: 'الفائدة لا تنام. سدّد الدين الكبير أولاً.' - د
+DAX_2,A cracked photo of Dax with a kid in a racing jacket. On the back: 'Sorry I ran.',Una foto rota de Dax con un chico con chaqueta de carreras. Detrás: 'Perdón por huir.',صورة متشققة لداكس مع فتى بسترة سباق. على ظهرها: 'آسف لأني هربت.'
+DAX_3,"Dax's last note, taped inside the old radio: 'If you read this, you beat me. Finish it.'","La última nota de Dax, pegada en la vieja radio: 'Si lees esto, me superaste. Termínalo.'",آخر ملاحظة لداكس داخل الراديو القديم: 'إن قرأت هذا فقد تفوقت علي. أنهِ الأمر.'
+INST_OK,Paid in full. Adequate.,Pagado por completo. Aceptable.,مدفوع بالكامل. مقبول.
+INST_SHORT,Short. That is strike {strikes} of {max_strikes}. Do not make it a habit.,Insuficiente. Es la falta {strikes} de {max_strikes}. No lo conviertas en costumbre.,ناقص. هذا الإنذار {strikes} من {max_strikes}. لا تجعلها عادة.
+CH1_DONE,Chapter 1 complete. The real climb starts now.,Capítulo 1 completo. La verdadera escalada empieza ahora.,انتهى الفصل الأول. الصعود الحقيقي يبدأ الآن.
+PERSONAL,It is personal now. The Syndicate wants its money. And your garage.,Ahora es personal. El sindicato quiere su dinero. Y tu taller.,أصبح الأمر شخصياً. النقابة تريد مالها. وتريد ورشتك.
+D12_COMMON,To win on Day 30: clear all your debt and complete your goal.,Para ganar el Día 30: salda toda tu deuda y cumple tu meta.,للفوز في اليوم 30: سدّد كل ديونك وحقق هدفك.
+D12_REP,Astra's elite watch the best shops. Hold {reserve} in cash and a 5-star rating.,La élite de Astra vigila los mejores talleres. Ten {reserve} en caja y 5 estrellas.,نخبة أسترا تراقب أفضل الورش. احتفظ بـ {reserve} نقداً وتقييم 5 نجوم.
+D12_MECH,"The Steel Colosseum wants a Champion Build. About {cost} in parts, {fee} to enter. Done by Day {deadline}.",El Coliseo de Acero quiere un Montaje Campeón. Unos {cost} en piezas y {fee} de inscripción. Para el Día {deadline}.,ساحة الفولاذ تريد تجميعة البطل. نحو {cost} للقطع و{fee} للتسجيل. قبل اليوم {deadline}.
+D12_DRIFT,"The Neon Circuit wants a Champion Build. About {cost} in parts, {fee} to enter. Done by Day {deadline}.",El Circuito Neón quiere un Montaje Campeón. Unos {cost} en piezas y {fee} de inscripción. Para el Día {deadline}.,حلبة النيون تريد تجميعة البطل. نحو {cost} للقطع و{fee} للتسجيل. قبل اليوم {deadline}.
+MORNING_TALKS,Talks,Charlas,محادثات
+NEG_OPEN,What are your terms?,¿Cuáles son tus condiciones?,ما هي شروطك؟
+NEG_MOOD,Mood,Humor,المزاج
+NEG_MOOD_1,Irritated,Irritado,منزعج
+NEG_MOOD_2,Neutral,Neutral,محايد
+NEG_MOOD_3,Friendly,Amistoso,ودود
+NEG_ROUNDS,Rounds left,Rondas,الجولات
+NEG_ASK,Ask +{pct}%,Pedir +{pct}%,اطلب +{pct}%
+NEG_ODDS_HIGH,Likely,Probable,محتمل
+NEG_ODDS_MID,Risky,Arriesgado,محفوف بالمخاطر
+NEG_ODDS_LOW,Long shot,Difícil,احتمال ضعيف
+NEG_ACCEPT_COUNTER,Accept +{pct}%,Aceptar +{pct}%,اقبل +{pct}%
+NEG_OK,Deal. +{pct}% and not a credit more.,Trato. +{pct}% y ni un crédito más.,اتفقنا. +{pct}% ولا رصيد زيادة.
+NEG_COUNTER,Too much. I can do +{pct}%.,Es mucho. Puedo dar +{pct}%.,كثير. يمكنني +{pct}%.
+NEG_REFUSE,"No. Take it as it is, or push your luck.",No. Tómalo así o tienta tu suerte.,لا. خذه كما هو أو جازف.
+NEG_REFUSE_LAST,That is it. One more word and I walk.,Se acabó. Una palabra más y me voy.,انتهى. كلمة أخرى وأنصرف.
+NEG_LEFT,{name} walks out. The offer is gone.,{name} se va. La oferta desapareció.,{name} يغادر. اختفى العرض.
+NEG_NO_ROUNDS,No rounds left. Sign or walk away.,No quedan rondas. Firma o vete.,لا جولات متبقية. وقّع أو انسحب.
+NEG_TERM_STANDARD,Standard,Estándar,عادي
+NEG_TERM_DEPOSIT,Deposit,Anticipo,عربون
+NEG_TERM_PROFIT,Profit share,Reparto,مشاركة الأرباح
+NEG_TERM_RUSH,Rush,Urgente,مستعجل
+NEG_DESC_STANDARD,"Standard terms. Full pay on delivery, based on quality.","Condiciones estándar. Pago completo al entregar, según la calidad.",شروط عادية. أجر كامل عند التسليم حسب الجودة.
+NEG_DESC_DEPOSIT,Get {deposit} now. Final pay is 10% lower.,Recibes {deposit} ahora. El pago final baja un 10%.,تستلم {deposit} الآن. الأجر النهائي أقل بنسبة 10%.
+NEG_DESC_PROFIT,"Material budget x0.85. Pay x1.30 at quality 90%+, x0.90 below 75%.","Presupuesto x0.85. Pago x1.30 con calidad 90%+, x0.90 si baja de 75%.",ميزانية المواد x0.85. الأجر x1.30 عند جودة 90%+ و x0.90 دون 75%.
+NEG_DESC_RUSH,"Pay +25%, but only 1 day. Miss it and the client cancels.","Pago +25%, pero solo 1 día. Si fallas, el cliente cancela.",الأجر +25% لكن بيوم واحد. إن فاتك الموعد يلغي العميل.
+NEG_SIGN,Sign deal,Cerrar trato,وقّع الصفقة
+NEG_WALK,Walk away,Irse,انسحب
+MG_RESULT_PERFECT,Perfect,Perfecto,مثالي
+MG_RESULT_GREAT,Great,Genial,رائع
+MG_RESULT_OK,Good,Bien,جيد
+MG_RESULT_POOR,Poor,Flojo,ضعيف
+MG_TIME_UP,Time is up,Se acabó el tiempo,انتهى الوقت
+MINIGAME_ASSEMBLER_WIRE,Wire,Cable,سلك
+MINIGAME_ASSEMBLER_NO_WIRE,No wire left. Click your last cell to undo it.,Sin cable. Haz clic en tu última casilla para deshacerla.,نفد السلك. انقر على آخر خلية للتراجع.
+MINIGAME_ASSEMBLER_OUT_UNLOCKED,Output unlocked!,¡Salida desbloqueada!,تم فتح المخرج!
+MINIGAME_CALIBRATOR_STREAK,Streak {s}s,Racha {s}s,تتابع {s}ث
+UPG_BUY,Buy,Comprar,شراء
+DLG_YOU,You,Tú,أنت
+DLG_J1,"Knock, knock. You're the new owner, right? Dax's friend?","Toc, toc. ¿Tú eres el nuevo dueño? ¿El amigo de Dax?",طق طق. أنت المالك الجديد، صحيح؟ صديق داكس؟
+DLG_J1_OPT_A,Yeah. Dax left me this mess.,Sí. Dax me dejó este lío.,نعم. داكس ترك لي هذه الفوضى.
+DLG_J1_OPT_B,Who's asking?,¿Quién pregunta?,من يسأل؟
+DLG_J1_A,"Sounds like Dax. Mess or not, I need a bracket forged.","Típico de Dax. Lío o no, necesito forjar un soporte.",هذا يشبه داكس. فوضى أم لا، أحتاج إلى حامل مصنوع.
+DLG_J1_B,Mara. Welder from the docks. I need a bracket forged.,Mara. Soldadora del puerto. Necesito forjar un soporte.,مارا. لحّامة من الميناء. أحتاج إلى حامل مصنوع.
+DLG_J2,"First one's a favor. After that, I pay. Deal?","El primero es un favor. Luego, yo pago. ¿Trato?",الأول معروف. بعده سأدفع. اتفقنا؟
+DLG_J6,I'll spread the word. The garage is open again.,Correré la voz. El taller vuelve a abrir.,سأنشر الخبر. الورشة عادت للعمل.
+DLG_K_OPT_A,I'm not Dax.,Yo no soy Dax.,أنا لست داكس.
+DLG_K_OPT_B,How much do I owe?,¿Cuánto debo?,كم أدين؟
+DLG_K_A,No. But you have his garage. And the garage has his debt.,No. Pero tienes su taller. Y el taller tiene su deuda.,لا. لكنك تملك ورشته. والورشة عليها دينه.
+DLG_K_B,Straight to the point. Good.,Directo al grano. Bien.,مباشر وواضح. جيد.
+DLG_Q_STRIKE,What if I miss one?,¿Y si falto a una?,ماذا لو فاتني قسط؟
+DLG_Q_RENT,And the rent?,¿Y el alquiler?,والإيجار؟
+DLG_Q_DONE,Understood.,Entendido.,مفهوم.
+GRADE_SCRAP,Scrap,Chatarra,خردة
+GRADE_STANDARD,Standard,Estándar,عادي
+GRADE_PREMIUM,Premium,Premium,ممتاز
+GRADE_PICK_TITLE,Choose materials,Elige los materiales,اختر المواد
+GRADE_MARKET,Materials market: {pct},Mercado de materiales: {pct},سوق المواد: {pct}
+GRADE_BUDGET_LEFT,Budget left,Presupuesto restante,الميزانية المتبقية
+GRADE_DESC_SCRAP,Cheaper and easier. Max quality {cap}%. More warranty claims.,Más barato y fácil. Calidad máxima {cap}%. Más reclamos de garantía.,أرخص وأسهل. أقصى جودة {cap}%. مطالبات ضمان أكثر.
+GRADE_DESC_STANDARD,"Normal cost, quality and difficulty.","Costo, calidad y dificultad normales.",تكلفة وجودة وصعوبة عادية.
+GRADE_DESC_PREMIUM,Quality +{bonus} pts. The minigame is harder.,Calidad +{bonus} pts. El minijuego es más difícil.,الجودة +{bonus} نقطة. اللعبة أصعب.
+GRADE_NO_SCRAP,Not allowed for the Champion Build.,No permitido en el Montaje Campeón.,غير مسموح في تجميعة البطل.
+WORKSHOP_MATERIALS,Materials,Materiales,المواد
+WORKSHOP_POWER,Power,Energía,الطاقة
+WORKSHOP_QUALITY,Quality,Calidad,الجودة
+LEDGER_WARRANTY_WARN,Warranty claim expected: {amount} on Day {day},Reclamo de garantía previsto: {amount} el Día {day},مطالبة ضمان متوقعة: {amount} في اليوم {day}
+LEDGER_BAD_REVIEW,Bad review: your shop rating drops,Mala reseña: baja la calificación de tu taller,تقييم سيئ: ينخفض تقييم ورشتك
