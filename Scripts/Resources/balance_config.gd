@@ -68,6 +68,20 @@ extends Resource
 @export var bad_review_quality: float = 0.50
 @export var bad_review_penalty: float = 0.15
 
+@export_group("Barter")
+@export var deposit_pct_default: float = 0.20
+## Final pay multiplier when an advance deposit was taken.
+@export var deposit_final_mult: float = 0.90
+@export var profit_budget_mult: float = 0.85
+@export var profit_high_mult_default: float = 1.30
+@export var profit_low_mult: float = 0.90
+@export var rush_pct_default: float = 0.25
+@export var extended_extra_days: int = 2
+@export var extended_payout_mult: float = 0.90
+## Client-supplied parts: material cost x this, final pay x supplied_payout_mult.
+@export var supplied_cost_mult: float = 0.65
+@export var supplied_payout_mult: float = 0.88
+
 @export_group("Endings")
 @export var champion_build_cost_materials: int = 7000
 @export var champion_build_sponsorship: int = 2000

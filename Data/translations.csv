@@ -328,3 +328,11 @@ WORKSHOP_POWER,Power,Energía,الطاقة
 WORKSHOP_QUALITY,Quality,Calidad,الجودة
 LEDGER_WARRANTY_WARN,Warranty claim expected: {amount} on Day {day},Reclamo de garantía previsto: {amount} el Día {day},مطالبة ضمان متوقعة: {amount} في اليوم {day}
 LEDGER_BAD_REVIEW,Bad review: your shop rating drops,Mala reseña: baja la calificación de tu taller,تقييم سيئ: ينخفض تقييم ورشتك
+NEG_TERM_EXTENDED,Extended,Prórroga,تمديد
+NEG_TERM_SUPPLIED,Supplied,Con piezas,قطع مقدمة
+NEG_DESC_PROFIT2,"Budget x{budget}. Pay x{mult} at quality 90%+, x{low} below 75%.","Presupuesto x{budget}. Pago x{mult} con calidad 90%+, x{low} si baja de 75%.",ميزانية المواد x{budget}. الأجر x{mult} عند جودة 90%+ و x{low} دون 75%.
+NEG_DESC_RUSH2,"Pay +{pct}%, but only 1 day. Miss it and the client cancels.","Pago +{pct}%, pero solo 1 día. Si fallas, el cliente cancela.",الأجر +{pct}% لكن بيوم واحد. إن فاتك الموعد يلغي العميل.
+NEG_DESC_EXTENDED,+{days} days to deliver. Final pay -{pct}%.,+{days} días para entregar. Pago final -{pct}%.,+{days} أيام للتسليم. الأجر النهائي -{pct}%.
+NEG_DESC_SUPPLIED,Client supplies parts: materials -{mat}%. Final pay -{pct}%.,El cliente aporta piezas: materiales -{mat}%. Pago final -{pct}%.,العميل يقدم القطع: المواد -{mat}%. الأجر النهائي -{pct}%.
+NEG_INSULT,That is too much. Do not push your luck.,Es demasiado. No tientes tu suerte.,هذا كثير جداً. لا تجازف.
+NEG_NOW,now,ahora,الآن

@@ -92,6 +92,8 @@ bg_color = Color(0.169, 0.514, 0.729, 1)
 [sub_resource type="FontVariation" id="FontVariation_xb1p1"]
 fallbacks = Array[Font]([ExtResource("2_lcnlw")])
 base_font = ExtResource("1_fqf8d")
+spacing_top = 1
+spacing_bottom = 2
 
 [resource]
 default_font = SubResource("FontVariation_xb1p1")

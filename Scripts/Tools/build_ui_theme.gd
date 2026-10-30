@@ -1,5 +1,5 @@
-# purpose: [v3 manual fix] EditorScript that generates the project Theme: pixel font at an 8 px base size (the 16 px engine default was far too big for 480x270), compact StyleBoxFlat margins, optional Arabic fallback font.
-# depends on: EditorScript, GamePalette
+# purpose: [v4] EditorScript that generates the project Theme: pixel font at an 8 px base size, line height tightened with FontTuner (the font's natural line box is ~17 px), compact StyleBoxFlat margins, optional Arabic fallback font. Prefer tighten_font_spacing.gd if you only want to fix the font on an existing theme.
+# depends on: EditorScript, GamePalette, FontTuner
 # signals emitted: none
 # signals listened to: none
 
@@ -68,6 +68,8 @@ func _apply_font(theme: Theme) -> void:
 		variation.fallbacks = fallback_list
 	else:
 		push_warning("BuildUiTheme: NotoSansArabic missing: Arabic will NOT render in the web build.")
+	var line_px: int = FontTuner.tighten(variation, BASE_FONT_SIZE)
+	print("BuildUiTheme: font line height at size %d = %d px" % [BASE_FONT_SIZE, line_px])
 	theme.default_font = variation
 
 func _box(bg: Color, border: Color, margin_h: float, margin_v: float) -> StyleBoxFlat:

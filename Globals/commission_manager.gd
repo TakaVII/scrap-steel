@@ -243,20 +243,19 @@ func accept_offer(offer_id: int, barter_choice: int) -> bool:
 	state.tier = offer.tier
 	state.barter = barter_choice
 	state.accepted_day = TimeManager.day
-	state.deadline_day = TimeManager.day + (1 if barter_choice == CommissionData.Barter.RUSH else offer.deadline_days)
-	state.budget_cap = roundi(offer.budget_cap * (0.85 if barter_choice == CommissionData.Barter.PROFIT_SHARE else 1.0))
-	state.payout = offer.base_payout
 	for arch in offer.part_archetypes:
 		state.add_part_slot(_part_for(arch))
-
-	if barter_choice == CommissionData.Barter.ADVANCE_DEPOSIT:
-		# 20% paid now, total payout -10%. The deposit is an ADVANCE: it is subtracted at delivery.
-		var deposit: int = roundi(offer.base_payout * 0.20)
-		state.deposit_paid = deposit
-		state.payout = roundi(offer.base_payout * 0.90)
-		EconomyManager.add_credits(deposit, tr("LEDGER_BARTER_DEPOSIT"), &"income")
-	elif barter_choice == CommissionData.Barter.RUSH:
-		state.payout = roundi(offer.base_payout * 1.25)
+	# The term (deposit, profit share, rush, extended, supplied) decides pay, budget, deadline and material cost.
+	var terms: Dictionary = BarterTerms.apply(offer, barter_choice)
+	state.deadline_day = TimeManager.day + int(terms["deadline_days"])
+	state.budget_cap = int(terms["budget"])
+	state.payout = int(terms["payout"])
+	state.cost_mult = float(terms["cost_mult"])
+	state.term_param = float(terms["param"])
+	if int(terms["deposit"]) > 0:
+		# The deposit is an ADVANCE: paid now, subtracted at delivery.
+		state.deposit_paid = int(terms["deposit"])
+		EconomyManager.add_credits(state.deposit_paid, tr("LEDGER_BARTER_DEPOSIT"), &"income")
 
 	active_contracts.append(state)
 	EventBus.commission_accepted.emit(offer)
@@ -368,9 +367,9 @@ func _deliver_contract(contract: CommissionState, current_day: int) -> void:
 	var pay: float = float(contract.payout)
 	if contract.barter == CommissionData.Barter.PROFIT_SHARE:
 		if q >= 0.90:
-			pay *= 1.30
+			pay *= contract.term_param if contract.term_param > 0.0 else Balance.cfg.profit_high_mult_default
 		elif q < 0.75:
-			pay *= 0.90
+			pay *= Balance.cfg.profit_low_mult
 	pay *= _quality_multiplier(q)
 	var gross: int = roundi(pay)
 
@@ -473,7 +472,8 @@ func _state_to_dict(st: CommissionState) -> Dictionary:
 		"part_scores": st.part_scores.duplicate(), "part_power": st.part_power.duplicate(),
 		"part_grades": st.part_grades.duplicate(), "part_quality": st.part_quality.duplicate(),
 		"delivered": st.delivered, "late_days": st.late_days, "deposit_paid": st.deposit_paid,
-		"reforging": st.reforging_parts.duplicate()
+		"reforging": st.reforging_parts.duplicate(),
+		"term_param": st.term_param, "cost_mult": st.cost_mult
 	}
 
 func _dict_to_state(s: Dictionary) -> CommissionState:
@@ -489,6 +489,8 @@ func _dict_to_state(s: Dictionary) -> CommissionState:
 	st.delivered = bool(s.get("delivered", false))
 	st.late_days = int(s.get("late_days", 0))
 	st.deposit_paid = int(s.get("deposit_paid", 0))
+	st.term_param = float(s.get("term_param", 0.0))
+	st.cost_mult = float(s.get("cost_mult", 1.0))
 	for arch in st.data.part_archetypes:
 		st.parts.append(_part_for(arch))
 	for v in s.get("part_scores", []):

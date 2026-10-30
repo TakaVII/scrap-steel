@@ -32,6 +32,7 @@ func part_cost(commission: CommissionState, part_index: int, grade: int, score: 
 	var cost: float = float(nominal_part_cost(commission, part_index))
 	cost *= market_mult_for(commission)
 	cost *= MaterialGrade.cost_mult(grade)
+	cost *= commission.cost_mult
 	if UpgradeManager.has_upgrade(&"supplier_network"):
 		cost *= 0.90
 	if score >= 0.0 and commission.parts[part_index].minigame_type == ItemPartData.MinigameType.FORGE:

@@ -25,24 +25,24 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 28.0
+offset_top = 30.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="Center"]
-custom_minimum_size = Vector2(440, 0)
+custom_minimum_size = Vector2(450, 0)
 layout_mode = 2
 
 [node name="Margin" type="MarginContainer" parent="Center/Panel"]
 layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 5
 
 [node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
 [node name="HeaderRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
 layout_mode = 2
@@ -50,13 +50,14 @@ theme_override_constants/separation = 6
 
 [node name="PortraitHolder" type="Control" parent="Center/Panel/Margin/VBox/HeaderRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
 size_flags_vertical = 0
 
 [node name="NameBox" type="VBoxContainer" parent="Center/Panel/Margin/VBox/HeaderRow"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 0
 
 [node name="NameLabel" type="Label" parent="Center/Panel/Margin/VBox/HeaderRow/NameBox"]
 unique_name_in_owner = true
@@ -86,7 +87,7 @@ text = "Rounds"
 
 [node name="QuoteLabel" type="Label" parent="Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 22)
+custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.8, 0.9, 1)
 theme_override_constants/line_spacing = 0
@@ -109,7 +110,7 @@ theme_override_constants/separation = 4
 
 [node name="Ask10Button" type="Button" parent="Center/Panel/Margin/VBox/AskRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 22)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "+10%"
@@ -117,7 +118,7 @@ clip_text = true
 
 [node name="Ask20Button" type="Button" parent="Center/Panel/Margin/VBox/AskRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 22)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "+20%"
@@ -125,7 +126,7 @@ clip_text = true
 
 [node name="Ask30Button" type="Button" parent="Center/Panel/Margin/VBox/AskRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 22)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "+30%"
@@ -134,68 +135,40 @@ clip_text = true
 [node name="CounterButton" type="Button" parent="Center/Panel/Margin/VBox/AskRow"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(0, 22)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Counter"
 clip_text = true
 
-[node name="TermsRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="StandardButton" type="Button" parent="Center/Panel/Margin/VBox/TermsRow"]
+[node name="TermsFlow" type="HFlowContainer" parent="Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
-size_flags_horizontal = 3
-toggle_mode = true
-button_pressed = true
-text = "NEG_TERM_STANDARD"
-clip_text = true
-
-[node name="DepositButton" type="Button" parent="Center/Panel/Margin/VBox/TermsRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 22)
-layout_mode = 2
-size_flags_horizontal = 3
-toggle_mode = true
-text = "NEG_TERM_DEPOSIT"
-clip_text = true
-
-[node name="ProfitButton" type="Button" parent="Center/Panel/Margin/VBox/TermsRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 22)
-layout_mode = 2
-size_flags_horizontal = 3
-toggle_mode = true
-text = "NEG_TERM_PROFIT"
-clip_text = true
-
-[node name="RushButton" type="Button" parent="Center/Panel/Margin/VBox/TermsRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 22)
-layout_mode = 2
-size_flags_horizontal = 3
-toggle_mode = true
-text = "NEG_TERM_RUSH"
-clip_text = true
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 3
 
 [node name="TermDescLabel" type="Label" parent="Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 22)
+custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 theme_override_constants/line_spacing = 0
 text = ""
 autowrap_mode = 3
 max_lines_visible = 2
 
+[node name="PreviewLabel" type="Label" parent="Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
+text = ""
+clip_text = true
+
 [node name="BottomRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
 layout_mode = 2
 
 [node name="WalkButton" type="Button" parent="Center/Panel/Margin/VBox/BottomRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 22)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 text = "NEG_WALK"
 
@@ -205,6 +178,6 @@ size_flags_horizontal = 3
 
 [node name="SignButton" type="Button" parent="Center/Panel/Margin/VBox/BottomRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 22)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 text = "NEG_SIGN"

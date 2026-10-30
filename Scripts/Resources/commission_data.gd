@@ -7,7 +7,8 @@ class_name CommissionData
 extends Resource
 
 enum Type { CAR, MECH, CYBER }
-enum Barter { NONE, ADVANCE_DEPOSIT, PROFIT_SHARE, RUSH }
+## Contract terms. New values are appended so old saves keep their meaning.
+enum Barter { NONE, ADVANCE_DEPOSIT, PROFIT_SHARE, RUSH, EXTENDED, SUPPLIED }
 
 @export var id: int
 @export var type: Type

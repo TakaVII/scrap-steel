@@ -16,6 +16,9 @@ const PART_BUTTON_SCENE = preload("res://Scenes/UI/part_button.tscn")
 var _picker: GradePicker
 var _pending_job: CommissionState
 var _pending_idx: int = -1
+## The part that just finished: its blueprint slot plays the "snap into place" animation on the next rebuild.
+var _pop_job: CommissionState = null
+var _pop_idx: int = -1
 
 func _ready() -> void:
 	EventBus.action_points_changed.connect(_on_action_points_changed)
@@ -34,6 +37,8 @@ func _on_action_points_changed(_cur: int, _max: int) -> void:
 	_update_ui()
 
 func _on_minigame_finished(result: PartResult) -> void:
+	_pop_job = result.commission
+	_pop_idx = result.part_index
 	status_info_label.text = "%s: %d%% | %s | %d cr" % [tr(result.part.display_key), roundi(result.quality * 100.0), tr(MaterialGrade.name_key(result.grade)), result.material_cost_charged]
 	_update_ui()
 
@@ -67,6 +72,8 @@ func _update_ui() -> void:
 
 	for job in jobs:
 		active_jobs_container.add_child(_build_job_panel(job))
+	_pop_job = null
+	_pop_idx = -1
 
 func _build_job_panel(job: CommissionState) -> PanelContainer:
 	var job_panel := PanelContainer.new()
@@ -101,6 +108,10 @@ func _build_job_panel(job: CommissionState) -> PanelContainer:
 	stats.text = "  |  ".join(bits)
 	stats.add_theme_color_override("font_color", GamePalette.NEGATIVE if over else GamePalette.ACCENT)
 	vbox.add_child(stats)
+
+	var preview := ItemPreview.new()
+	vbox.add_child(preview)
+	preview.setup(job, _pop_idx if job == _pop_job else -1)
 
 	var parts_row := HFlowContainer.new()
 	parts_row.add_theme_constant_override("h_separation", 4)

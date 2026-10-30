@@ -52,6 +52,10 @@ func launch(commission: CommissionState, part_index: int, grade: int = MaterialG
 	game.finished.connect(_on_finished.bind(game), CONNECT_ONE_SHOT)
 	EventBus.minigame_started.emit(part, commission.tier)
 	game.start()
+	# Live workpiece in the corner of the panel (reads the minigame state; harmless if art is missing).
+	var stage := PartStage.new()
+	_layer.add_child(stage)
+	stage.attach(game, part, grade)
 	return true
 
 func _on_finished(score: float, game: MinigameBase) -> void:

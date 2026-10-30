@@ -25,6 +25,10 @@ var delivered: bool = false
 var late_days: int = 0
 ## Advance deposit already received (Barter A). Subtracted from the cash paid at delivery.
 var deposit_paid: int = 0
+## Barter: this client's number for the chosen term (profit-share multiplier at quality 90%+).
+var term_param: float = 0.0
+## Barter (supplied parts): material cost multiplier for this contract.
+var cost_mult: float = 1.0
 ## Champion Build only: part indexes being re-forged (the redo costs a fraction of the material cost).
 var reforging_parts: Array[int] = []
 

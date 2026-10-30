@@ -1,5 +1,5 @@
-# purpose: [v3] Real negotiation. The player asks the client for +10/20/30% pay; the client accepts, counters or refuses (odds in Negotiation). Each refusal lowers the client's mood; at mood 0 the client walks away and the offer is gone. Rounds are limited per offer. Then the player picks ONE contract term (standard, deposit, profit share, rush) and signs. Opening a NEW negotiation uses one of the day's talks; reopening one already started is free.
-# depends on: Control, CommissionData, CommissionManager, ClientRoster, PortraitView, Negotiation, NumberFormat, GamePalette, Sfx
+# purpose: [v4] Negotiation + contract terms. The player asks the client for +10/20/30% pay (odds depend on the client's mood, flex and CEILING: asking above the ceiling is an insult), then picks ONE contract term from the menu THIS client offers (each client offers different terms with different numbers) and signs. A live deal preview shows pay, budget, deadline and deposit for the chosen term. Opening a NEW negotiation uses one of the day's talks; reopening one already started is free.
+# depends on: Control, CommissionData, CommissionManager, ClientRoster, PortraitView, Negotiation, BarterTerms, NumberFormat, GamePalette, Sfx
 # signals emitted: barter_resolved(offer_id, choice), client_left(offer_id, client_name), cancelled()
 # signals listened to: EventBus.day_started
 
@@ -12,6 +12,7 @@ signal cancelled()
 const PIP_SIZE: Vector2 = Vector2(8, 8)
 const PIP_ON: Color = Color(0.992, 0.682, 0.38, 1.0)
 const PIP_OFF: Color = Color(0.25, 0.22, 0.32, 1.0)
+const TERM_BUTTON_WIDTH: float = 100.0
 
 @onready var portrait_holder: Control = %PortraitHolder
 @onready var name_label: Label = %NameLabel
@@ -24,11 +25,9 @@ const PIP_OFF: Color = Color(0.25, 0.22, 0.32, 1.0)
 @onready var ask20_button: Button = %Ask20Button
 @onready var ask30_button: Button = %Ask30Button
 @onready var counter_button: Button = %CounterButton
-@onready var standard_button: Button = %StandardButton
-@onready var deposit_button: Button = %DepositButton
-@onready var profit_button: Button = %ProfitButton
-@onready var rush_button: Button = %RushButton
+@onready var terms_flow: HFlowContainer = %TermsFlow
 @onready var term_desc_label: Label = %TermDescLabel
+@onready var preview_label: Label = %PreviewLabel
 @onready var walk_button: Button = %WalkButton
 @onready var sign_button: Button = %SignButton
 
@@ -55,15 +54,9 @@ func _ready() -> void:
 		pip.custom_minimum_size = PIP_SIZE
 		pips_box.add_child(pip)
 		_pips.append(pip)
-	for b in [standard_button, deposit_button, profit_button, rush_button]:
-		b.button_group = _term_group
 	for i in range(ask_buttons.size()):
 		ask_buttons[i].pressed.connect(_on_ask_pressed.bind(i))
 	counter_button.pressed.connect(_on_counter_pressed)
-	standard_button.pressed.connect(_set_term.bind(CommissionData.Barter.NONE))
-	deposit_button.pressed.connect(_set_term.bind(CommissionData.Barter.ADVANCE_DEPOSIT))
-	profit_button.pressed.connect(_set_term.bind(CommissionData.Barter.PROFIT_SHARE))
-	rush_button.pressed.connect(_set_term.bind(CommissionData.Barter.RUSH))
 	sign_button.pressed.connect(_on_sign_pressed)
 	walk_button.pressed.connect(_on_walk_pressed)
 
@@ -86,13 +79,46 @@ func open_for_offer(offer: CommissionData) -> bool:
 		}
 	_offer = offer
 	_term = CommissionData.Barter.NONE
-	standard_button.set_pressed_no_signal(true)
+	_rebuild_terms()
 	visible = true
 	_refresh()
 	return true
 
 func _state() -> Dictionary:
 	return _states[_offer.id]
+
+# ---------------------------------------------------------------- terms menu (different for every client)
+
+func _rebuild_terms() -> void:
+	for child in terms_flow.get_children():
+		terms_flow.remove_child(child)
+		child.queue_free()
+	for term in BarterTerms.available(_offer.client_id):
+		var b := Button.new()
+		b.toggle_mode = true
+		b.button_group = _term_group
+		b.text = tr(BarterTerms.name_key(term))
+		b.clip_text = true
+		b.custom_minimum_size = Vector2(TERM_BUTTON_WIDTH, 20)
+		b.pressed.connect(_set_term.bind(term))
+		terms_flow.add_child(b)
+		if term == CommissionData.Barter.NONE:
+			b.set_pressed_no_signal(true)
+
+func _set_term(choice: int) -> void:
+	_term = choice
+	_refresh_term_text()
+
+func _refresh_term_text() -> void:
+	term_desc_label.text = BarterTerms.describe(_offer, _term)
+	var t: Dictionary = BarterTerms.apply(_offer, _term)
+	var bits: Array[String] = []
+	bits.append("%s: %s" % [tr("OFFER_PAY"), NumberFormat.format_credits(int(t["payout"]))])
+	bits.append("%s: %s" % [tr("OFFER_BUDGET"), NumberFormat.format_credits(int(t["budget"]))])
+	bits.append("%s: %d %s" % [tr("OFFER_DEADLINE"), int(t["deadline_days"]), tr("COMMON_DAYS")])
+	if int(t["deposit"]) > 0:
+		bits.append("+%s %s" % [NumberFormat.format_credits(int(t["deposit"])), tr("NEG_NOW")])
+	preview_label.text = "  |  ".join(bits)
 
 # ---------------------------------------------------------------- display
 
@@ -118,28 +144,13 @@ func _refresh() -> void:
 	var has_bonus: bool = int(st["bonus"]) > 0
 	for i in range(ask_buttons.size()):
 		var pct: int = Negotiation.ASK_STEPS[i]
-		var o: Dictionary = Negotiation.odds(i, mood, _offer.tier, rating, has_bonus)
+		var o: Dictionary = Negotiation.odds(i, mood, _offer.tier, rating, has_bonus, _offer.client_id)
 		ask_buttons[i].text = NumberFormat.render(tr("NEG_ASK"), {"pct": pct}) + " - " + tr(Negotiation.odds_label_key(float(o["accept"])))
 		ask_buttons[i].disabled = int(st["rounds"]) <= 0 or pct <= int(st["bonus"])
 	var counter_pct: int = int(st["counter"])
 	counter_button.visible = counter_pct > 0
 	if counter_pct > 0:
 		counter_button.text = NumberFormat.render(tr("NEG_ACCEPT_COUNTER"), {"pct": counter_pct})
-	_refresh_term_text()
-
-func _refresh_term_text() -> void:
-	var key: String = "NEG_DESC_STANDARD"
-	match _term:
-		CommissionData.Barter.ADVANCE_DEPOSIT:
-			key = "NEG_DESC_DEPOSIT"
-		CommissionData.Barter.PROFIT_SHARE:
-			key = "NEG_DESC_PROFIT"
-		CommissionData.Barter.RUSH:
-			key = "NEG_DESC_RUSH"
-	term_desc_label.text = NumberFormat.render(tr(key), {"deposit": NumberFormat.format_credits(roundi(_offer.base_payout * 0.20))})
-
-func _set_term(choice: int) -> void:
-	_term = choice
 	_refresh_term_text()
 
 # ---------------------------------------------------------------- negotiation
@@ -158,24 +169,31 @@ func _on_ask_pressed(idx: int) -> void:
 		return
 	st["rounds"] = int(st["rounds"]) - 1
 	var pct: int = Negotiation.ASK_STEPS[idx]
-	var o: Dictionary = Negotiation.odds(idx, int(st["mood"]), _offer.tier, Negotiation.current_rating(), int(st["bonus"]) > 0)
+	var o: Dictionary = Negotiation.odds(idx, int(st["mood"]), _offer.tier, Negotiation.current_rating(), int(st["bonus"]) > 0, _offer.client_id)
 	var result: StringName = Negotiation.roll(o)
+	var counter_pct: int = Negotiation.counter_pct(idx, _offer.client_id)
+	if result == &"counter" and counter_pct <= int(st["bonus"]):
+		result = &"refuse" # a counter that is not better than what you already won is a refusal
 	st["counter"] = 0
 	if result == &"accept":
 		_apply_bonus(pct)
 		st["quote"] = NumberFormat.render(tr("NEG_OK"), {"pct": pct})
 		Sfx.play("credit_coin")
 	elif result == &"counter":
-		st["counter"] = Negotiation.COUNTER_STEPS[idx]
-		st["quote"] = NumberFormat.render(tr("NEG_COUNTER"), {"pct": Negotiation.COUNTER_STEPS[idx]})
+		st["counter"] = counter_pct
+		st["quote"] = NumberFormat.render(tr("NEG_COUNTER"), {"pct": counter_pct})
 		Sfx.play("ui_click")
 	else:
-		st["mood"] = int(st["mood"]) - 1
+		var insult: bool = Negotiation.is_over_ceiling(idx, _offer.client_id)
+		st["mood"] = int(st["mood"]) - (2 if insult else 1)
 		Sfx.play("warning")
 		if int(st["mood"]) <= 0:
 			_client_walks_away()
 			return
-		st["quote"] = tr("NEG_REFUSE_LAST") if int(st["mood"]) == 1 else tr("NEG_REFUSE")
+		if insult:
+			st["quote"] = tr("NEG_INSULT")
+		else:
+			st["quote"] = tr("NEG_REFUSE_LAST") if int(st["mood"]) == 1 else tr("NEG_REFUSE")
 	_refresh()
 
 func _on_counter_pressed() -> void:
