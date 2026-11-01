@@ -1,8 +1,9 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://Scripts/UI/workshop_screen.gd" id="1_workshop"]
 
 [node name="WorkshopScreen" type="Control"]
+clip_contents = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,20 +30,20 @@ theme_override_constants/separation = 6
 
 [node name="HBoxTop" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 4
 
 [node name="ApDisplayLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxTop"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Workshop Active | Available AP: 6 / 6"
-
-[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/HBoxTop"]
-layout_mode = 2
 size_flags_horizontal = 3
+text = "AP: 6 / 6"
+clip_text = true
 
 [node name="OvertimeButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxTop"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "WORKSHOP_OVERTIME_BTN"
+tooltip_text = "WORKSHOP_OVERTIME_BTN"
+text = "WORKSHOP_OVERTIME_SHORT"
 
 [node name="EndDayButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxTop"]
 unique_name_in_owner = true
@@ -55,6 +56,7 @@ layout_mode = 2
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+horizontal_scroll_mode = 0
 
 [node name="ActiveJobsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
 unique_name_in_owner = true
@@ -68,6 +70,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
 text = ""
+clip_text = true
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxTop/OvertimeButton" to="." method="_on_overtime_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxTop/EndDayButton" to="." method="_on_end_day_button_pressed"]

@@ -1,7 +1,7 @@
-# purpose: [v5] Ledger (today's money in and out, filterable). v5: now opened with the quick_ledger action (L) from main.gd, rows are appended instead of rebuilding everything per entry, cleared every morning, filters translated, plain +/- marks instead of font-dependent glyphs.
+# purpose: [v6] Ledger (today's money in and out, filterable). v6: the category tag is translated (LEDGER_CAT_<CATEGORY>) instead of showing "[MATERIALS]" in every language, and the list is rebuilt when the language changes. v5: opened with the quick_ledger action (L) from main.gd, rows appended instead of rebuilding everything per entry, cleared every morning, filters translated, plain +/- marks. ESC closes it (Scripts/Main/popup_closer.gd).
 # depends on: Control, EventBus, NumberFormat, GamePalette
 # signals emitted: none
-# signals listened to: EventBus.ledger_entry_added, EventBus.day_started
+# signals listened to: EventBus.ledger_entry_added, EventBus.day_started, EventBus.locale_changed
 # note: FilterOptionButton.item_selected and CloseButton.pressed are connected in ledger_panel.tscn.
 
 extends Control
@@ -30,7 +30,9 @@ func _setup_filters() -> void:
 	filter_option_button.add_item(tr("LEDGER_F_DEBT"), 5)
 
 func _on_locale_changed(_loc: String) -> void:
-	_setup_filters()
+	_setup_filters() # clear() resets the dropdown to "All", so the filter follows it
+	current_filter = &"ALL"
+	_rebuild_display()
 
 func _on_day_started(_day: int) -> void:
 	all_entries.clear()
@@ -69,6 +71,13 @@ func _rebuild_display() -> void:
 		if _matches(entry["cat"]):
 			entries_container.add_child(_make_row(entry))
 
+## "[MATERIALES]" in Spanish. Falls back to the raw category when a key is missing.
+func _category_text(category: StringName) -> String:
+	var cat: String = String(category)
+	var key: String = "LEDGER_CAT_" + cat.to_upper()
+	var translated: String = tr(key)
+	return "[%s]" % (cat.to_upper() if translated == key else translated.to_upper())
+
 func _make_row(entry: Dictionary) -> HBoxContainer:
 	var amount: int = int(entry["amt"])
 	var positive: bool = amount > 0
@@ -77,8 +86,9 @@ func _make_row(entry: Dictionary) -> HBoxContainer:
 	var row := HBoxContainer.new()
 
 	var cat_label := Label.new()
-	cat_label.text = "[%s]" % String(entry["cat"]).to_upper()
+	cat_label.text = _category_text(entry["cat"])
 	cat_label.custom_minimum_size = Vector2(80, 0)
+	cat_label.clip_text = true
 	row.add_child(cat_label)
 
 	var desc_label := Label.new()

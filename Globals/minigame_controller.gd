@@ -1,4 +1,4 @@
-# purpose: [v5] Mounts minigames under CanvasLayer 50. Checks AP/funds/budget BEFORE spending AP. v5: takes the material grade (Premium = faster/shorter minigame, Scrap = slower/longer) and the tier-based AP cost. The F5 cheat only works in debug builds.
+# purpose: [v6] Mounts minigames under CanvasLayer 50. v6: each minigame is forced LEFT-TO-RIGHT (it lives outside the Main scene, so main.gd cannot do it; without this the Assembler grid mirrors in Arabic). v5: takes the material grade (Premium = faster/shorter minigame, Scrap = slower/longer) and the tier-based AP cost; checks AP/funds/budget BEFORE spending AP; the F5 cheat only works in debug builds.
 # depends on: EventBus, GameManager, TimeManager, SettingsManager, UpgradeManager, CraftingManager, DebugCheats, MaterialGrade, ItemPartData, PartResult, CommissionState
 # signals emitted: EventBus.minigame_started, EventBus.minigame_finished
 # signals listened to: none
@@ -47,6 +47,7 @@ func launch(commission: CommissionState, part_index: int, grade: int = MaterialG
 		return true
 
 	var game: MinigameBase = packed.instantiate() as MinigameBase
+	game.layout_direction = Control.LAYOUT_DIRECTION_LTR
 	_layer.add_child(game)
 	game.setup(difficulty)
 	game.finished.connect(_on_finished.bind(game), CONNECT_ONE_SHOT)

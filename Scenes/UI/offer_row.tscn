@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/UI/offer_row.gd" id="1_row"]
+[ext_resource type="Script" path="res://Scripts/UI/portrait_view.gd" id="2_portrait"]
+
+[node name="OfferRow" type="HBoxContainer"]
+theme_override_constants/separation = 3
+script = ExtResource("1_row")
+
+[node name="Portrait" type="Control" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("2_portrait")
+
+[node name="SelectButton" type="Button" parent="."]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+
+[node name="Content" type="MarginContainer" parent="SelectButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 1
+
+[node name="VBox" type="VBoxContainer" parent="SelectButton/Content"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="SelectButton/Content/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+text = "Title"
+clip_text = true
+
+[node name="InfoLabel" type="Label" parent="SelectButton/Content/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
+text = "Info"
+clip_text = true

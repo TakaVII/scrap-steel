@@ -1,14 +1,14 @@
-# purpose: [v5] Morning briefing as master/detail (lists scroll, the Details numbers sit to the right of the key numbers, so nothing can push the buttons off screen). Left: compact offer rows (portrait, title, tier, AP, pay). Right: the selected offer with client portrait + greeting line, pay/AP/deadline, and (progressively disclosed) margin, pay per AP, power limit and material budget. Barter and Accept act on the selected offer.
-# depends on: Control, GameManager, EconomyManager, TimeManager, CommissionManager, Balance, ClientRoster, PortraitView, NumberFormat, GamePalette
+# purpose: [v6] Morning briefing as master/detail. v6: offer rows are instances of Scenes/UI/offer_row.tscn (OfferRow): two real Labels instead of a two-line Button text, which overlapped. Rest unchanged: left = compact offer rows, right = the selected offer with client portrait + greeting line, pay/AP/deadline and (progressively disclosed) margin, pay per AP, power limit and material budget. Barter and Accept act on the selected offer.
+# depends on: Control, GameManager, EconomyManager, TimeManager, CommissionManager, Balance, ClientRoster, OfferRow, PortraitView, NumberFormat, GamePalette
 # signals emitted: none
-# signals listened to: EventBus.phase_changed, BarterPanel.barter_resolved, BarterPanel.client_left
+# signals listened to: EventBus.phase_changed, BarterPanel.barter_resolved, BarterPanel.client_left, BarterPanel.cancelled, OfferRow.selected
 
 extends Control
 
 ## Day from which the advanced numbers are shown by default (the Details button can always toggle them).
 const ADVANCED_FROM_DAY: int = 4
-const ROW_PORTRAIT_PX: int = 22
 const DETAIL_PORTRAIT_PX: int = 40
+const OFFER_ROW_SCENE = preload("res://Scenes/UI/offer_row.tscn")
 
 @onready var title_label: Label = %TitleLabel
 @onready var bills_label: Label = %BillsLabel
@@ -32,7 +32,7 @@ const DETAIL_PORTRAIT_PX: int = 40
 @onready var barter_panel: Control = %BarterPanel
 
 var _group := ButtonGroup.new()
-var _row_buttons: Dictionary = {} # offer id -> Button
+var _rows: Dictionary = {} # offer id -> OfferRow
 var _selected_id: int = -1
 var _portrait: PortraitView
 var _show_advanced: bool = false
@@ -86,7 +86,7 @@ func _rebuild_offers() -> void:
 	for child in offer_rows.get_children():
 		offer_rows.remove_child(child)
 		child.queue_free()
-	_row_buttons.clear()
+	_rows.clear()
 	_refresh_header()
 
 	var offers: Array[CommissionData] = CommissionManager.offers
@@ -100,33 +100,19 @@ func _rebuild_offers() -> void:
 	detail_panel.visible = true
 
 	for offer in offers:
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 3)
-		var face := PortraitView.new()
-		face.setup(offer.client_id, ROW_PORTRAIT_PX)
-		face.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		row.add_child(face)
-		var btn := Button.new()
-		btn.toggle_mode = true
-		btn.button_group = _group
-		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		btn.clip_text = true
-		btn.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		btn.custom_minimum_size = Vector2(0, 26)
-		btn.text = "%s\nT%d  %d %s  %s" % [tr(offer.title_key), offer.tier, offer.total_ap, tr("HUD_AP"), NumberFormat.format_credits(offer.base_payout)]
-		btn.pressed.connect(_select.bind(offer.id))
-		row.add_child(btn)
+		var row: OfferRow = OFFER_ROW_SCENE.instantiate()
 		offer_rows.add_child(row)
-		_row_buttons[offer.id] = btn
+		row.setup(offer, _group)
+		row.selected.connect(_select)
+		_rows[offer.id] = row
 
-	var keep: int = _selected_id if _row_buttons.has(_selected_id) else offers[0].id
+	var keep: int = _selected_id if _rows.has(_selected_id) else offers[0].id
 	_select(keep)
 
 func _select(offer_id: int) -> void:
 	_selected_id = offer_id
-	for id in _row_buttons.keys():
-		(_row_buttons[id] as Button).set_pressed_no_signal(id == offer_id)
+	for id in _rows.keys():
+		(_rows[id] as OfferRow).set_selected(id == offer_id)
 	var offer: CommissionData = _find_offer(offer_id)
 	if offer != null:
 		_show_detail(offer)

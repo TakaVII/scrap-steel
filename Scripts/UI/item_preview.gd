@@ -1,5 +1,5 @@
-# purpose: Blueprint of the item a contract builds (drift car / mech / cyberware) plus one slot per part. Slots start as ghosts; a finished part shows its icon with the QUALITY made visible: crack + rust overlays and a shake when poor, clean when good, a pulsing glow ring and sparks when excellent, the material-grade badge, the tier frame and the quality %. pop_index plays the "snap into place" animation (scale pop, white flash, sparks, sound). Uses the sprites in Assets/Textures/Parts and Minigames when they exist; colored placeholders otherwise.
-# depends on: HBoxContainer, CommissionState, CommissionData, SpriteKit, GamePalette, Juice, Sfx, SettingsManager
+# purpose: [v2] Blueprint of the item a contract builds (drift car / mech / cyberware) plus one slot per part. v2: finished parts now APPEAR ON THE BLUEPRINT itself (a 16 px copy of the part icon on a quality-coloured plate at the part's spot, snapping in with a pop); parts not built yet show as faint ghosts at their spot. Spots come from BLUEPRINT_SPOTS (normalised 0..1, one table per contract type): tune them to match your blueprint PNGs. Two parts with the same archetype never overlap (_free_spot). The blueprint art is tinted in its own layer, so the placed icons are never dimmed. Slots below keep everything v1 had: tier frame, grade badge, rust/crack overlays, glow ring, pop animation with sparks and sound.
+# depends on: HBoxContainer, CommissionState, CommissionData, ItemPartData, SpriteKit, GamePalette, Juice, Sfx, SettingsManager
 # signals emitted: none
 # signals listened to: none
 
@@ -20,12 +20,43 @@ const Q_POOR: float = 0.50
 const Q_OK: float = 0.75
 const Q_GREAT: float = 0.90
 
+## Part icon drawn on the blueprint: 16 px = exactly half of the 32 px art, so the pixels stay crisp.
+const PLACED_ICON_PX: float = 16.0
+const PLACED_PLATE_PX: float = 18.0
+const PLACED_SNAP_DELAY_SEC: float = 0.12
+const SPOT_EDGE: float = 0.14
+## Offsets tried (in blueprint fractions) when two parts want the same spot.
+const SPOT_SPREAD: Array[Vector2] = [Vector2(0.0, 0.0), Vector2(0.28, 0.0), Vector2(-0.28, 0.0), Vector2(0.0, 0.26), Vector2(0.0, -0.26)]
+
+## Where each archetype sits on the blueprint, as a fraction of the 96x64 picture (x right, y down).
+## These are a first guess from the mech outline: open the game, finish a part of each type and nudge the numbers.
+const BLUEPRINT_SPOTS: Dictionary = {
+	CommissionData.Type.MECH: {
+		ItemPartData.Archetype.MECH_CHASSIS: Vector2(0.50, 0.40),
+		ItemPartData.Archetype.MOTOR: Vector2(0.50, 0.14),
+		ItemPartData.Archetype.ARMOR_PLATING: Vector2(0.16, 0.55),
+		ItemPartData.Archetype.HYDRAULIC_SERVO: Vector2(0.50, 0.82),
+	},
+	CommissionData.Type.CAR: {
+		ItemPartData.Archetype.CAR_CHASSIS: Vector2(0.50, 0.64),
+		ItemPartData.Archetype.MOTOR: Vector2(0.80, 0.56),
+		ItemPartData.Archetype.CARBURETOR: Vector2(0.66, 0.34),
+		ItemPartData.Archetype.COMPUTER_CHIP: Vector2(0.34, 0.34),
+	},
+	CommissionData.Type.CYBER: {
+		ItemPartData.Archetype.NEURAL_CHIP: Vector2(0.50, 0.18),
+		ItemPartData.Archetype.POWER_CELL: Vector2(0.50, 0.56),
+		ItemPartData.Archetype.SYNTH_LIMB: Vector2(0.20, 0.58),
+		ItemPartData.Archetype.SERVO_ACTUATOR: Vector2(0.80, 0.58),
+	},
+}
+
 func setup(job: CommissionState, pop_index: int = -1) -> void:
 	add_theme_constant_override("separation", 6)
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
-	add_child(_build_blueprint(job))
+	add_child(_build_blueprint(job, pop_index))
 	for i in range(job.parts.size()):
 		add_child(_build_slot(job, i, i == pop_index))
 
@@ -70,32 +101,112 @@ func _done_count(job: CommissionState) -> int:
 
 # ---------------------------------------------------------------- blueprint
 
-func _build_blueprint(job: CommissionState) -> Control:
+## Pixel centre of every part on the blueprint. Parts that want the same spot are pushed apart.
+func _part_positions(job: CommissionState) -> Array[Vector2]:
+	var table: Dictionary = BLUEPRINT_SPOTS.get(job.data.type, BLUEPRINT_SPOTS[CommissionData.Type.MECH])
+	var taken: Array[Vector2] = []
+	for part in job.parts:
+		var base: Vector2 = table.get(part.archetype, Vector2(0.5, 0.5))
+		taken.append(_free_spot(base, taken))
+	var out: Array[Vector2] = []
+	for p in taken:
+		out.append(Vector2(p.x * BLUEPRINT_PX.x, p.y * BLUEPRINT_PX.y))
+	return out
+
+static func _free_spot(base: Vector2, taken: Array[Vector2]) -> Vector2:
+	for off in SPOT_SPREAD:
+		var c := Vector2(clampf(base.x + off.x, SPOT_EDGE, 1.0 - SPOT_EDGE), clampf(base.y + off.y, SPOT_EDGE, 1.0 - SPOT_EDGE))
+		var clear: bool = true
+		for t in taken:
+			if absf(c.x - t.x) * BLUEPRINT_PX.x < PLACED_PLATE_PX and absf(c.y - t.y) * BLUEPRINT_PX.y < PLACED_PLATE_PX:
+				clear = false
+				break
+		if clear:
+			return c
+	return base
+
+func _build_blueprint(job: CommissionState, pop_index: int) -> Control:
 	var holder := Control.new()
 	holder.custom_minimum_size = BLUEPRINT_PX
 	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	# The artwork lives in its own layer: only IT is tinted, so placed parts keep their real colours.
+	var art_layer := Control.new()
+	art_layer.size = BLUEPRINT_PX
+	art_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	holder.add_child(art_layer)
 	var type_name: String = TYPE_NAMES.get(job.data.type, "car")
 	var art: TextureRect = _tex_rect(PARTS + "item_blueprint_%s.png" % type_name, BLUEPRINT_PX)
 	if art != null:
-		holder.add_child(art)
+		art_layer.add_child(art)
 	else:
 		var bg := ColorRect.new()
 		bg.color = GamePalette.BACKGROUND
 		bg.size = BLUEPRINT_PX
-		holder.add_child(bg)
-		holder.add_child(_label(type_name.to_upper(), GamePalette.NEON_CYAN))
+		art_layer.add_child(bg)
+		art_layer.add_child(_label(type_name.to_upper(), GamePalette.NEON_CYAN))
 	var done: int = _done_count(job)
 	var progress: float = float(done) / float(maxi(1, job.parts.size()))
 	var b: float = 0.45 + 0.55 * progress # the blueprint "powers up" as parts are finished
 	var tint: Color = Color(b, b, b, 1.0)
 	if done > 0:
 		tint = tint.lerp(quality_color(job.calculate_quality()), 0.30 * progress)
-	holder.modulate = tint
+	art_layer.modulate = tint
+
+	var spots: Array[Vector2] = _part_positions(job)
+	for i in range(job.parts.size()):
+		holder.add_child(_build_placed(job, i, spots[i], i == pop_index))
+
 	if done > 0:
 		var q_label: Label = _label("%d%%" % roundi(job.calculate_quality() * 100.0), quality_color(job.calculate_quality()))
 		q_label.position = Vector2(2, BLUEPRINT_PX.y - LABEL_H - 1.0)
 		holder.add_child(q_label)
 	return holder
+
+## One part on the blueprint: a ghost until it is built, then its icon on a plate coloured by its quality.
+func _build_placed(job: CommissionState, idx: int, center_px: Vector2, pop: bool) -> Control:
+	var part: ItemPartData = job.parts[idx]
+	var done: bool = job.part_scores[idx] >= 0.0
+	var q: float = -1.0
+	if done:
+		q = job.part_quality[idx] if idx < job.part_quality.size() and job.part_quality[idx] >= 0.0 else 0.5 + 0.5 * job.part_scores[idx]
+
+	var node := Control.new()
+	node.size = Vector2(PLACED_PLATE_PX, PLACED_PLATE_PX)
+	node.position = center_px - node.size * 0.5
+	node.pivot_offset = node.size * 0.5
+	node.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	node.tooltip_text = tr(part.display_key)
+
+	if done:
+		var plate := ColorRect.new()
+		plate.color = Color(quality_color(q), 0.55)
+		plate.size = node.size
+		plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		node.add_child(plate)
+
+	var inset: Vector2 = Vector2((PLACED_PLATE_PX - PLACED_ICON_PX) * 0.5, (PLACED_PLATE_PX - PLACED_ICON_PX) * 0.5)
+	var icon: TextureRect = _tex_rect(PARTS + "part_%s.png" % String(part.part_id), Vector2(PLACED_ICON_PX, PLACED_ICON_PX), inset)
+	if icon != null:
+		node.add_child(icon)
+		if not done:
+			icon.modulate = Color(0.55, 0.55, 0.70, 0.30) # ghost: this is where the part will go
+	else:
+		var fallback: Label = _label(String(part.part_id).substr(0, 2).to_upper(), GamePalette.NEUTRAL_TEXT if done else Color(0.5, 0.5, 0.6, 0.4))
+		node.add_child(fallback)
+
+	if pop and done:
+		_play_snap.call_deferred(node)
+	return node
+
+## The part "slams" onto the blueprint right after its slot below pops.
+func _play_snap(node: Control) -> void:
+	if not is_instance_valid(node) or not node.is_inside_tree():
+		return
+	node.scale = Vector2(2.4, 2.4)
+	var tw: Tween = node.create_tween()
+	tw.tween_interval(PLACED_SNAP_DELAY_SEC)
+	tw.tween_property(node, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 # ---------------------------------------------------------------- slots
 
