@@ -81,7 +81,7 @@ func apply_result(result: PartResult) -> void:
 	result.power_watts = draw
 
 	# Quality: raw score -> 0.5..1.0, then the material grade (Scrap capped, Premium bonus).
-	result.quality = MaterialGrade.adjust_quality(result.grade, 0.50 + 0.50 * result.score)
+	result.quality = MaterialGrade.adjust_quality(result.grade, Balance.cfg.part_quality(commission.tier, result.score))
 
 	while commission.part_quality.size() <= idx:
 		commission.part_quality.append(-1.0)

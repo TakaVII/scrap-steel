@@ -204,8 +204,9 @@ func _create_procedural_offer(day: int) -> CommissionData:
 	var num_parts: int = 2 if randf() < 0.65 else 3
 	var ap_sum: int = 0
 	var watts_sum: float = 0.0
+	pool.shuffle() # distinct archetypes per contract (spec / balance_sim.py use random.sample)
 	for i in range(num_parts):
-		var arch: int = pool[randi() % pool.size()]
+		var arch: int = pool[i]
 		data.part_archetypes.append(arch)
 		var p: ItemPartData = _part_for(arch)
 		ap_sum += p.ap_for_tier(data.tier) # AP depends on the tier now

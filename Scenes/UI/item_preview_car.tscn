@@ -1,0 +1,81 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/UI/item_preview.gd" id="1_prev"]
+[ext_resource type="Texture2D" path="res://Assets/Textures/Parts/item_blueprint_car.png" id="2_bp"]
+
+[node name="ItemPreview" type="Control"]
+custom_minimum_size = Vector2(120, 80)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 120.0
+offset_bottom = 80.0
+mouse_filter = 2
+script = ExtResource("1_prev")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.078, 0.067, 0.122, 1)
+
+[node name="Blueprint" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_bp")
+stretch_mode = 3
+
+[node name="Markers" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Slot_CAR_CHASSIS" type="Marker2D" parent="Markers"]
+position = Vector2(60, 52)
+gizmo_extents = 10.0
+
+[node name="Slot_MOTOR" type="Marker2D" parent="Markers"]
+position = Vector2(30, 44)
+gizmo_extents = 10.0
+
+[node name="Slot_CARBURETOR" type="Marker2D" parent="Markers"]
+position = Vector2(44, 28)
+gizmo_extents = 10.0
+
+[node name="Slot_COMPUTER_CHIP" type="Marker2D" parent="Markers"]
+position = Vector2(82, 34)
+gizmo_extents = 10.0
+
+[node name="SlotsLayer" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="QualityLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 2.0
+offset_top = 66.0
+offset_right = 40.0
+offset_bottom = 78.0
+mouse_filter = 2

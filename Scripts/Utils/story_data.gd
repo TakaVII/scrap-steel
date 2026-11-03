@@ -1,4 +1,4 @@
-# purpose: [v3] ALL story dialogue as data. A sequence is an Array of BEATS. Edit lines here (structure) and in translations.csv (text, keys TUT_*, DLG_*, TIP_*, DAX_*, INST_*, D12_*). See Docs/dialogue_guide.md.
+# purpose: [v4] ALL story dialogue as data. A sequence is an Array of BEATS. Edit lines in translations.csv (keys TUT_*, DLG_*, TIP_*, DAX_*, INST_*, D12_*, KANE_*, FIN_*) and the structure here. See Docs/story_bible.md for the arc, the voices and the writing rules. v4: Kane's installment reactions escalate (INST_OK_8/15/22/29, INST_SHORT_1/2), Mara voices the guided Forge job, new beats: debt cleared and the Day 28 warning. Same public API as v3.
 # Beat types: _say (a spoken line), _pause (silent beat), _choice (the player picks a reply; optional loop = topic menu), _act (side effect).
 # depends on: RefCounted, Balance, EconomyManager, NumberFormat
 # signals emitted: none
@@ -61,7 +61,7 @@ static func vars() -> Dictionary:
 static func sequence(id: StringName) -> Array:
 	var v: Dictionary = vars()
 	match id:
-		# ---- Tutorial scene 1: the garage at night
+		# ---- Act I, scene 1: the garage at night
 		&"prologue":
 			return [
 				_say(&"narrator", "TUT_P1"),
@@ -70,20 +70,21 @@ static func sequence(id: StringName) -> Array:
 				_say(&"narrator", "TUT_P3"),
 				_pause(0.4),
 				_say(&"narrator", "TUT_P4"),
+				_act(&"shake"),
 			]
-		# ---- Tutorial scene 2: Mara walks in (conversation, then the guided forge job)
+		# ---- Act I, scene 2: Mara walks in. She teaches the Forge in her own voice.
 		&"job_intro":
 			return [
 				_say(&"mara", "DLG_J1"),
 				_choice([
-					_opt("DLG_J1_OPT_A", [_say(&"mara", "DLG_J1_A", {}, &"happy")]),
+					_opt("DLG_J1_OPT_A", [_say(&"mara", "DLG_J1_A", {}, &"unhappy")]),
 					_opt("DLG_J1_OPT_B", [_say(&"mara", "DLG_J1_B")]),
 				]),
 				_say(&"mara", "DLG_J2"),
-				_say(&"narrator", "TUT_J2"),
-				_say(&"narrator", "TUT_J3"),
+				_say(&"mara", "TUT_J2"),
+				_say(&"mara", "TUT_J3"),
 			]
-		# ---- Tutorial scene 3: Kane. Debt, interest and the first installment are said to you; strikes and rent are topics you ask about.
+		# ---- Act I, scene 3: Kane. Debt, interest and the first installment are told to you; strikes and rent are topics you ask about.
 		&"kane_intro":
 			return [
 				_say(&"narrator", "TUT_K1"),
@@ -120,14 +121,27 @@ static func sequence(id: StringName) -> Array:
 			return [_say(&"narrator", "DAX_2")]
 		&"dax_3":
 			return [_say(&"narrator", "DAX_3")]
-		&"installment_ok":
-			return [_say(&"kane", "INST_OK", v)]
-		&"installment_short":
-			return [_say(&"kane", "INST_SHORT", v, &"unhappy")]
+		# Kane warms up one payment at a time (Day 8, 15, 22, 29).
+		&"installment_ok_8":
+			return [_say(&"kane", "INST_OK_8", v)]
+		&"installment_ok_15":
+			return [_say(&"kane", "INST_OK_15", v)]
+		&"installment_ok_22":
+			return [_say(&"kane", "INST_OK_22", v, &"happy")]
+		&"installment_ok_29":
+			return [_say(&"kane", "INST_OK_29", v, &"happy")]
+		&"installment_short_1":
+			return [_say(&"kane", "INST_SHORT_1", v, &"unhappy")]
+		&"installment_short_2":
+			return [_say(&"kane", "INST_SHORT_2", v, &"unhappy"), _act(&"shake")]
 		&"chapter_1":
 			return [_say(&"narrator", "CH1_DONE")]
 		&"personal":
-			return [_say(&"kane", "PERSONAL", v)]
+			return [_say(&"kane", "PERSONAL", v), _act(&"sfx", "warning")]
+		&"kane_cleared":
+			return [_pause(0.3), _say(&"kane", "KANE_CLEARED", v, &"happy")]
+		&"finale_28":
+			return [_say(&"kane", "FIN_28", v)]
 		&"day12_reputation":
 			return [_say(&"seraph", "D12_REP", v), _say(&"narrator", "D12_COMMON", v)]
 		&"day12_mech":

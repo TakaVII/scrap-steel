@@ -1,35 +1,45 @@
-# purpose: [v5] The Calibrator, Stardew-fishing style, with game feel. The player's bar has VELOCITY (hold = lift, release = gravity with momentum, soft floor bounce); the target needle wanders erratically and sometimes DARTS (it blinks first as a warning). Difficulty scales hard with the contract tier. Feel: bar trail, sparks while the needle is inside, streak counter, glowing bar, shake on darts and lost streaks, result popup. Score = time the needle is inside the bar / round duration (spec C9). Track units are 0..1 (0 = top).
+# purpose: [v6] The Calibrator. v6: the NEEDLE now has inertia (a critically damped spring with a max speed per tier, so it accelerates and brakes instead of teleporting); the player bar has air drag (resistance); the bar starts ON the needle (no dead first second); bars are a little taller; the score is rescaled so a perfect round is reachable (time in zone / perfect_zone_fraction, capped at 1.0). v5 feel kept: bar trail, sparks while inside, streak counter, glow, shake on darts and lost streaks, dart warning blink. Score = time the needle is inside the bar (spec C9). Track units are 0..1 (0 = top).
 # depends on: MinigameBase, SpriteKit, Sfx, Juice, GamePalette, NumberFormat
 # signals emitted: finished(score: float)
 # signals listened to: none
+# note: PartStage reads _was_in_zone, _target_y, _bar_y, _bar_h by name. Do not rename them.
 
 extends MinigameBase
 
 @export_group("Calibrator Mechanics")
 @export var round_duration_sec: float = 15.0
 ## Track units per second squared. Holding lifts, releasing lets gravity pull.
-@export var lift_accel: float = 2.6
-@export var base_gravity_accel: float = 1.9
+@export var lift_accel: float = 2.4
+@export var base_gravity_accel: float = 1.7
 ## Higher tiers pull harder, so hovering needs finer control.
-@export var tier_gravity_mults: Array[float] = [1.0, 1.15, 1.3]
-@export var max_speed: float = 1.4
-@export var floor_bounce: float = 0.35
+@export var tier_gravity_mults: Array[float] = [0.9, 1.05, 1.2]
+## Air resistance on the player bar (per second). Higher = the bar feels heavier and overshoots less.
+@export var bar_drag: float = 1.3
+@export var max_speed: float = 1.2
+@export var floor_bounce: float = 0.25
 ## Player bar height as a fraction of the track, by contract tier (bigger = easier).
-@export var tier_bar_fractions: Array[float] = [0.30, 0.21, 0.14]
+@export var tier_bar_fractions: Array[float] = [0.32, 0.24, 0.18]
 @export var needle_px: float = 12.0
+## Share of the round the needle must be inside the bar to score a PERFECT 1.0 (by tier). 100% is unreachable: the needle always has to be caught again after every dart.
+@export var perfect_zone_fractions: Array[float] = [0.90, 0.87, 0.84]
 @export_group("Target Motion")
-## How quickly the needle chases its goal (per second), by tier.
-@export var tier_response: Array[float] = [2.5, 4.0, 6.0]
+## Spring stiffness of the needle by tier (higher = it reacts faster). Reaction time is about 4 / sqrt(stiffness) seconds.
+@export var tier_stiffness: Array[float] = [5.0, 8.0, 12.0]
+## Top speed of the needle in track units per second, by tier.
+@export var tier_max_speed: Array[float] = [0.45, 0.70, 1.0]
+## 1.0 = no overshoot. Below 1.0 the needle overshoots a little.
+@export var damping_ratio: float = 1.0
+@export var dart_stiffness_mult: float = 1.8
+@export var dart_speed_mult: float = 1.5
 ## Largest jump between goals (track units), by tier.
-@export var tier_max_jump: Array[float] = [0.35, 0.55, 0.80]
-@export var tier_dart_chance: Array[float] = [0.05, 0.20, 0.40]
+@export var tier_max_jump: Array[float] = [0.30, 0.45, 0.60]
+@export var tier_dart_chance: Array[float] = [0.04, 0.15, 0.30]
 ## Divides the wait between goals (higher = busier needle).
-@export var tier_retarget_speed: Array[float] = [1.0, 1.25, 1.6]
-@export var dart_response_mult: float = 3.0
-@export var retarget_min_sec: float = 0.5
-@export var retarget_max_sec: float = 1.4
-@export var dart_warning_sec: float = 0.25
-@export var dart_hold_sec: float = 0.35
+@export var tier_retarget_speed: Array[float] = [1.0, 1.2, 1.5]
+@export var retarget_min_sec: float = 0.6
+@export var retarget_max_sec: float = 1.5
+@export var dart_warning_sec: float = 0.30
+@export var dart_hold_sec: float = 0.45
 @export var min_goal_distance: float = 0.12
 @export var input_mode_toggle: bool = false
 @export_group("Game Feel")
@@ -54,6 +64,7 @@ var _bar_h: float = 0.25   # normalized
 var _bar_y: float = 0.7    # normalized top of the bar
 var _bar_v: float = 0.0
 var _target_y: float = 0.4 # normalized centre of the needle
+var _needle_v: float = 0.0
 var _goal_y: float = 0.4
 var _pending_goal: float = 0.4
 var _retarget_t: float = 0.5
@@ -86,11 +97,13 @@ func start() -> void:
 	_track_w = maxf(40.0, track_panel.size.x)
 	_track_h = maxf(60.0, track_panel.size.y)
 	_bar_h = tier_bar_fractions[ti] * maxf(1.0, float(difficulty.get("window_mult", 1.0)))
-	_bar_y = 1.0 - _bar_h
-	_bar_v = 0.0
 	_target_y = 0.4
 	_goal_y = 0.4
-	_retarget_t = 0.4
+	_needle_v = 0.0
+	# The bar starts ON the needle: no dead first second that makes a perfect impossible.
+	_bar_y = clampf(_target_y - _bar_h * 0.5, 0.0, 1.0 - _bar_h)
+	_bar_v = 0.0
+	_retarget_t = 0.8
 	_warn_t = 0.0
 	_darting = false
 	_setup_visuals()
@@ -191,17 +204,23 @@ func _on_zone_changed(in_zone: bool) -> void:
 			Sfx.play("strike_miss")
 		_streak = 0.0
 
+## Score 1.0 needs `perfect_zone_fractions[tier]` of the round inside the bar, not 100% (which no human can reach).
+func _perfect_need() -> float:
+	return maxf(0.1, perfect_zone_fractions[clampi(_tier - 1, 0, 2)])
+
 func _end_round() -> void:
 	_zone_fx.emitting = false
 	_trail.emitting = false
-	finish_with_delay(_time_in_zone / round_duration_sec)
+	finish_with_delay(clampf(_time_in_zone / round_duration_sec / _perfect_need(), 0.0, 1.0))
 
-## Velocity physics: lift while held, gravity otherwise, soft bounce on the floor, hard stop at the ceiling.
+## Velocity physics: lift while held, gravity otherwise, air drag, soft bounce on the floor, hard stop at the ceiling.
 func _step_bar(delta: float) -> void:
 	var rising: bool = _toggle_rising if input_mode_toggle else _is_pressing_rise
 	var gravity: float = base_gravity_accel * tier_gravity_mults[clampi(_tier - 1, 0, 2)]
 	var accel: float = -lift_accel if rising else gravity
-	_bar_v = clampf(_bar_v + accel * delta, -max_speed, max_speed)
+	_bar_v += accel * delta
+	_bar_v -= _bar_v * bar_drag * delta # resistance: the bar cannot snap, it has to be steered
+	_bar_v = clampf(_bar_v, -max_speed, max_speed)
 	_bar_y += _bar_v * delta
 	var floor_y: float = 1.0 - _bar_h
 	if _bar_y >= floor_y:
@@ -218,7 +237,7 @@ func _step_bar(delta: float) -> void:
 		_trail.direction = Vector2(0.0, 1.0 if _bar_v < 0.0 else -1.0)
 		_trail.position = Vector2(_track_w * 0.5, tuning_bar.size.y if _bar_v < 0.0 else 0.0)
 
-## Erratic target: wanders to random goals with smoothing; sometimes it blinks (warning) and then darts.
+## The needle has MASS: a critically damped spring pulls it to its goal, speed is capped per tier. It accelerates, glides and brakes, so a good player can read where it is going. Darts blink first, then pull harder.
 func _step_target(delta: float) -> void:
 	var ti: int = clampi(_tier - 1, 0, 2)
 	if _warn_t > 0.0:
@@ -237,8 +256,20 @@ func _step_target(delta: float) -> void:
 		_retarget_t -= delta
 		if _retarget_t <= 0.0:
 			_pick_new_goal()
-	var response: float = tier_response[ti] * _speed_mult * (dart_response_mult if _darting else 1.0)
-	_target_y = lerpf(_target_y, _goal_y, 1.0 - exp(-response * delta))
+	var sm: float = maxf(0.1, _speed_mult)
+	var stiffness: float = tier_stiffness[ti] * sm * sm * (dart_stiffness_mult if _darting else 1.0)
+	var top_speed: float = tier_max_speed[ti] * sm * (dart_speed_mult if _darting else 1.0)
+	var damping: float = 2.0 * damping_ratio * sqrt(stiffness)
+	var dt: float = minf(delta, 0.033) # a web hiccup must not launch the needle
+	_needle_v += (stiffness * (_goal_y - _target_y) - damping * _needle_v) * dt
+	_needle_v = clampf(_needle_v, -top_speed, top_speed)
+	_target_y += _needle_v * dt
+	if _target_y < 0.03:
+		_target_y = 0.03
+		_needle_v = maxf(0.0, _needle_v)
+	elif _target_y > 0.97:
+		_target_y = 0.97
+		_needle_v = minf(0.0, _needle_v)
 
 func _pick_new_goal() -> void:
 	var ti: int = clampi(_tier - 1, 0, 2)
@@ -271,7 +302,7 @@ func _update_visuals() -> void:
 		timer_label.add_theme_color_override("font_color", GamePalette.NEGATIVE if _time_remaining < 3.0 else GamePalette.NEUTRAL_TEXT)
 		if _was_in_zone and _streak >= 0.5:
 			status_label.text = NumberFormat.render(tr("MINIGAME_CALIBRATOR_STREAK"), {"s": "%.1f" % _streak})
-	score_progress.value = (_time_in_zone / round_duration_sec) * 100.0
+	score_progress.value = clampf(_time_in_zone / round_duration_sec / _perfect_need(), 0.0, 1.0) * 100.0
 
 ## "hold" action = Space / Up + left mouse (Project Settings > Input Map).
 func _input(event: InputEvent) -> void:

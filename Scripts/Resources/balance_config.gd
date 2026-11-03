@@ -4,6 +4,7 @@
 # signals listened to: none
 # [v2 manual fix] added: assist preset values, max_inspections_per_day, champion_reforge_cost_fraction
 # [v3] payout_per_ap x0.90 (simulated with balance_sim_v3.py); material grades, market swing, graduated power fine, bad reviews
+# [v4] Quality group: part quality = floor + (1 - floor) * score, with a floor that DROPS with the contract tier (spec C4 had a fixed 0.50 floor, so a part could never be bad). part_quality() is the only place that formula lives.
 
 class_name BalanceConfig
 extends Resource
@@ -46,6 +47,12 @@ extends Resource
 @export var warranty_cost_fraction: float = 0.35
 @export var late_payout_mult: float = 0.80
 @export var power_fine_mult: float = 0.85 # legacy flat fine, no longer used (see power_fine_* below)
+
+@export_group("Quality")
+## Part quality = floor + (1 - floor) * minigame score. Index 0..2 = contract tier 1..3.
+## Lower floor = a bad minigame really hurts. The old fixed floor was 0.50 (nobody could fail).
+## Tuned with balance_sim_v4.py: [0.42, 0.34, 0.26] raises the non-win rate about 40% for a "good" player.
+@export var quality_floor_by_tier: Array[float] = [0.42, 0.34, 0.26]
 
 @export_group("Materials")
 ## Index 0 = Scrap, 1 = Standard, 2 = Premium.
@@ -92,3 +99,8 @@ extends Resource
 @export var reserve_target: int = 9000
 @export var rating_five_star_quality: float = 0.80
 @export var rating_window: int = 8
+
+## Quality (0..1) of one part from its raw minigame score, BEFORE the material grade is applied.
+func part_quality(tier: int, score: float) -> float:
+	var floor_q: float = quality_floor_by_tier[clampi(tier - 1, 0, quality_floor_by_tier.size() - 1)]
+	return floor_q + (1.0 - floor_q) * clampf(score, 0.0, 1.0)

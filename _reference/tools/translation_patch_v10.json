@@ -1,0 +1,448 @@
+{
+ "deprecated": [
+  "INST_OK",
+  "INST_SHORT"
+ ],
+ "keys": {
+  "TUT_P1": [
+   "Astra City. Rain on cold steel, neon in every puddle. And a garage with your name on the door.",
+   "Astra City. Lluvia sobre acero frío, neón en cada charco. Y un taller con tu nombre en la puerta.",
+   "مدينة أسترا. مطر على فولاذ بارد ونيون في كل بركة. وورشة اسمك على بابها."
+  ],
+  "TUT_P2": [
+   "Dax built Scrap & Steel with his own hands. Three weeks ago he vanished. He left a note and a bill.",
+   "Dax levantó Scrap & Steel con sus propias manos. Hace tres semanas desapareció. Dejó una nota y una factura.",
+   "بنى داكس ورشة الخردة والصلب بيديه. اختفى قبل ثلاثة أسابيع وترك ملاحظة وفاتورة."
+  ],
+  "TUT_P4": [
+   "The bench still hums. Somebody is knocking.",
+   "El banco aún zumba. Alguien llama a la puerta.",
+   "طاولة العمل ما زالت تئز. وأحدهم يطرق الباب."
+  ],
+  "DLG_J1": [
+   "You are the kid. Dax talked about you like you were already famous.",
+   "Tú eres el chaval. Dax hablaba de ti como si ya fueras famoso.",
+   "أنت الفتى إذن. كان داكس يتحدث عنك كأنك مشهور."
+  ],
+  "DLG_J1_OPT_A": [
+   "Where is he?",
+   "¿Dónde está?",
+   "أين هو؟"
+  ],
+  "DLG_J1_OPT_B": [
+   "Who are you?",
+   "¿Quién eres?",
+   "من أنت؟"
+  ],
+  "DLG_J1_A": [
+   "If I knew, I would be yelling at him too. Mara. I weld at the docks. I need a bracket forged.",
+   "Si lo supiera, también le estaría gritando. Soy Mara, soldadora del puerto. Necesito forjar un soporte.",
+   "لو كنت أعرف لصرخت في وجهه أنا أيضاً. أنا مارا، لحّامة في الميناء. أحتاج إلى حامل مصنوع."
+  ],
+  "DLG_J1_B": [
+   "Mara. I weld at the docks. Dax owes me a bracket, so you owe me a bracket.",
+   "Mara. Soldadora del puerto. Dax me debe un soporte, así que me lo debes tú.",
+   "مارا، لحّامة في الميناء. داكس مدين لي بحامل، وهذا يعني أنك مدين لي به."
+  ],
+  "DLG_J2": [
+   "Forge it and the first one is a favor. After that, you charge me.",
+   "Fórjalo y el primero es un favor. Después, me cobras.",
+   "اصنعه والأول معروف. بعده ستحاسبني."
+  ],
+  "TUT_J2": [
+   "Space or click when the cursor sits inside the glow. Hit it like you mean it.",
+   "Espacio o clic cuando el cursor esté dentro del brillo. Golpea como si lo sintieras.",
+   "مسافة أو نقرة حين يكون المؤشر داخل الوهج. اضرب بثقة."
+  ],
+  "TUT_J3": [
+   "Every clean hit tightens the window. Aim for the middle, kid.",
+   "Cada golpe limpio estrecha la ventana. Apunta al centro, chaval.",
+   "كل ضربة نظيفة تضيّق النافذة. صوّب نحو المنتصف يا فتى."
+  ],
+  "TUT_J4G": [
+   "Clean. Dax would have bragged about that to the whole dock.",
+   "Limpio. Dax se lo habría contado a todo el puerto.",
+   "نظيف. كان داكس سيتباهى بهذا أمام الميناء كله."
+  ],
+  "TUT_J4O": [
+   "Ugly, but it holds. Ugly is how you learn.",
+   "Feo, pero aguanta. Así se aprende.",
+   "قبيح لكنه متين. هكذا يتعلم المرء."
+  ],
+  "TUT_J4L": [
+   "It holds. Barely. Watch the glow next time.",
+   "Aguanta. Por los pelos. Mira el brillo la próxima vez.",
+   "سيصمد بالكاد. راقب الوهج في المرة القادمة."
+  ],
+  "TUT_J5": [
+   "That is the loop. Spend Action Points (AP) on parts, hit the marks, get paid. Good work pays more. Bad work comes back as refunds.",
+   "Ese es el ciclo. Gasta Puntos de Acción (PA) en piezas, acierta las marcas y cobra. El buen trabajo paga más. El malo vuelve como reembolso.",
+   "هذه هي الحلقة. أنفق نقاط العمل على القطع، أصب الأهداف، واقبض. العمل الجيد يدفع أكثر، والرديء يعود إليك كتعويضات."
+  ],
+  "DLG_J6": [
+   "Tell the docks the garage is open. And kid, count your money tonight.",
+   "Diré en el puerto que el taller abre otra vez. Y chaval, cuenta tu dinero esta noche.",
+   "سأخبر الميناء أن الورشة عادت. ويا فتى، عدّ مالك الليلة."
+  ],
+  "TUT_K1": [
+   "The door slams. A tall man in a gray coat shakes the rain off his sleeves and does not wipe his boots.",
+   "La puerta se cierra de golpe. Un hombre alto con abrigo gris sacude la lluvia de sus mangas y no se limpia las botas.",
+   "ينغلق الباب بعنف. رجل طويل بمعطف رمادي ينفض المطر عن كميه ولا يمسح حذاءه."
+  ],
+  "TUT_K2": [
+   "Collector Kane. Scraphound Syndicate. Dax borrowed. Dax ran. The shop is what is left, so the debt is yours.",
+   "Cobrador Kane. Sindicato Scraphound. Dax pidió prestado y huyó. El taller es lo que queda, así que la deuda es tuya.",
+   "المحصّل كين. نقابة سكرابهاوند. داكس اقترض وهرب. الورشة هي ما تبقى، فالدين صار دينك."
+  ],
+  "DLG_K_A": [
+   "No. Dax offered me coffee. You have his garage, though, and the garage has his debt.",
+   "No. Dax me ofrecía café. Pero tienes su taller, y el taller tiene su deuda.",
+   "لا. داكس كان يعرض عليّ القهوة. لكنك تملك ورشته، والورشة عليها دينه."
+  ],
+  "DLG_K_B": [
+   "Straight to it. I respect that.",
+   "Directo al grano. Eso lo respeto.",
+   "مباشر. أحترم هذا."
+  ],
+  "TUT_K3": [
+   "Your debt is {debt}. Find it in the top bar. That number does not sleep.",
+   "Tu deuda es {debt}. Búscala en la barra superior. Ese número no duerme.",
+   "دينك {debt}. ستجده في الشريط العلوي. هذا الرقم لا ينام."
+  ],
+  "TUT_K4": [
+   "It grows {rate}% every night. Tonight alone: {interest}. Think about that when you sleep.",
+   "Crece un {rate}% cada noche. Solo esta noche: {interest}. Piensa en eso cuando duermas.",
+   "ينمو بنسبة {rate}% كل ليلة. هذه الليلة وحدها: {interest}. فكّر في ذلك وأنت نائم."
+  ],
+  "TUT_K5": [
+   "First payment: {due}, Day {due_day}. Miss it and you take a strike.",
+   "Primer pago: {due}, Día {due_day}. Si fallas, recibes una falta.",
+   "الدفعة الأولى: {due} في اليوم {due_day}. إن فاتتك تنل إنذاراً."
+  ],
+  "TUT_K6": [
+   "Three strikes, or debt above {limit}, and I take the keys.",
+   "Tres faltas, o una deuda superior a {limit}, y me llevo las llaves.",
+   "ثلاثة إنذارات، أو دين فوق {limit}، وآخذ المفاتيح."
+  ],
+  "TUT_K7": [
+   "Rent is {rent} every morning, before you earn a credit. Press L to see the ledger. Read it.",
+   "El alquiler es {rent} cada mañana, antes de ganar un crédito. Pulsa L para ver el libro mayor. Léelo.",
+   "الإيجار {rent} كل صباح قبل أن تكسب أي رصيد. اضغط L لرؤية دفتر الحسابات. واقرأه."
+  ],
+  "TUT_K8": [
+   "Pick a road, mechanic. The city pays for whatever it respects.",
+   "Elige un camino, mecánico. La ciudad paga por lo que respeta.",
+   "اختر طريقاً أيها الميكانيكي. المدينة تدفع مقابل ما تحترمه."
+  ],
+  "TUT_PATH_REP": [
+   "Cyberware and a clean name. Slow money, but nobody takes it back.",
+   "Ciberware y un nombre limpio. Dinero lento, pero nadie te lo quita.",
+   "سيبروير وسمعة نظيفة. مال بطيء لكن لا أحد يستعيده."
+  ],
+  "TUT_PATH_MECH": [
+   "Mechs. Heavy iron, heavy debts. Do not drop the hammer.",
+   "Mechs. Hierro pesado, deudas pesadas. No sueltes el martillo.",
+   "آليات. حديد ثقيل وديون ثقيلة. لا تُسقط المطرقة."
+  ],
+  "TUT_PATH_DRIFT": [
+   "Drift cars. Precision, or a wall. Pick carefully.",
+   "Coches de drift. Precisión, o un muro. Elige con cuidado.",
+   "سيارات الدرفت. الدقة أو الجدار. اختر بحذر."
+  ],
+  "TIP_D1_1": [
+   "Morning briefing. Pick a contract from the list. Read what it pays and what it costs.",
+   "Informe matutino. Elige un contrato de la lista. Lee lo que paga y lo que cuesta.",
+   "التقرير الصباحي. اختر عقداً من القائمة. اقرأ ما يدفعه وما يكلّفه."
+  ],
+  "DAX_1": [
+   "Under the bench, a greasy note: 'Rule one. Interest does not sleep. Pay the big number first. I learned this one last.' - D",
+   "Bajo el banco, una nota grasienta: 'Regla uno. El interés no duerme. Paga primero el número grande. Esta la aprendí la última.' - D",
+   "تحت الطاولة ملاحظة ملطخة بالشحم: 'القاعدة الأولى. الفائدة لا تنام. سدّد الرقم الكبير أولاً. هذه تعلمتها متأخراً.' - د"
+  ],
+  "DAX_2": [
+   "A cracked photo: Dax and a kid at this bench, the kid holding a wrench wrong. On the back: 'Hired today. Terrible grip. Great hands.'",
+   "Una foto rota: Dax y un chaval en este banco, el chaval sujetando mal una llave. Detrás: 'Contratado hoy. Mal agarre. Buenas manos.'",
+   "صورة متشققة: داكس وفتى عند هذه الطاولة، والفتى يمسك المفتاح خطأً. على ظهرها: 'وُظّف اليوم. قبضة سيئة. يدان رائعتان.'"
+  ],
+  "DAX_3": [
+   "Taped inside the old radio: 'Kid. I borrowed to buy this bench for you, then the interest scared me off. Finish what I could not. - D'",
+   "Pegada dentro de la vieja radio: 'Chaval. Pedí prestado para comprarte este banco y luego el interés me asustó. Termina lo que yo no pude. - D'",
+   "ملصقة داخل الراديو القديم: 'يا فتى. اقترضت لأشتري لك هذه الطاولة، ثم أخافتني الفائدة. أنهِ ما عجزت عنه. - د'"
+  ],
+  "INST_OK_8": [
+   "Paid in full. Adequate.",
+   "Pagado por completo. Aceptable.",
+   "مدفوع بالكامل. مقبول."
+  ],
+  "INST_OK_15": [
+   "Paid again. People who pay twice usually keep paying.",
+   "Pagado otra vez. Quien paga dos veces suele seguir pagando.",
+   "دفعت مرة أخرى. من يدفع مرتين يواصل الدفع عادة."
+  ],
+  "INST_OK_22": [
+   "On time. I told them you would be. I was not sure.",
+   "A tiempo. Les dije que lo estarías. No estaba seguro.",
+   "في الموعد. قلت لهم إنك ستفعل. لم أكن واثقاً."
+  ],
+  "INST_OK_29": [
+   "The last one. Whatever happens tomorrow, you paid every time.",
+   "La última. Pase lo que pase mañana, pagaste siempre.",
+   "الأخيرة. مهما حدث غداً، دفعت في كل مرة."
+  ],
+  "INST_SHORT_1": [
+   "Short. Strike {strikes} of {max_strikes}. I wrote it down so you do not have to.",
+   "Insuficiente. Falta {strikes} de {max_strikes}. Lo anoté para que no tengas que hacerlo tú.",
+   "ناقص. الإنذار {strikes} من {max_strikes}. دوّنته عنك."
+  ],
+  "INST_SHORT_2": [
+   "Short again. Strike {strikes} of {max_strikes}. The next one is not mine to forgive.",
+   "Insuficiente otra vez. Falta {strikes} de {max_strikes}. La siguiente no me corresponde perdonarla.",
+   "ناقص مرة أخرى. الإنذار {strikes} من {max_strikes}. الإنذار القادم ليس لي أن أسامح فيه."
+  ],
+  "CH1_DONE": [
+   "Chapter 1 complete. One payment down. The real climb starts now.",
+   "Capítulo 1 completo. Un pago hecho. La verdadera escalada empieza ahora.",
+   "انتهى الفصل الأول. دفعة واحدة سُدّدت. الصعود الحقيقي يبدأ الآن."
+  ],
+  "PERSONAL": [
+   "I will say this once. I vouched for Dax. If this debt stays open, it comes out of my pocket. So yes, it is personal now.",
+   "Lo diré una vez. Yo respondí por Dax. Si esta deuda sigue abierta, sale de mi bolsillo. Así que sí, ahora es personal.",
+   "سأقولها مرة واحدة. أنا كفلت داكس. إن بقي هذا الدين مفتوحاً فسيُخصم من جيبي. نعم، صار الأمر شخصياً."
+  ],
+  "KANE_CLEARED": [
+   "Zero. I have not written that number in this ledger in years. Do not thank me. Build something.",
+   "Cero. Hacía años que no escribía ese número en este libro. No me des las gracias. Construye algo.",
+   "صفر. لم أكتب هذا الرقم في هذا الدفتر منذ سنوات. لا تشكرني. ابنِ شيئاً."
+  ],
+  "FIN_28": [
+   "Two days left. Finish what you started. I will be here on the thirtieth, win or lose.",
+   "Quedan dos días. Termina lo que empezaste. El día treinta estaré aquí, ganes o pierdas.",
+   "بقي يومان. أنهِ ما بدأته. سأكون هنا في اليوم الثلاثين، ربحت أم خسرت."
+  ],
+  "D12_COMMON": [
+   "To win on Day 30: no debt, and the goal you just heard.",
+   "Para ganar el Día 30: sin deuda, y la meta que acabas de oír.",
+   "للفوز في اليوم 30: بلا دين، وتحقيق الهدف الذي سمعته للتو."
+  ],
+  "D12_REP": [
+   "I audited your shop. Keep a 5-star rating and {reserve} in cash, and the Gala will ask for you by name.",
+   "He auditado tu taller. Mantén 5 estrellas y {reserve} en caja, y la Gala preguntará por ti por tu nombre.",
+   "راجعت ورشتك. حافظ على 5 نجوم و{reserve} نقداً وسيطلبك الحفل باسمك."
+  ],
+  "D12_MECH": [
+   "The Steel Colosseum wants one Champion Build. About {cost} in parts, {fee} to enter, done by Day {deadline}. Bring it or stay home.",
+   "El Coliseo de Acero quiere un Montaje Campeón. Unos {cost} en piezas, {fee} de inscripción, listo para el Día {deadline}. Tráelo o quédate en casa.",
+   "ساحة الفولاذ تريد تجميعة بطل واحدة. نحو {cost} للقطع و{fee} للتسجيل، قبل اليوم {deadline}. أحضرها أو ابقَ في بيتك."
+  ],
+  "D12_DRIFT": [
+   "The Neon Circuit takes one build. About {cost} in parts, {fee} to enter, Day {deadline}. Make it fast. Make it pretty.",
+   "El Circuito Neón acepta un solo montaje. Unos {cost} en piezas, {fee} de inscripción, Día {deadline}. Hazlo rápido. Hazlo bonito.",
+   "حلبة النيون تقبل تجميعة واحدة. نحو {cost} للقطع و{fee} للتسجيل، اليوم {deadline}. اجعلها سريعة. واجعلها جميلة."
+  ],
+  "END_VICTORY_REP": [
+   "The debt is gone and the Gala asks for you by name. Kane closes the ledger, nods once, and leaves the door open behind him.",
+   "La deuda desapareció y la Gala pregunta por ti por tu nombre. Kane cierra el libro, asiente una vez y deja la puerta abierta al salir.",
+   "اختفى الدين والحفل يسأل عنك باسمك. يغلق كين الدفتر ويومئ مرة ويترك الباب مفتوحاً خلفه."
+  ],
+  "END_VICTORY_MECH": [
+   "The Colosseum roars for a mech with your welds in it. The debt is gone. Kane watches from the cheap seats, and for once he buys the drinks.",
+   "El Coliseo ruge por un mech con tus soldaduras. La deuda desapareció. Kane mira desde las gradas baratas y, por una vez, invita él.",
+   "الساحة تهتف لآلي فيه لحامك. اختفى الدين. يشاهد كين من المدرجات الرخيصة، وللمرة الأولى يدفع هو ثمن المشروبات."
+  ],
+  "END_VICTORY_DRIFT": [
+   "The Neon Circuit lights up under your build. The debt is gone. Back in the garage, Dax's old radio crackles once and goes quiet.",
+   "El Circuito Neón se enciende bajo tu montaje. La deuda desapareció. En el taller, la vieja radio de Dax crepita una vez y calla.",
+   "حلبة النيون تضيء تحت تجميعتك. اختفى الدين. في الورشة يطقطق راديو داكس القديم مرة ثم يصمت."
+  ],
+  "END_SEIZED_DESC": [
+   "Kane takes the keys without a word. The bench goes dark. Somewhere, a radio plays static.",
+   "Kane toma las llaves sin decir palabra. El banco se apaga. En algún lugar, una radio suelta estática.",
+   "يأخذ كين المفاتيح دون كلمة. تظلم الطاولة. في مكان ما، راديو يبث تشويشاً."
+  ],
+  "END_TIMEOUT_DESC": [
+   "Day 30 arrives and the numbers fall short. Kane closes the ledger. 'Almost is also a number,' he says. 'Come back stronger.'",
+   "Llega el Día 30 y las cuentas no alcanzan. Kane cierra el libro. 'Casi también es un número', dice. 'Vuelve más fuerte.'",
+   "يحلّ اليوم 30 وتقصر الأرقام. يغلق كين الدفتر. 'تقريباً رقم أيضاً'، يقول. 'عد أقوى.'"
+  ],
+  "CLIENT_SPARKY_GREET": [
+   "My car sounds like a coughing cat. Fix it before Saturday.",
+   "Mi coche suena como un gato con tos. Arréglalo antes del sábado.",
+   "سيارتي تبدو كقطة تسعل. أصلحها قبل السبت."
+  ],
+  "CLIENT_SPARKY_SATISFIED": [
+   "She purrs! I might cry. I will not, but I might.",
+   "¡Ronronea! Casi lloro. No lloraré, pero casi.",
+   "إنها تخرخر! قد أبكي. لن أبكي، لكن قد."
+  ],
+  "CLIENT_SPARKY_UNHAPPY": [
+   "Squeals again at 6k. I told the whole crowd you were good.",
+   "Chirría otra vez a 6.000. Le dije a todo el público que eras bueno.",
+   "تصرّ مجدداً عند 6 آلاف. أخبرت الجمهور كله أنك جيد."
+  ],
+  "CLIENT_ZERO_GREET": [
+   "Lap time is off by two tenths. Find them.",
+   "Mi vuelta pierde dos décimas. Encuéntralas.",
+   "زمن لفتي ينقص عُشري ثانية. اعثر عليهما."
+  ],
+  "CLIENT_ZERO_SATISFIED": [
+   "Two tenths found. Payment sent. Do not make it weird.",
+   "Dos décimas encontradas. Pago enviado. No lo hagas raro.",
+   "وجدت العُشرين. أُرسل الدفع. لا تجعل الأمر غريباً."
+  ],
+  "CLIENT_ZERO_UNHAPPY": [
+   "Down a tenth. Cost me a podium. We are not even.",
+   "Una décima menos. Me costó un podio. No estamos en paz.",
+   "نقص عُشر ثانية. كلّفني منصة التتويج. لسنا متعادلين."
+  ],
+  "CLIENT_TALIA_GREET": [
+   "Torque curve goes flat past 5,000. I brought the logs, if you want them.",
+   "La curva de par se aplana pasadas las 5.000. Traje los registros, por si los quieres.",
+   "منحنى العزم يسطّح بعد 5000. أحضرت السجلات إن أردتها."
+  ],
+  "CLIENT_TALIA_SATISFIED": [
+   "Curve is clean. Logged and filed. Next time I will bring snacks.",
+   "La curva está limpia. Registrada y archivada. La próxima traeré snacks.",
+   "المنحنى نظيف. سُجّل وأُرشف. في المرة القادمة سأحضر وجبات خفيفة."
+  ],
+  "CLIENT_TALIA_UNHAPPY": [
+   "There is noise on the telemetry bus. I will send the trace. Please actually read it.",
+   "Hay ruido en el bus de telemetría. Te envío la traza. Léela de verdad, por favor.",
+   "هناك تشويش في ناقل القياس. سأرسل الأثر. اقرأه فعلاً من فضلك."
+  ],
+  "CLIENT_GIDEON_GREET": [
+   "Make her fast, but make her photograph well.",
+   "Hazla rápida, pero que salga bien en las fotos.",
+   "اجعلها سريعة، لكن اجعلها تصوَّر جيداً."
+  ],
+  "CLIENT_GIDEON_SATISFIED": [
+   "Look at that line. Flawless. Mine, obviously.",
+   "Mira esa línea. Impecable. Mía, obviamente.",
+   "انظر إلى هذا الخط. بلا عيب. وهو لي طبعاً."
+  ],
+  "CLIENT_GIDEON_UNHAPPY": [
+   "She spun out on entry. In front of cameras. I will remember this.",
+   "Derrapó en la entrada. Delante de las cámaras. Lo recordaré.",
+   "انزلقت عند الدخول. أمام الكاميرات. سأتذكر هذا."
+  ],
+  "CLIENT_MARA_GREET": [
+   "Hands first, questions after. I need this welded.",
+   "Primero las manos, luego las preguntas. Necesito esto soldado.",
+   "الأيدي أولاً والأسئلة بعدها. أحتاج هذا ملحوماً."
+  ],
+  "CLIENT_MARA_SATISFIED": [
+   "Clean seam. I would hire you, but I cannot afford you.",
+   "Costura limpia. Te contrataría, pero no puedo pagarte.",
+   "لحام نظيف. كنت سأوظفك لكنني لا أقدر على أجرك."
+  ],
+  "CLIENT_MARA_UNHAPPY": [
+   "Porosity in the weld. You rushed it. I can see where.",
+   "Hay porosidad en la soldadura. Fuiste con prisa. Veo dónde.",
+   "مسامية في اللحام. استعجلت. أرى أين."
+  ],
+  "CLIENT_BORIS_GREET": [
+   "Heavy work. Do it slow, do it once.",
+   "Trabajo pesado. Hazlo lento, hazlo una vez.",
+   "عمل ثقيل. اعمله ببطء ومرة واحدة."
+  ],
+  "CLIENT_BORIS_SATISFIED": [
+   "Solid. My grandfather said steel remembers. This one remembers you kindly.",
+   "Sólido. Mi abuelo decía que el acero recuerda. Este te recuerda bien.",
+   "متين. كان جدي يقول إن الفولاذ يتذكر. وهذا يتذكرك بخير."
+  ],
+  "CLIENT_BORIS_UNHAPPY": [
+   "The joint seized. My grandfather would have thrown it in the river.",
+   "La junta se trabó. Mi abuelo la habría tirado al río.",
+   "المفصل علق. كان جدي سيرميه في النهر."
+  ],
+  "CLIENT_VAL_GREET": [
+   "Bounty at noon. Armor on the left shoulder. Go.",
+   "Tengo una recompensa al mediodía. Blindaje en el hombro izquierdo. Ya.",
+   "لدي مطلوب عند الظهر. دروع على الكتف الأيسر. هيا."
+  ],
+  "CLIENT_VAL_SATISFIED": [
+   "Took a hit and walked away. I tip nobody. Check your account.",
+   "Aguantó un impacto y salí andando. No doy propinas. Mira tu cuenta.",
+   "تلقّت ضربة ومشيت. لا أعطي بقشيشاً لأحد. تفقد حسابك."
+  ],
+  "CLIENT_VAL_UNHAPPY": [
+   "Cracked on the first hit. I nearly made the news.",
+   "Se agrietó al primer golpe. Casi salgo en las noticias.",
+   "تشققت عند الضربة الأولى. كدت أظهر في الأخبار."
+  ],
+  "CLIENT_IRONHEAD_GREET": [
+   "Hector Ironhead does not buckle. Your steel had better not either.",
+   "Hector Ironhead no se dobla. Tu acero más te vale que tampoco.",
+   "هيكتور آيرنهيد لا ينحني. وأفضل لفولاذك ألا ينحني أيضاً."
+  ],
+  "CLIENT_IRONHEAD_SATISFIED": [
+   "It held. The crowd roared. You will hear about this.",
+   "Aguantó. El público rugió. Oirás hablar de esto.",
+   "صمد. والجمهور زأر. ستسمع عن هذا."
+  ],
+  "CLIENT_IRONHEAD_UNHAPPY": [
+   "It warped in round three. They laughed at me. Me.",
+   "Se deformó en el tercer asalto. Se rieron de mí. De mí.",
+   "تشوّه في الجولة الثالثة. ضحكوا عليّ. عليّ أنا."
+  ],
+  "CLIENT_NYX_GREET": [
+   "Pain is a sensor. I would like mine quieter.",
+   "El dolor es un sensor. Quiero el mío más callado.",
+   "الألم مستشعر. أريد مستشعري أهدأ."
+  ],
+  "CLIENT_NYX_SATISFIED": [
+   "I cannot feel the seam. Best compliment I know.",
+   "No siento la costura. El mejor cumplido que conozco.",
+   "لا أشعر بالوصلة. أجمل مديح أعرفه."
+  ],
+  "CLIENT_NYX_UNHAPPY": [
+   "It twitches when I think of you. Not as a compliment.",
+   "Se contrae cuando pienso en ti. No es un cumplido.",
+   "يرتعش حين أفكر فيك. وليس هذا مديحاً."
+  ],
+  "CLIENT_SERAPH_GREET": [
+   "I require a flawless installation. I will be measuring.",
+   "Requiero una instalación impecable. Voy a medir.",
+   "أطلب تركيباً بلا عيب. وسأقوم بالقياس."
+  ],
+  "CLIENT_SERAPH_SATISFIED": [
+   "Within tolerance. I am pleased, which surprises me.",
+   "Dentro de la tolerancia. Me complace, y eso me sorprende.",
+   "ضمن الهامش المسموح. أشعر بالرضا، وهذا يدهشني."
+  ],
+  "CLIENT_SERAPH_UNHAPPY": [
+   "Latency detected. Forty milliseconds. I will remember each one.",
+   "Latencia detectada. Cuarenta milisegundos. Recordaré cada uno.",
+   "رُصد تأخير. أربعون ملّي ثانية. سأتذكر كل واحدة."
+  ],
+  "CLIENT_MIRA_GREET": [
+   "Mask on, hands steady. This one goes inside a person.",
+   "Mascarilla puesta, manos firmes. Esta va dentro de una persona.",
+   "الكمامة على الوجه واليدان ثابتتان. هذه ستوضع داخل إنسان."
+  ],
+  "CLIENT_MIRA_SATISFIED": [
+   "Sync at ninety-nine. The patient asked who built it.",
+   "Sincronización al noventa y nueve. El paciente preguntó quién lo construyó.",
+   "التزامن تسعة وتسعون. سأل المريض من صنعه."
+  ],
+  "CLIENT_MIRA_UNHAPPY": [
+   "The interface drops packets. A patient noticed. Do better.",
+   "La interfaz pierde paquetes. Un paciente lo notó. Hazlo mejor.",
+   "الواجهة تفقد الحزم. لاحظ مريض ذلك. أتقن أكثر."
+  ],
+  "CLIENT_JUNO_GREET": [
+   "Fixers talk. They say you do clean work. Prove it.",
+   "Los intermediarios hablan. Dicen que trabajas limpio. Demuéstralo.",
+   "الوسطاء يتحدثون. يقولون إنك تعمل بنظافة. أثبت ذلك."
+  ],
+  "CLIENT_JUNO_SATISFIED": [
+   "Smooth install. I will send friends. Friends who tip.",
+   "Instalación fina. Mandaré amigos. Amigos que dan propina.",
+   "تركيب سلس. سأرسل أصدقاء. أصدقاء يعطون بقشيشاً."
+  ],
+  "CLIENT_JUNO_UNHAPPY": [
+   "Glitchy and slow. I vouched for you. That costs me.",
+   "Falla y va lento. Respondí por ti. Eso me cuesta.",
+   "متعثر وبطيء. زكّيتك. وهذا يكلّفني."
+  ]
+ }
+}

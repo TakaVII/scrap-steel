@@ -48,5 +48,5 @@ func show_result_popup(score: float) -> void:
 	elif score >= 0.50:
 		key = "MG_RESULT_OK"
 		color = GamePalette.ACCENT
-	var text: String = "%s  %d%%" % [tr(key), roundi((0.5 + 0.5 * score) * 100.0)]
+	var text: String = "%s  %d%%" % [tr(key), roundi(Balance.cfg.part_quality(int(difficulty.get("tier", 1)), score) * 100.0)]
 	Juice.spawn_floating_text(self, text, Vector2(size.x * 0.5 - 60.0, size.y * 0.5 - 12.0), color, POPUP_FONT_SIZE)

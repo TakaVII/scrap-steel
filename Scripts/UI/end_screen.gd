@@ -1,9 +1,15 @@
-# purpose: [v5] End screen. v5: the "Day" word in the stats line is translated (HUD_DAY). v4: "RANK" label is translated (END_RANK). v3: Restart button returns to the MAIN MENU.
+# purpose: [v5] End screen. v5: the victory text depends on the pathway (END_VICTORY_REP / MECH / DRIFT), seizure and timeout use Kane's closing lines. v4: "RANK" label is translated (END_RANK). v3: Restart button returns to the MAIN MENU.
 # depends on: Control, GameManager, EconomyManager, CommissionManager
 # signals emitted: none
 # signals listened to: EventBus.run_ended
 
 extends Control
+
+const VICTORY_KEYS: Dictionary = {
+	&"reputation": "END_VICTORY_REP",
+	&"mech": "END_VICTORY_MECH",
+	&"drifter": "END_VICTORY_DRIFT",
+}
 
 @onready var title_label: Label = %TitleLabel
 @onready var desc_label: Label = %DescLabel
@@ -17,11 +23,11 @@ func _ready() -> void:
 func _on_run_ended(victory: bool, reason: StringName) -> void:
 	if victory:
 		title_label.text = tr("END_VICTORY_TITLE")
-		desc_label.text = tr("END_VICTORY_DESC")
+		desc_label.text = tr(VICTORY_KEYS.get(GameManager.pathway, "END_VICTORY_DESC"))
 		rank_label.text = tr("END_RANK") + " " + GameManager.calculate_final_rank()
-		stats_label.text = "%s | %d cr | %s %d | %.1f*" % [
+		stats_label.text = "%s | %d cr | Day %d | %.1f*" % [
 			String(GameManager.pathway).to_upper(), EconomyManager.credits,
-			tr("HUD_DAY"), GameManager.debt_cleared_day, CommissionManager.shop_rating() * 5.0
+			GameManager.debt_cleared_day, CommissionManager.shop_rating() * 5.0
 		]
 	else:
 		if reason == &"seized":

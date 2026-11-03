@@ -71,7 +71,7 @@ func calculate_quality() -> float:
 			total += q
 			count += 1
 	if count == 0:
-		return 0.50 + 0.50 * average_score()
+		return Balance.cfg.part_quality(tier, average_score())
 	return total / count
 
 ## Share of finished parts built with Scrap material (raises the warranty-claim chance).
