@@ -1,4 +1,4 @@
-# purpose: One active contract in the workshop: header, materials/power/quality line, the blueprint preview and the part cells. Built from Scenes/UI/job_panel.tscn (it used to be assembled node by node in workshop_screen.gd). All text is clipped, so a long language can never widen the screen.
+# purpose: [v2] One active contract in the workshop: header, materials/power/quality line, the blueprint preview and the part cells. Built from Scenes/UI/job_panel.tscn. v2: the preview is no longer a node of this scene: PreviewHolder receives the scene that matches the contract type (ItemPreview.create: item_preview_car / _mech / _cyber.tscn). All text is clipped, so a long language can never widen the screen.
 # depends on: PanelContainer, CommissionState, ItemPreview, PartCell, NumberFormat, GamePalette
 # signals emitted: part_clicked(job, part_index), sim_clicked(job, part_index), reforge_clicked(part_index)
 # signals listened to: PartCell.part_pressed, sim_pressed, reforge_pressed
@@ -14,7 +14,7 @@ const PART_CELL_SCENE = preload("res://Scenes/UI/part_cell.tscn")
 
 @onready var header_label: Label = %HeaderLabel
 @onready var stats_label: Label = %StatsLabel
-@onready var preview: ItemPreview = %Preview
+@onready var preview_holder: CenterContainer = %PreviewHolder
 @onready var parts_row: HFlowContainer = %PartsRow
 
 var _job: CommissionState
@@ -23,6 +23,11 @@ var _job: CommissionState
 func setup(job: CommissionState, pop_index: int = -1) -> void:
 	_job = job
 	_fill_texts(job)
+	for child in preview_holder.get_children():
+		preview_holder.remove_child(child)
+		child.queue_free()
+	var preview: ItemPreview = ItemPreview.create(job)
+	preview_holder.add_child(preview) # in the tree first: the preview's @onready nodes must exist
 	preview.setup(job, pop_index)
 	for child in parts_row.get_children():
 		parts_row.remove_child(child)

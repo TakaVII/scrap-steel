@@ -1,7 +1,6 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://Scripts/UI/job_panel.gd" id="1_job"]
-[ext_resource type="Script" path="res://Scripts/UI/item_preview.gd" id="2_preview"]
 
 [node name="JobPanel" type="PanelContainer"]
 script = ExtResource("1_job")
@@ -30,10 +29,9 @@ theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
 text = "Stats"
 clip_text = true
 
-[node name="Preview" type="HBoxContainer" parent="Margin/VBox"]
+[node name="PreviewHolder" type="CenterContainer" parent="Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-script = ExtResource("2_preview")
 
 [node name="PartsRow" type="HFlowContainer" parent="Margin/VBox"]
 unique_name_in_owner = true
