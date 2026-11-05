@@ -9,22 +9,22 @@ extends MinigameBase
 @export var total_strikes: int = 5
 @export var base_cursor_speed: float = 320.0
 ## Contract tier 1 / 2 / 3: the higher the tier, the harder the forge.
-@export var tier_speed_mults: Array[float] = [1.0, 1.25, 1.55]
-@export var tier_speed_increase_per_strike: Array[float] = [1.05, 1.08, 1.10]
+@export var tier_speed_mults: Array[float] = [1.08, 1.35, 1.70]
+@export var tier_speed_increase_per_strike: Array[float] = [1.07, 1.10, 1.13]
 ## Sweet-spot width as a fraction of the bar at the first strike (it shrinks from here).
-@export var tier_start_width_fractions: Array[float] = [0.26, 0.19, 0.14]
+@export var tier_start_width_fractions: Array[float] = [0.23, 0.17, 0.125]
 @export var min_width_fraction: float = 0.05
 ## Window multiplier after a successful strike (smaller = shrinks faster).
-@export var tier_shrink_on_success: Array[float] = [0.88, 0.84, 0.80]
+@export var tier_shrink_on_success: Array[float] = [0.87, 0.82, 0.78]
 @export var widen_on_fail: float = 1.12
 @export var success_threshold: float = 0.60
 @export var fail_threshold: float = 0.25
 ## Centre of the sweet spot that scores exactly 1.0 (fraction of the half-width), by tier.
-@export var tier_perfect_core_fractions: Array[float] = [0.25, 0.20, 0.15]
+@export var tier_perfect_core_fractions: Array[float] = [0.22, 0.17, 0.12]
 ## The score reaches 0 at this many half-widths from the centre.
-@export var falloff_tolerance_factor: float = 1.2
+@export var falloff_tolerance_factor: float = 1.1
 ## Total time for the whole forge. Strikes not made in time score 0. Slow mode adds time.
-@export var tier_time_limits: Array[float] = [16.0, 14.0, 12.0]
+@export var tier_time_limits: Array[float] = [15.0, 13.0, 11.0]
 @export var center_min: float = 0.20
 @export var center_max: float = 0.80
 @export var hit_stop_duration_sec: float = 0.06

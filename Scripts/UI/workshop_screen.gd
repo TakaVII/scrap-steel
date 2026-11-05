@@ -69,6 +69,16 @@ func _update_ui() -> void:
 		child.queue_free()
 
 	var jobs: Array[CommissionState] = CommissionManager.active_jobs()
+	
+	var ordered: Array[CommissionState] = []
+	for j in jobs:
+		if j.data.is_champion_build:
+			ordered.append(j)
+	for j in jobs:
+		if not j.data.is_champion_build:
+			ordered.append(j)
+	jobs = ordered
+	
 	if jobs.is_empty():
 		var empty_lbl := Label.new()
 		empty_lbl.text = tr("WORKSHOP_NO_JOBS")

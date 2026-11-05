@@ -6,18 +6,18 @@
 extends MinigameBase
 
 @export_group("Assembler Mechanics")
-@export var tier_time_limits: Array[float] = [28.0, 26.0, 24.0]
+@export var tier_time_limits: Array[float] = [25.0, 22.0, 19.0]
 @export var tier_grid_sizes: Array[int] = [5, 6, 7]
 @export var tier_waypoints: Array[int] = [1, 2, 3]
-@export var tier_hazard_density: Array[float] = [0.22, 0.28, 0.35]
+@export var tier_hazard_density: Array[float] = [0.25, 0.31, 0.38]
 ## Spare wire pieces on top of the planted route. Less spare wire = harder.
-@export var tier_wire_slack: Array[int] = [5, 3, 2]
-@export var fog_from_tier: int = 3
+@export var tier_wire_slack: Array[int] = [4, 2, 1]
+@export var fog_from_tier: int = 2
 @export var fog_radius: int = 2
 ## The planted route must be at least this many times the straight (Manhattan) distance.
-@export var min_detour_ratio: float = 1.4
-@export var hazard_score_penalty: float = 0.25
-@export var time_score_penalty_weight: float = 0.40
+@export var min_detour_ratio: float = 1.5
+@export var hazard_score_penalty: float = 0.30
+@export var time_score_penalty_weight: float = 0.45
 @export var timeout_completion_multiplier: float = 0.30
 ## Cell size in logical pixels. Tile art (tile_*.png) is drawn at exactly this size (20x20).
 @export var cell_size: int = 20

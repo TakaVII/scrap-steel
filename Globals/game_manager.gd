@@ -88,7 +88,11 @@ func finish_night() -> void:
 
 func _check_seizure() -> bool:
 	if EconomyManager.is_seized():
-		_end_run(false, &"seized")
+		var reason: StringName = &"seized"
+		var by_debt_or_strikes: bool = EconomyManager.debt >= Balance.cfg.seize_debt_threshold or EconomyManager.strikes >= Balance.cfg.max_strikes
+		if EconomyManager.rent_strikes >= Balance.cfg.max_rent_strikes and not by_debt_or_strikes:
+			reason = &"evicted"
+		_end_run(false, reason)
 		return true
 	return false
 

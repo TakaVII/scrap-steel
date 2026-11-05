@@ -1,0 +1,155 @@
+{
+ "deprecated": [],
+ "keys": {
+  "LEDGER_RENT_STRIKE": [
+   "Rent unpaid: strike",
+   "Alquiler impago: falta",
+   "إيجار غير مسدد: إنذار"
+  ],
+  "MORNING_RENT_STRIKES": [
+   "Rent strikes",
+   "Faltas de alquiler",
+   "إنذارات الإيجار"
+  ],
+  "RENT_STRIKE_1": [
+   "The rent went unpaid. One more miss and you are evicted.",
+   "No pagaste el alquiler. Una más y te desalojan.",
+   "لم تدفع الإيجار. مرة أخرى وتُطرد من الورشة."
+  ],
+  "END_EVICTED_TITLE": [
+   "Career Terminated: Evicted",
+   "Carrera Terminada: Desalojado",
+   "انتهاء المسيرة: الطرد"
+  ],
+  "END_EVICTED_DESC": [
+   "Two missed rents. The landlord changes the locks before Kane even arrives.",
+   "Dos alquileres impagos. El casero cambia las cerraduras antes de que llegue Kane.",
+   "إيجاران غير مسددين. المالك يغيّر الأقفال قبل أن يصل كين."
+  ],
+  "END_HEAD_REP": [
+   "ASTRA'S FINEST",
+   "LO MEJOR DE ASTRA",
+   "الأفضل في أسترا"
+  ],
+  "END_HEAD_MECH": [
+   "COLOSSEUM CHAMPION",
+   "CAMPEÓN DEL COLISEO",
+   "بطل الساحة"
+  ],
+  "END_HEAD_DRIFT": [
+   "CIRCUIT CHAMPION",
+   "CAMPEÓN DEL CIRCUITO",
+   "بطل الحلبة"
+  ],
+  "END_HEAD_SEIZED": [
+   "SEIZED",
+   "EMBARGADO",
+   "مُصادَر"
+  ],
+  "END_HEAD_TIMEOUT": [
+   "SO CLOSE",
+   "POR POCO",
+   "كدت تنجح"
+  ],
+  "END_HEAD_EVICTED": [
+   "EVICTED",
+   "DESALOJADO",
+   "مطرود"
+  ],
+  "END_STAT_NETWORTH": [
+   "Net worth",
+   "Patrimonio",
+   "صافي الثروة"
+  ],
+  "END_STAT_CLEARED": [
+   "Debt cleared",
+   "Deuda saldada",
+   "سداد الدين"
+  ],
+  "END_STAT_RATING": [
+   "Shop rating",
+   "Calificación del taller",
+   "تقييم الورشة"
+  ],
+  "END_STAT_STRIKES": [
+   "Strikes",
+   "Faltas",
+   "الإنذارات"
+  ],
+  "END_STAT_NEVER": [
+   "Never",
+   "Nunca",
+   "أبداً"
+  ],
+  "CHAMPION_BANNER": [
+   "[★] PATH GOAL: CHAMPION BUILD",
+   "[★] META DEL CAMINO: MONTAJE CAMPEÓN",
+   "[★] هدف المسار: تجميعة البطل"
+  ],
+  "CHAMPION_STATUS_PROGRESS": [
+   "Parts {done}/{total}. Quality {need}%+ needed. Entry fee {fee} when built.",
+   "Piezas {done}/{total}. Hace falta calidad {need}%+. Inscripción {fee} al terminar.",
+   "القطع {done}/{total}. مطلوب جودة {need}%+. رسوم التسجيل {fee} عند الانتهاء."
+  ],
+  "CHAMPION_STATUS_LOW": [
+   "Built, but quality is {now}%. Needs {need}%. Re-forge a part.",
+   "Terminado, pero la calidad es {now}%. Hace falta {need}%. Reforja una pieza.",
+   "اكتمل لكن الجودة {now}%. المطلوب {need}%. أعد تشكيل قطعة."
+  ],
+  "CHAMPION_STATUS_READY": [
+   "READY! Pay the {fee} entry fee by Day {deadline}.",
+   "¡LISTO! Paga la inscripción de {fee} antes del Día {deadline}.",
+   "جاهز! ادفع رسوم التسجيل {fee} قبل اليوم {deadline}."
+  ],
+  "CHAMPION_STATUS_CLOSED": [
+   "Entry closed. The deadline was Day {deadline}.",
+   "Inscripción cerrada. El plazo era el Día {deadline}.",
+   "أُغلق التسجيل. كان الموعد اليوم {deadline}."
+  ],
+  "CHAMPION_FEE_NEEDED": [
+   "Not enough credits for the {fee} entry fee. Earn it before Day {deadline}.",
+   "No hay créditos para la inscripción de {fee}. Consíguelos antes del Día {deadline}.",
+   "لا يوجد رصيد كاف لرسوم التسجيل {fee}. اجمعه قبل اليوم {deadline}."
+  ],
+  "CHAMPION_REGISTER": [
+   "Register ({fee})",
+   "Inscribir ({fee})",
+   "سجّل ({fee})"
+  ],
+  "BUILD_DONE_TITLE": [
+   "BUILD COMPLETE!",
+   "¡MONTAJE COMPLETO!",
+   "اكتملت التجميعة!"
+  ],
+  "BUILD_DONE_MECH": [
+   "The Steel Colosseum accepts your Champion Frame. Your name is on the card tonight.",
+   "El Coliseo de Acero acepta tu Armazón Campeón. Esta noche tu nombre está en el cartel.",
+   "ساحة الفولاذ تقبل هيكل البطل الذي صنعته. اسمك على البطاقة الليلة."
+  ],
+  "BUILD_DONE_DRIFT": [
+   "The Neon Circuit gives you a spot on the grid. Your build leaves the garage tonight.",
+   "El Circuito Neón te da un puesto en la parrilla. Tu montaje sale del taller esta noche.",
+   "حلبة النيون تمنحك مكاناً في خط الانطلاق. تجميعتك تغادر الورشة الليلة."
+  ],
+  "BUILD_DONE_QUALITY": [
+   "Quality",
+   "Calidad",
+   "الجودة"
+  ],
+  "BUILD_DONE_FEE": [
+   "Entry fee paid: {fee}",
+   "Inscripción pagada: {fee}",
+   "رسوم التسجيل المدفوعة: {fee}"
+  ],
+  "BUILD_DONE_HINT": [
+   "Now clear the debt before Day 30.",
+   "Ahora salda la deuda antes del Día 30.",
+   "الآن سدّد الدين قبل اليوم 30."
+  ],
+  "BUILD_CONTINUE": [
+   "Continue",
+   "Continuar",
+   "متابعة"
+  ]
+ }
+}

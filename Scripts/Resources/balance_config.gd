@@ -24,6 +24,7 @@ extends Resource
 @export var late_fee_rate: float = 0.10
 @export var seize_debt_threshold: int = 25000
 @export var max_strikes: int = 3
+@export var max_rent_strikes: int = 2
 @export var installment_days: Array[int] = [8, 15, 22, 29]
 @export var installment_min: int = 400
 @export var installment_pct: float = 0.08

@@ -1,4 +1,4 @@
-# purpose: [v2] Modal that asks which material grade to use for a part (Scrap / Standard / Premium) before its minigame starts. v2: COMPACT layout. Each grade is ONE row (button with name and cost on the left, a 2-line description on the right) instead of button + description stacked, so the whole panel is about 120 px tall at the normal font and still fits when the font is tall. The panel is pushed below the HUD (it reads the top margin that main.gd gives the workshop screen) and never grows past the screen. Built in code, added by workshop_screen.gd. Shows today's market price, the budget left, and why a grade is unavailable.
+# purpose: [v3] Modal that asks which material grade to use for a part (Scrap / Standard / Premium) before its minigame starts. v3: an X button in the title row and a click on the dark background close it (before, only Esc or a bottom button worked and nothing said so). v2: COMPACT layout, each grade is ONE row. The panel is pushed below the HUD (it reads the top margin that main.gd gives the workshop screen) and never grows past the screen. Built in code, added by workshop_screen.gd. Shows today's market price, the budget left, and why a grade is unavailable.
 # depends on: Control, CraftingManager, CommissionManager, MaterialGrade, NumberFormat, Balance, GamePalette
 # signals emitted: picked(grade: int)
 # signals listened to: none
@@ -11,6 +11,7 @@ signal picked(grade: int)
 const PANEL_WIDTH: float = 440.0
 const GRADE_BUTTON_WIDTH: float = 124.0
 const ROW_HEIGHT: float = 20.0
+const CLOSE_BUTTON_PX: float = 18.0
 const SIDE_MARGIN_PX: int = 6
 const BOTTOM_MARGIN_PX: int = 6
 ## Used only when the workshop screen's top margin cannot be read.
@@ -28,6 +29,8 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var dim := ColorRect.new()
 	dim.color = Color(0, 0, 0, 0.72)
+	dim.mouse_filter = Control.MOUSE_FILTER_STOP
+	dim.gui_input.connect(_on_dim_gui_input) # click outside the panel = close
 	add_child(dim)
 	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
@@ -55,10 +58,21 @@ func _ready() -> void:
 	vbox.add_theme_constant_override("separation", 3)
 	margin.add_child(vbox)
 
+	# Title row: title on the left, the X button on the right (the mouse way out).
+	var head := HBoxContainer.new()
+	vbox.add_child(head)
 	_title = Label.new()
 	_title.clip_text = true
+	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_title.add_theme_color_override("font_color", GamePalette.ACCENT)
-	vbox.add_child(_title)
+	head.add_child(_title)
+	var close_x := Button.new()
+	close_x.text = "X"
+	close_x.tooltip_text = "COMMON_CLOSE"
+	close_x.custom_minimum_size = Vector2(CLOSE_BUTTON_PX, CLOSE_BUTTON_PX)
+	close_x.pressed.connect(_close)
+	head.add_child(close_x)
+
 	_info = Label.new()
 	_info.clip_text = true
 	vbox.add_child(_info)
@@ -155,6 +169,10 @@ func _on_grade_pressed(g: int) -> void:
 
 func _close() -> void:
 	visible = false
+
+func _on_dim_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		_close()
 
 func _input(event: InputEvent) -> void:
 	if visible and event.is_action_pressed("ui_cancel"):

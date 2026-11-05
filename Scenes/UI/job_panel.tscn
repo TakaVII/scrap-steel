@@ -16,6 +16,15 @@ theme_override_constants/margin_bottom = 3
 layout_mode = 2
 theme_override_constants/separation = 2
 
+[node name="ChampionBanner" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
+text = "CHAMPION_BANNER"
+horizontal_alignment = 1
+clip_text = true
+
 [node name="HeaderLabel" type="Label" parent="Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -32,6 +41,28 @@ clip_text = true
 [node name="PreviewHolder" type="CenterContainer" parent="Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="ChampionRow" type="HBoxContainer" parent="Margin/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ChampionStatus" type="Label" parent="Margin/VBox/ChampionRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Status"
+autowrap_mode = 3
+max_lines_visible = 2
+
+[node name="RegisterButton" type="Button" parent="Margin/VBox/ChampionRow"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(110, 20)
+layout_mode = 2
+size_flags_vertical = 4
+text = "CHAMPION_REGISTER"
 
 [node name="PartsRow" type="HFlowContainer" parent="Margin/VBox"]
 unique_name_in_owner = true

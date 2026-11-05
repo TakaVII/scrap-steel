@@ -18,22 +18,22 @@ extends MinigameBase
 @export var max_speed: float = 1.2
 @export var floor_bounce: float = 0.25
 ## Player bar height as a fraction of the track, by contract tier (bigger = easier).
-@export var tier_bar_fractions: Array[float] = [0.32, 0.24, 0.18]
+@export var tier_bar_fractions: Array[float] = [0.30, 0.22, 0.17]
 @export var needle_px: float = 12.0
 ## Share of the round the needle must be inside the bar to score a PERFECT 1.0 (by tier). 100% is unreachable: the needle always has to be caught again after every dart.
 @export var perfect_zone_fractions: Array[float] = [0.90, 0.87, 0.84]
 @export_group("Target Motion")
 ## Spring stiffness of the needle by tier (higher = it reacts faster). Reaction time is about 4 / sqrt(stiffness) seconds.
-@export var tier_stiffness: Array[float] = [5.0, 8.0, 12.0]
+@export var tier_stiffness: Array[float] = [6.0, 9.0, 13.5]
 ## Top speed of the needle in track units per second, by tier.
-@export var tier_max_speed: Array[float] = [0.45, 0.70, 1.0]
+@export var tier_max_speed: Array[float] = [0.52, 0.80, 1.12]
 ## 1.0 = no overshoot. Below 1.0 the needle overshoots a little.
 @export var damping_ratio: float = 1.0
 @export var dart_stiffness_mult: float = 1.8
 @export var dart_speed_mult: float = 1.5
 ## Largest jump between goals (track units), by tier.
-@export var tier_max_jump: Array[float] = [0.30, 0.45, 0.60]
-@export var tier_dart_chance: Array[float] = [0.04, 0.15, 0.30]
+@export var tier_max_jump: Array[float] = [0.33, 0.48, 0.62]
+@export var tier_dart_chance: Array[float] = [0.06, 0.18, 0.32	]
 ## Divides the wait between goals (higher = busier needle).
 @export var tier_retarget_speed: Array[float] = [1.0, 1.2, 1.5]
 @export var retarget_min_sec: float = 0.6

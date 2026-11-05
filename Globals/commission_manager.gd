@@ -308,15 +308,36 @@ func resolve_evening(current_day: int) -> void:
 			remaining_jobs.append(job)
 	active_contracts = remaining_jobs
 
-func _check_champion_build_state(job: CommissionState, current_day: int) -> void:
-	if current_day > Balance.cfg.champion_deadline_day or not job.is_complete():
-		return
-	if job.calculate_quality() < Balance.cfg.champion_min_quality or champion_registration_paid:
-		return
-	if EconomyManager.try_spend(Balance.cfg.champion_build_sponsorship, tr("CHAMPION_SPONSORSHIP_PAID"), &"upgrade"):
-		champion_registration_paid = true
-		champion_completed = true
-		job.delivered = true
+## Built, quality at or above the gate and not registered yet.
+func champion_ready() -> bool:
+	return champion_contract != null and not champion_completed and champion_contract.is_complete() \
+			and champion_contract.calculate_quality() >= Balance.cfg.champion_min_quality
+
+## Pays the entry fee and completes the Champion Build. Returns false (and tells the player why) when it cannot.
+func try_register_champion() -> bool:
+	if not champion_ready() or TimeManager.day > Balance.cfg.champion_deadline_day:
+		return false
+	var fee: int = Balance.cfg.champion_build_sponsorship
+	if not EconomyManager.try_spend(fee, tr("CHAMPION_SPONSORSHIP_PAID"), &"upgrade"):
+		var msg: String = NumberFormat.render(tr("CHAMPION_FEE_NEEDED"), {"fee": NumberFormat.format_credits(fee), "deadline": Balance.cfg.champion_deadline_day})
+		EventBus.ledger_entry_added.emit(msg, 0, &"info")
+		EventBus.champion_fee_needed.emit(fee, Balance.cfg.champion_deadline_day)
+		return false
+	champion_registration_paid = true
+	champion_completed = true
+	champion_contract.delivered = true
+	EventBus.champion_build_completed.emit(champion_contract.data, champion_contract.calculate_quality(), fee)
+	return true
+
+## Used by the Register button in the workshop: registers now and removes the contract from the active list.
+func register_champion_now() -> bool:
+	if not try_register_champion():
+		return false
+	active_contracts.erase(champion_contract)
+	return true
+
+func _check_champion_build_state(_job: CommissionState, _current_day: int) -> void:
+	try_register_champion() # every evening: retried until the deadline
 
 func can_reforge_champion_part(part_index: int) -> bool:
 	if champion_contract == null or champion_completed:

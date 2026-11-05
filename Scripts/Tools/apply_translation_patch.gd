@@ -1,4 +1,4 @@
-# purpose: EditorScript that applies _reference/tools/translation_patch_v10.json to Data/translations.csv INSIDE Godot. Replaces the text of existing keys, adds new keys, removes the keys listed as deprecated, keeps every other row, writes a backup (translations.csv.bak) and reimports the CSV. Uses Godot's own CSV reader/writer, so quotes and commas are always correct. Run: open this file in the Script editor, File > Run (Ctrl+Shift+X). Safe to run again.
+# purpose: EditorScript that applies _reference/tools/translation_patch_v11.json to Data/translations.csv INSIDE Godot. Replaces the text of existing keys, adds new keys, removes the keys listed as deprecated, keeps every other row, writes a backup (translations.csv.bak) and reimports the CSV. Uses Godot's own CSV reader/writer, so quotes and commas are always correct. Run: open this file in the Script editor, File > Run (Ctrl+Shift+X). Safe to run again.
 # depends on: EditorScript
 # signals emitted: none
 # signals listened to: none
@@ -8,7 +8,7 @@ extends EditorScript
 
 const CSV_PATH: String = "res://Data/translations.csv"
 const BACKUP_PATH: String = "res://Data/translations.csv.bak"
-const PATCH_PATH: String = "res://_reference/tools/translation_patch_v10.json"
+const PATCH_PATH: String = "res://_reference/tools/translation_patch_v11.json"
 
 func _run() -> void:
 	print("=== apply_translation_patch ===")

@@ -24,6 +24,7 @@ func autosave() -> bool:
 		"credits": EconomyManager.credits,
 		"debt": EconomyManager.debt,
 		"strikes": EconomyManager.strikes,
+		"rent_strikes": EconomyManager.rent_strikes,
 		"tech_points": EconomyManager.tech_points,
 		"interest_rate": EconomyManager.interest_rate,
 		"pathway": String(GameManager.pathway),
@@ -60,6 +61,7 @@ func load_save() -> bool:
 	EconomyManager.credits = int(d.get("credits", 0))
 	EconomyManager.debt = int(d.get("debt", 0))
 	EconomyManager.strikes = int(d.get("strikes", 0))
+	EconomyManager.rent_strikes = int(d.get("rent_strikes", 0))
 	EconomyManager.tech_points = int(d.get("tech_points", 0))
 	EconomyManager.interest_rate = float(d.get("interest_rate", Balance.cfg.daily_interest_rate))
 	GameManager.pathway = StringName(d.get("pathway", "mech"))

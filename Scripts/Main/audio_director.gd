@@ -52,7 +52,7 @@ func _on_phase_changed(new_phase: int, _old_phase: int) -> void:
 func _on_run_ended(victory: bool, reason: StringName) -> void:
 	if victory:
 		_play_music("victory")
-	elif reason == &"seized":
+	elif reason == &"seized" or reason == &"evicted":
 		_play_music("seizure")
 	else:
 		_play_music("night")

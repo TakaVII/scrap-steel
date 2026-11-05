@@ -70,6 +70,8 @@ func _refresh_banner() -> void:
 		lines.append(tr("MORNING_INSTALLMENT_DUE") + ": %s / %s" % [NumberFormat.format_credits(int(inst["paid"])), NumberFormat.format_credits(int(inst["due"]))])
 	if EconomyManager.strikes > 0:
 		lines.append(tr("MORNING_STRIKES_WARNING") + ": %d / %d" % [EconomyManager.strikes, Balance.cfg.max_strikes])
+	if EconomyManager.rent_strikes > 0:
+		lines.append(tr("MORNING_RENT_STRIKES") + ": %d / %d" % [EconomyManager.rent_strikes, Balance.cfg.max_rent_strikes])
 	banner_label.visible = not lines.is_empty()
 	banner_label.text = "  |  ".join(lines)
 	banner_label.add_theme_color_override("font_color", GamePalette.NEGATIVE)

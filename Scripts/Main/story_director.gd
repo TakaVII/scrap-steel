@@ -69,6 +69,8 @@ func _queue_morning(day: int) -> void:
 			_enqueue(&"chapter_1", &"chapter_1")
 		if day == PERSONAL_DAY:
 			_enqueue(&"personal", &"personal")
+	if EconomyManager.rent_strikes == 1:
+		_enqueue(&"rent_strike_1", &"rent_strike")
 	if day == 1:
 		_enqueue(&"day1", &"day1")
 	if DAX_DAYS.has(day):

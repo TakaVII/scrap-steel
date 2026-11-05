@@ -11,6 +11,7 @@ signal debt_changed(new_debt: int, delta: int)
 signal ledger_entry_added(description: String, amount: int, category: StringName)
 signal installment_due(day: int, amount: int)
 signal strike_issued(strikes: int)
+signal rent_strike_issued(strikes: int)
 
 # --- Time ---
 signal phase_changed(new_phase: int, old_phase: int)
@@ -24,6 +25,8 @@ signal commission_accepted(commission: Resource)
 signal commission_delivered(commission: Resource, quality: float, payout: int)
 signal commission_failed(commission: Resource, reason: String)
 signal warranty_claim_charged(commission: Resource, amount: int)
+signal champion_fee_needed(fee: int, deadline_day: int)
+signal champion_build_completed(commission: Resource, quality: float, fee: int)
 
 # --- Minigames ---
 signal minigame_started(part: Resource, tier: int)

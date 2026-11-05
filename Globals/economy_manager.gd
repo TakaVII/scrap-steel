@@ -8,6 +8,7 @@ extends Node
 var credits: int = 0
 var debt: int = 0
 var strikes: int = 0
+var rent_strikes: int = 0
 var tech_points: int = 0
 ## Interest rate locked at run start (Standard or Assist preset). Saved with the run.
 var interest_rate: float = 0.02
@@ -25,6 +26,7 @@ func new_run(config: BalanceConfig) -> void:
 		debt = config.start_debt
 		interest_rate = config.daily_interest_rate
 	strikes = 0
+	rent_strikes = 0
 	tech_points = 0
 	last_installment = {}
 	start_day()
@@ -80,8 +82,14 @@ func _track_expense(category: StringName, amount: int) -> void:
 		&"upgrade":
 			day_totals["upgrades"] += amount
 
+## Rent is charged every morning. Not paying it in full is a RENT STRIKE (max_rent_strikes = game over: evicted). The shortfall still becomes debt + fee.
 func charge_rent() -> void:
+	var short: bool = credits < Balance.cfg.daily_rent
 	charge_with_shortfall(Balance.cfg.daily_rent, tr("LEDGER_RENT"), &"rent", tr("LEDGER_RENT_SHORTFALL"))
+	if short:
+		rent_strikes += 1
+		EventBus.ledger_entry_added.emit("%s %d/%d" % [tr("LEDGER_RENT_STRIKE"), rent_strikes, Balance.cfg.max_rent_strikes], 0, &"info")
+		EventBus.rent_strike_issued.emit(rent_strikes)
 
 func projected_interest() -> int:
 	return roundi(debt * interest_rate)
@@ -134,7 +142,7 @@ func net_worth() -> int:
 	return credits - debt
 
 func is_seized() -> bool:
-	return debt >= Balance.cfg.seize_debt_threshold or strikes >= Balance.cfg.max_strikes
+	return debt >= Balance.cfg.seize_debt_threshold or strikes >= Balance.cfg.max_strikes or rent_strikes >= Balance.cfg.max_rent_strikes
 
 func add_tech_points(n: int) -> void:
 	tech_points += n

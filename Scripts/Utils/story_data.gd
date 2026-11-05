@@ -140,6 +140,8 @@ static func sequence(id: StringName) -> Array:
 			return [_say(&"kane", "PERSONAL", v), _act(&"sfx", "warning")]
 		&"kane_cleared":
 			return [_pause(0.3), _say(&"kane", "KANE_CLEARED", v, &"happy")]
+		&"rent_strike":
+			return [_say(&"narrator", "RENT_STRIKE_1"), _act(&"sfx", "warning")]
 		&"finale_28":
 			return [_say(&"kane", "FIN_28", v)]
 		&"day12_reputation":
