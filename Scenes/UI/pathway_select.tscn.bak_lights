@@ -1,0 +1,204 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/UI/pathway_select.gd" id="1_pathway"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/dialogue_box.tscn" id="2_dialogue"]
+
+[node name="PathwaySelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pathway")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.078, 0.067, 0.122, 1)
+
+[node name="SceneArt" type="TextureRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="MinigameHost" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PathwayPanel" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 34
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PathwayVBox" type="VBoxContainer" parent="PathwayPanel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="PathwayTitle" type="Label" parent="PathwayPanel/PathwayVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
+text = "TUT_CHOOSE"
+horizontal_alignment = 1
+
+[node name="PathwaysContainer" type="HBoxContainer" parent="PathwayPanel/PathwayVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="CardReputation" type="PanelContainer" parent="PathwayPanel/PathwayVBox/PathwaysContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Margin" type="MarginContainer" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardReputation"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardReputation/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TitleLabel" type="Label" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardReputation/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
+text = "SELECT_CYBER_PATHWAY"
+autowrap_mode = 3
+
+[node name="HSeparator" type="HSeparator" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardReputation/Margin/VBox"]
+layout_mode = 2
+
+[node name="DescRep" type="Label" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardReputation/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/line_spacing = 0
+text = "PATH_REP_DESC"
+autowrap_mode = 3
+
+[node name="RepButton" type="Button" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardReputation/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "BTN_SELECT"
+
+[node name="CardMech" type="PanelContainer" parent="PathwayPanel/PathwayVBox/PathwaysContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Margin" type="MarginContainer" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardMech"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardMech/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TitleLabel" type="Label" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardMech/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
+text = "SELECT_MECH_PATHWAY"
+autowrap_mode = 3
+
+[node name="HSeparator" type="HSeparator" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardMech/Margin/VBox"]
+layout_mode = 2
+
+[node name="DescMech" type="Label" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardMech/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/line_spacing = 0
+text = "PATH_MECH_DESC"
+autowrap_mode = 3
+
+[node name="MechButton" type="Button" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardMech/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "BTN_SELECT"
+
+[node name="CardDrifter" type="PanelContainer" parent="PathwayPanel/PathwayVBox/PathwaysContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Margin" type="MarginContainer" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardDrifter"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardDrifter/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TitleLabel" type="Label" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardDrifter/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.992, 0.682, 0.38, 1)
+text = "SELECT_DRIFTER_PATHWAY"
+autowrap_mode = 3
+
+[node name="HSeparator" type="HSeparator" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardDrifter/Margin/VBox"]
+layout_mode = 2
+
+[node name="DescDrifter" type="Label" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardDrifter/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/line_spacing = 0
+text = "PATH_DRIFT_DESC"
+autowrap_mode = 3
+
+[node name="DrifterButton" type="Button" parent="PathwayPanel/PathwayVBox/PathwaysContainer/CardDrifter/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "BTN_SELECT"
+
+[node name="Dialogue" parent="." instance=ExtResource("2_dialogue")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="SkipButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -96.0
+offset_top = 32.0
+offset_right = -6.0
+offset_bottom = 52.0
+grow_horizontal = 0
+text = "TUT_SKIP"

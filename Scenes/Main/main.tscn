@@ -1,21 +1,24 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bqmolvq7hahm0"]
 
-[ext_resource type="Script" path="res://Scripts/Main/main.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://bte6lcuceglyp" path="res://Scripts/Main/main.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/hud.tscn" id="2_hud"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/main_menu.tscn" id="3_menu"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/morning_screen.tscn" id="4_morning"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/workshop_screen.tscn" id="5_workshop"]
+[ext_resource type="PackedScene" uid="uid://drjo5r5gm1wwr" path="res://Scenes/UI/workshop_screen.tscn" id="5_workshop"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/night_summary.tscn" id="6_night"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/pathway_select.tscn" id="7_pathway"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/end_screen.tscn" id="8_end"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/settings_menu.tscn" id="9_settings"]
-[ext_resource type="Shader" path="res://Shaders/crt_scanlines.gdshader" id="10_shader"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/ledger_panel.tscn" id="11_ledger"]
+[ext_resource type="PackedScene" uid="uid://c56223n5okipq" path="res://Scenes/UI/settings_menu.tscn" id="9_settings"]
+[ext_resource type="Shader" uid="uid://b8ogcn78r36vf" path="res://Shaders/crt_scanlines.gdshader" id="10_shader"]
+[ext_resource type="PackedScene" uid="uid://c6ledgerpanel" path="res://Scenes/UI/ledger_panel.tscn" id="11_ledger"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/dialogue_box.tscn" id="12_dialogue"]
-[ext_resource type="Script" path="res://Scripts/Main/story_director.gd" id="13_story"]
-[ext_resource type="Script" path="res://Scripts/Main/audio_director.gd" id="14_audio"]
+[ext_resource type="Script" uid="uid://ckqmofhi2mdao" path="res://Scripts/Main/story_director.gd" id="13_story"]
+[ext_resource type="Script" uid="uid://dwx5yp078la7i" path="res://Scripts/Main/audio_director.gd" id="14_audio"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/pause_menu.tscn" id="15_pause"]
-[ext_resource type="Script" path="res://Scripts/Main/popup_closer.gd" id="16_closer"]
+[ext_resource type="Script" uid="uid://b7lmutn0gv2e6" path="res://Scripts/Main/popup_closer.gd" id="16_closer"]
+[ext_resource type="Texture2D" uid="uid://djdwfioolfpuy" path="res://Assets/Textures/Backgrounds/workshop_bg.png" id="17_bg"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/build_complete_popup.tscn" id="17_buildpopup"]
+[ext_resource type="PackedScene" path="res://Scenes/Main/workshop_lights.tscn" id="18_lights"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_crt"]
 shader = ExtResource("10_shader")
@@ -24,10 +27,10 @@ shader_parameter/scanline_intensity = 0.12
 shader_parameter/vignette_intensity = 0.35
 shader_parameter/vignette_opacity = 0.6
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" unique_id=1873289022]
 script = ExtResource("1_script")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=1613730561]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -35,62 +38,97 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.078, 0.067, 0.122, 1)
 
-[node name="ScreensLayer" type="CanvasLayer" parent="."]
+[node name="ScreensLayer" type="CanvasLayer" parent="." unique_id=1269068930]
 layer = 10
 
-[node name="MainMenu" parent="ScreensLayer" instance=ExtResource("3_menu")]
+[node name="MenuBackdrop" type="Control" parent="ScreensLayer" unique_id=993938148]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Art" type="TextureRect" parent="ScreensLayer/MenuBackdrop" unique_id=966072541]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("17_bg")
+
+[node name="ColorRect" type="ColorRect" parent="ScreensLayer/MenuBackdrop" unique_id=958414551]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.07846785, 0.07016479, 0.12315822, 0.3)
+
+[node name="WorkshopLights" parent="ScreensLayer/MenuBackdrop" unique_id=1509649235 instance=ExtResource("18_lights")]
+layout_mode = 1
+
+[node name="MainMenu" parent="ScreensLayer" unique_id=326358589 instance=ExtResource("3_menu")]
 unique_name_in_owner = true
 
-[node name="PathwaySelect" parent="ScreensLayer" instance=ExtResource("7_pathway")]
+[node name="PathwaySelect" parent="ScreensLayer" unique_id=1128976732 instance=ExtResource("7_pathway")]
 unique_name_in_owner = true
 visible = false
 
-[node name="MorningScreen" parent="ScreensLayer" instance=ExtResource("4_morning")]
+[node name="MorningScreen" parent="ScreensLayer" unique_id=35495553 instance=ExtResource("4_morning")]
 unique_name_in_owner = true
 visible = false
 
-[node name="WorkshopScreen" parent="ScreensLayer" instance=ExtResource("5_workshop")]
+[node name="WorkshopScreen" parent="ScreensLayer" unique_id=402182151 instance=ExtResource("5_workshop")]
 unique_name_in_owner = true
 visible = false
 
-[node name="NightSummary" parent="ScreensLayer" instance=ExtResource("6_night")]
+[node name="NightSummary" parent="ScreensLayer" unique_id=1986006137 instance=ExtResource("6_night")]
 unique_name_in_owner = true
 visible = false
 
-[node name="EndScreen" parent="ScreensLayer" instance=ExtResource("8_end")]
+[node name="EndScreen" parent="ScreensLayer" unique_id=353802934 instance=ExtResource("8_end")]
 unique_name_in_owner = true
 visible = false
 
-[node name="HudLayer" type="CanvasLayer" parent="."]
+[node name="HudLayer" type="CanvasLayer" parent="." unique_id=1031437800]
 layer = 20
 
-[node name="HUD" parent="HudLayer" instance=ExtResource("2_hud")]
+[node name="HUD" parent="HudLayer" unique_id=794573861 instance=ExtResource("2_hud")]
 unique_name_in_owner = true
 visible = false
 
-[node name="ModalLayer" type="CanvasLayer" parent="."]
+[node name="ModalLayer" type="CanvasLayer" parent="." unique_id=1726369978]
 layer = 30
 
-[node name="LedgerPanel" parent="ModalLayer" instance=ExtResource("11_ledger")]
+[node name="LedgerPanel" parent="ModalLayer" unique_id=280637363 instance=ExtResource("11_ledger")]
 unique_name_in_owner = true
 visible = false
 
-[node name="StoryDialogue" parent="ModalLayer" instance=ExtResource("12_dialogue")]
+[node name="StoryDialogue" parent="ModalLayer" unique_id=752315628 instance=ExtResource("12_dialogue")]
 unique_name_in_owner = true
 visible = false
 
-[node name="PauseMenu" parent="ModalLayer" instance=ExtResource("15_pause")]
+[node name="PauseMenu" parent="ModalLayer" unique_id=1616847027 instance=ExtResource("15_pause")]
 unique_name_in_owner = true
 visible = false
 
-[node name="SettingsMenu" parent="ModalLayer" instance=ExtResource("9_settings")]
+[node name="SettingsMenu" parent="ModalLayer" unique_id=1644525335 instance=ExtResource("9_settings")]
 unique_name_in_owner = true
 visible = false
 
-[node name="CrtOverlayLayer" type="CanvasLayer" parent="."]
+[node name="BuildCompletePopup" parent="ModalLayer" unique_id=1836858194 instance=ExtResource("17_buildpopup")]
+unique_name_in_owner = true
+
+[node name="CrtOverlayLayer" type="CanvasLayer" parent="." unique_id=1140186100]
 layer = 100
 
-[node name="CrtOverlay" type="ColorRect" parent="CrtOverlayLayer"]
+[node name="CrtOverlay" type="ColorRect" parent="CrtOverlayLayer" unique_id=265678035]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_crt")
 anchors_preset = 15
@@ -100,12 +138,12 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="StoryDirector" type="Node" parent="."]
+[node name="StoryDirector" type="Node" parent="." unique_id=2119849667]
 script = ExtResource("13_story")
 
-[node name="AudioDirector" type="Node" parent="."]
+[node name="AudioDirector" type="Node" parent="." unique_id=812675190]
 script = ExtResource("14_audio")
 
-[node name="PopupCloser" type="Node" parent="."]
+[node name="PopupCloser" type="Node" parent="." unique_id=1347209717]
 process_mode = 3
 script = ExtResource("16_closer")

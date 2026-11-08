@@ -1,0 +1,174 @@
+[gd_scene format=3 uid="uid://bq3jkg182a5ay"]
+
+[ext_resource type="Script" uid="uid://fer3fd5iw1c8" path="res://Scripts/Main/workshop_lights.gd" id="1_lights"]
+[ext_resource type="Texture2D" uid="uid://da77kt3tody2e" path="res://Assets/Textures/Backgrounds/light_glow.png" id="2_glow"]
+[ext_resource type="Texture2D" uid="uid://da8amhtnu8k5u" path="res://Assets/Textures/Backgrounds/light_cone.png" id="3_cone"]
+
+[sub_resource type="CanvasItemMaterial" id="Mat_add"]
+blend_mode = 1
+
+[node name="WorkshopLights" type="Control" unique_id=808407889]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_lights")
+intensity = 0.5
+
+[node name="LampLeftGlow" type="TextureRect" parent="." unique_id=1530521504]
+unique_name_in_owner = true
+modulate = Color(0.992, 0.682, 0.38, 0.6)
+material = SubResource("Mat_add")
+layout_mode = 0
+offset_left = 2.0
+offset_top = -8.0
+offset_right = 130.0
+offset_bottom = 120.0
+mouse_filter = 2
+texture = ExtResource("2_glow")
+expand_mode = 1
+
+[node name="LampLeftCone" type="TextureRect" parent="." unique_id=1046537084]
+unique_name_in_owner = true
+modulate = Color(0.992, 0.682, 0.38, 0.3)
+material = SubResource("Mat_add")
+layout_mode = 0
+offset_left = 2.0
+offset_top = 57.0
+offset_right = 130.0
+offset_bottom = 271.0
+mouse_filter = 2
+texture = ExtResource("3_cone")
+expand_mode = 1
+
+[node name="LampCenterGlow" type="TextureRect" parent="." unique_id=809353145]
+unique_name_in_owner = true
+modulate = Color(0.765, 0.78, 0.851, 0.35)
+material = SubResource("Mat_add")
+layout_mode = 0
+offset_left = 176.0
+offset_top = -8.0
+offset_right = 304.0
+offset_bottom = 120.0
+mouse_filter = 2
+texture = ExtResource("2_glow")
+expand_mode = 1
+
+[node name="LampRightGlow" type="TextureRect" parent="." unique_id=425575008]
+unique_name_in_owner = true
+modulate = Color(0, 0.898, 1, 0.6)
+material = SubResource("Mat_add")
+layout_mode = 0
+offset_left = 350.0
+offset_top = -8.0
+offset_right = 478.0
+offset_bottom = 120.0
+mouse_filter = 2
+texture = ExtResource("2_glow")
+expand_mode = 1
+
+[node name="LampRightCone" type="TextureRect" parent="." unique_id=1970897582]
+unique_name_in_owner = true
+modulate = Color(0, 0.898, 1, 0.3)
+material = SubResource("Mat_add")
+layout_mode = 0
+offset_left = 350.0
+offset_top = 57.0
+offset_right = 478.0
+offset_bottom = 249.0
+mouse_filter = 2
+texture = ExtResource("3_cone")
+expand_mode = 1
+
+[node name="NeonGlowL" type="TextureRect" parent="." unique_id=966503811]
+unique_name_in_owner = true
+modulate = Color(1, 0.165, 0.616, 0.4)
+material = SubResource("Mat_add")
+layout_mode = 0
+offset_left = 136.0
+offset_top = -45.0
+offset_right = 264.0
+offset_bottom = 83.0
+mouse_filter = 2
+texture = ExtResource("2_glow")
+expand_mode = 1
+
+[node name="NeonGlowC" type="TextureRect" parent="." unique_id=614153563]
+unique_name_in_owner = true
+modulate = Color(1, 0.165, 0.616, 0.4)
+material = SubResource("Mat_add")
+layout_mode = 0
+offset_left = 176.0
+offset_top = -45.0
+offset_right = 304.0
+offset_bottom = 83.0
+mouse_filter = 2
+texture = ExtResource("2_glow")
+expand_mode = 1
+
+[node name="NeonGlowR" type="TextureRect" parent="." unique_id=637511069]
+unique_name_in_owner = true
+modulate = Color(1, 0.165, 0.616, 0.4)
+material = SubResource("Mat_add")
+layout_mode = 0
+offset_left = 216.0
+offset_top = -45.0
+offset_right = 344.0
+offset_bottom = 83.0
+mouse_filter = 2
+texture = ExtResource("2_glow")
+expand_mode = 1
+
+[node name="WindowGlowCyan" type="TextureRect" parent="." unique_id=1958538861]
+unique_name_in_owner = true
+modulate = Color(0, 0.898, 1, 0.25)
+material = SubResource("Mat_add")
+layout_mode = 0
+offset_left = 362.0
+offset_top = 17.0
+offset_right = 490.0
+offset_bottom = 145.0
+mouse_filter = 2
+texture = ExtResource("2_glow")
+expand_mode = 1
+
+[node name="WindowGlowPink" type="TextureRect" parent="." unique_id=1167634125]
+unique_name_in_owner = true
+modulate = Color(1, 0.165, 0.616, 0.3)
+material = SubResource("Mat_add")
+layout_mode = 0
+offset_left = 321.0
+offset_right = 449.0
+offset_bottom = 128.0
+mouse_filter = 2
+texture = ExtResource("2_glow")
+expand_mode = 1
+
+[node name="FloorCyan" type="TextureRect" parent="." unique_id=1567151375]
+unique_name_in_owner = true
+modulate = Color(0, 0.898, 1, 0.3)
+material = SubResource("Mat_add")
+layout_mode = 0
+offset_left = 312.0
+offset_top = 206.0
+offset_right = 504.0
+offset_bottom = 270.0
+mouse_filter = 2
+texture = ExtResource("2_glow")
+expand_mode = 1
+
+[node name="FloorPink" type="TextureRect" parent="." unique_id=1104681125]
+unique_name_in_owner = true
+modulate = Color(1, 0.165, 0.616, 0.3)
+material = SubResource("Mat_add")
+layout_mode = 0
+offset_left = 146.0
+offset_top = 161.0
+offset_right = 338.0
+offset_bottom = 225.0
+mouse_filter = 2
+texture = ExtResource("2_glow")
+expand_mode = 1

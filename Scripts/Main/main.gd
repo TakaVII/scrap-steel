@@ -20,6 +20,7 @@ const HUD_FALLBACK_PX: int = 30
 @onready var ledger_panel: Control = %LedgerPanel
 @onready var pause_menu: Control = %PauseMenu
 @onready var story_dialogue: Control = %StoryDialogue
+@onready var menu_backdrop: Control = %MenuBackdrop
 
 func _ready() -> void:
 	EventBus.phase_changed.connect(_on_phase_changed)
@@ -78,6 +79,7 @@ func _on_phase_changed(new_phase: int, _old_phase: int) -> void:
 
 func _update_views(current_phase: int) -> void:
 	main_menu.visible = (current_phase == GameManager.Phase.MENU)
+	menu_backdrop.visible = (current_phase == GameManager.Phase.MENU)
 	pathway_select.visible = (current_phase == GameManager.Phase.TUTORIAL)
 	morning_screen.visible = (current_phase == GameManager.Phase.MORNING)
 	workshop_screen.visible = (current_phase == GameManager.Phase.WORKSHOP)

@@ -13,7 +13,7 @@ config_version=5
 config/name="Scrap & Steel"
 run/main_scene="res://Scenes/Main/main.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://u83k8a0kuln1"
 
 [autoload]
 
